@@ -48,3 +48,10 @@ Additional features such as various channels (post groups) and user groups, a ma
 3. Develop CRUD API endpoints for post management.
 4. Generate test data for posts.
 5. Write front-end code to make API calls to backend to retrieve data.
+
+### Rough sketch Prototypes
+
+1. Sign-in Page:
+![sign-in Page](https://user-images.githubusercontent.com/64096168/241092367-9db8356e-07c3-48fb-b1f7-ca670925b26a.jpg)
+2. Post-viewing page
+![Post-viewing page](https://user-images.githubusercontent.com/64096168/241092377-d16af624-4b44-4e6f-8ab1-879e9da6b707.jpg)
