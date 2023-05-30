@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Set Up React Project locally
+
+create ".env.local" file under frontend folder, fill in the file with the following in this confluence doc.
+
 ## Available Scripts
 
 In the project directory, you can run:

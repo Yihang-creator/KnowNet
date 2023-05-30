@@ -14,7 +14,7 @@ Additional features such as various channels (post groups) and user groups, a ma
 
 1. Users are able to register, sign in and sign out.
 2. Users are able to add connections and send private messages to their connections.
-3. Users are able to create, update, delete and view their posts.
+3. Users are able to create, update, delete and view their own posts.
 4. Users are able to search for posts by keywords or tags.
 5. Users are able to edit their profile once their accounts are created.
 

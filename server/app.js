@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config(); // dotenv is package to load environment variables
-//download c
 
 const app = express();
 
