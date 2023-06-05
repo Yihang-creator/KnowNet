@@ -1,0 +1,144 @@
+{
+    "posts": [
+      {
+        "id": 1,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+        "title": "Post Title 1",
+        "text": "This is the content of post 1."
+      },
+      {
+        "id": 2,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "title": "Post Title 2",
+        "text": "This is the content of post 2."
+      },
+      {
+        "id": 3,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
+        "title": "Post Title 3",
+        "text": "This is the content of post 3."
+      },
+      {
+        "id": 4,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        "title": "Post Title 4",
+        "text": "This is the content of post 4."
+      },
+      {
+        "id": 5,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
+        "title": "Post Title 5",
+        "text": "This is the content of post 5."
+      },
+      {
+        "id": 6,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        "title": "Post Title 6",
+        "text": "This is the content of post 6."
+      },
+      {
+        "id": 7,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerEscapes.jpg",
+        "title": "Post Title 7",
+        "text": "This is the content of post 7."
+      },
+      {
+        "id": 8,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+        "title": "Post Title 8",
+        "text": "This is the content of post 8."
+      },
+      {
+        "id": 9,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg",
+        "title": "Post Title 9",
+        "text": "This is the content of post 9."
+      },
+      {
+        "id": 10,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+        "title": "Post Title 10",
+        "text": "This is the content of post 10."
+      },
+      {
+        "id": 11,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerJoyrides.jpg",
+        "title": "Post Title 11",
+        "text": "This is the content of post 11."
+      },
+      {
+        "id": 12,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+        "title": "Post Title 12",
+        "text": "This is the content of post 12."
+      },
+      {
+        "id": 13,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerMeltdowns.jpg",
+        "title": "Post Title 13",
+        "text": "This is the content of post 13."
+      },
+      {
+        "id": 14,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+        "title": "Post Title 14",
+        "text": "This is the content of post 14."
+      },
+      {
+        "id": 15,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/Sintel.jpg",
+        "title": "Post Title 15",
+        "text": "This is the content of post 15."
+      },
+      {
+        "id": 16,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.jpg",
+        "title": "Post Title 16",
+        "text": "This is the content of post 16."
+      },
+      {
+        "id": 17,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/SubaruOutbackOnStreetAndDirt.jpg",
+        "title": "Post Title 17",
+        "text": "This is the content of post 17."
+      },
+      {
+        "id": 18,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+        "title": "Post Title 18",
+        "text": "This is the content of post 18."
+      },
+      {
+        "id": 19,
+        "mediaType": "image",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg",
+        "title": "Post Title 19",
+        "text": "This is the content of post 19."
+      },
+      {
+        "id": 20,
+        "mediaType": "video",
+        "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+        "title": "Post Title 20",
+        "text": "This is the content of post 20."
+      }
+    ]
+  }
