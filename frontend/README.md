@@ -4,7 +4,22 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Set Up React Project locally
 
-create ".env.local" file under frontend folder, fill in the file with the following in this confluence doc.
+create ".env.local" file under frontend folder, fill in the file with the following in this confluence doc https://project455.atlassian.net/wiki/spaces/~637faa232acfad92d7b15b07/pages/2326529/.env.local
+
+## Start local mock server
+
+run this command `npm run json-server` under `frontend` folder. You can start the mock server behind any port by changing 8080 to the port you want.
+You can modify the mock data for your own use.
+public video test data can be accessed via https://gist.github.com/jsturgis/3b19447b304616f18657
+
+json-server automatically provides http endpoints for each resource defined in db.json
+
+GET /posts: returns a list of all posts.
+GET /posts/{id}: returns the post with the specified ID.
+POST /posts: creates a new post.
+PUT /posts/{id}: updates the post with the specified ID.
+PATCH /posts/{id}: partially updates the post with the specified ID.
+DELETE /posts/{id}: deletes the post with the specified ID.
 
 ## Available Scripts
 
@@ -43,32 +58,4 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

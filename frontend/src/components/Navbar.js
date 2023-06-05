@@ -17,11 +17,6 @@ const Navbar = () => {
     <div>
       <Menu fixed="top" inverted>
         <Container>
-          <Menu.Item header>
-            <Image size="mini" src="/react.svg" />
-            &nbsp;
-            <Link to="/">Okta-React Sample Project</Link>
-          </Menu.Item>
           {authState.isAuthenticated && (
           <Menu.Item id="messages-button">
             <Icon name="mail outline" />

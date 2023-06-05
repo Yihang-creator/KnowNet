@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { LoginCallback } from '@okta/okta-react';
 import { RequiredAuth } from './SecureRoute';
-import Home from '../pages/Home';
+import Home from '../pages/MainPage';
 import Loading from './Loading';
 import Messages from '../pages/Messages';
 import Profile from '../pages/Profile';
