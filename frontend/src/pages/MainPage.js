@@ -1,6 +1,5 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Button, Header } from 'semantic-ui-react';
 import { PostContent } from '../components/PostContent';
 
 const Home = () => {
@@ -44,8 +43,6 @@ const Home = () => {
   //uncommented code below to show postContent 
   return (
     <div>
-      {/* <PostContent postId="1" />
-      <PostContent postId="2" /> */}
       <ul>
       </ul>
     </div>
