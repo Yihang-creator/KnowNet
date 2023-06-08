@@ -8,6 +8,7 @@ import config from './auth/oktaConfig';
 import Routes from './auth/Routes';
 
 import Dropdown from './components/mainPage/Dropdown'
+import Contents from "./components/mainPage/Contents";
 
 
 const oktaAuth = new OktaAuth(config.oidc);
@@ -23,6 +24,7 @@ const App = () => {
       <Container text style={{marginTop: '7em'}} className="App">
         <header className="App-header">
           <Dropdown />
+          <Contents />
         </header>
         <main>
           <Routes />
