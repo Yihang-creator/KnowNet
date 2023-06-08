@@ -5,13 +5,16 @@ import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 import { Security } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import config from './auth/oktaConfig';
-import Navbar from './components/Navbar';
 import Routes from './auth/Routes';
+
+import Dropdown from './components/mainPage/Dropdown'
+
 
 const oktaAuth = new OktaAuth(config.oidc);
 
 const App = () => {
   const navigate = useNavigate();
+
   const restoreOriginalUri = (_oktaAuth,  originalUri) => {
     navigate(toRelativeUrl(originalUri || '/', window.location.origin));
   };
@@ -19,7 +22,7 @@ const App = () => {
     <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
       <Container text style={{marginTop: '7em'}} className="App">
         <header className="App-header">
-          <Navbar/>
+          <Dropdown />
         </header>
         <main>
           <Routes />
@@ -28,4 +31,5 @@ const App = () => {
     </Security>
   );
 };
+
 export default App;
