@@ -7,21 +7,23 @@ import Loading from './Loading';
 import Messages from '../pages/Messages';
 import Profile from '../pages/Profile';
 import { PostContent } from '../components/PostContent';
+import CommentPage from '../components/CommentsPage';
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" exact={true} element={<Home/>}/>
       <Route path="login/callback" element={<LoginCallback loadingElement={<Loading/>}/>}/>
-      {/* <Route path="/messages" element={<RequiredAuth/>}>
-        <Route path="" element={<Messages/>}/>
-      </Route> */}
+      <Route path="/comments" element={<RequiredAuth/>}>
+        <Route path="" element={<CommentPage/>}/>
+      </Route>
       <Route path="/profile" element={<RequiredAuth/>}>
         <Route path="" element={<Profile/>}/>
       </Route>
       <Route path="/post/:id" element={<RequiredAuth/>}>
         <Route path="" element={<PostContent />}/>
       </Route>
+
     </Routes>
   );
 };
