@@ -1,10 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addComment, addReply } from '../redux/actions/index';
+import { addComment, addReply, fetchComments } from '../redux/actions/index';
 import Comment from './Comment';
 import CommentInput from './CommentInput';
+import { useEffect } from 'react';
 
-const CommentBoard = ({ comments, addComment, addReply }) => {
+const CommentBoard = ({ postId, fetchComments, comments, addComment, addReply }) => {
+
+    useEffect(() => {
+        fetchComments(postId);
+      }, [postId, fetchComments]);
+
     return (
         <div>
             <h1>Comment Board</h1>
@@ -25,6 +31,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
     addComment,
     addReply,
+    fetchComments,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentBoard);

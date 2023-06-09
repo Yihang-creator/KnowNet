@@ -19,3 +19,13 @@ export const addReply = (commentId, replyText) => {
         },
     };
 };
+
+export const fetchComments = (postId) => async (dispatch) => {
+    try {
+        const response = await fetch(`http://localhost:8080/comments?postId=${postId}`)
+        const data = await response.json();
+        dispatch({type:'FETCH_COMMENTS_SUCCESS',payload: data});
+    } catch (error) {
+        dispatch({type:'FETCH_COMMENTS_SUCCESS', error});
+    }
+}
