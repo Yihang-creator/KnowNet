@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PopupButton from "./PopupButton";
 
 const UserInfoPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -14,9 +15,13 @@ const UserInfoPage = () => {
     reader.readAsDataURL(file);
   };
 
+  // const image = "ubc.jpg";
+
+  // "bg-scroll" style={{ backgroundImage: `url(${image})` }}
+
   return (
     <div className="p-2 flex flex-col gap-4">
-      <div className="bg-gray-500 rounded-md">
+      <div className="bg-blue-500 rounded-md">
         <div className="flex p-2 gap-2">
           <div className="mt-5 relative justify-center h-36 w-36 rounded-full bg-white">
             <div className="absolute bottom-0 right-4 z-10">
@@ -57,17 +62,17 @@ const UserInfoPage = () => {
 
         <div className="p-2 flex justify-between text-white">
           <div className="gap-2 flex">
-            <button className="border-2 rounded-md">Following: 5</button>
-            <button className="border-2 rounded-md">Followers: 5</button>
+            <PopupButton name="Followings: 5" />
+            <PopupButton name="Followers: 5" />
           </div>
 
           <div>
-            <button className="border-2 ml-20, rounded-md">Edit Profile</button>
+            <PopupButton name="Edit Profile" />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col bg-gray-500 border-2 p-2 text-white rounded-md">
+      <div className="flex flex-col bg-gray-400 border-2 p-2 text-white rounded-md">
         <div className="flex justify-center p-2 gap-4 rounded-md">
           <button className="border-2 rounded-md p-2">Posts</button>
           <button className="border-2 rounded-md p-2">Liked</button>
