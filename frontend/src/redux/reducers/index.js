@@ -3,24 +3,24 @@ import {combineReducers} from "@reduxjs/toolkit";
 
 const initialState = {
     comments: [
-        {
-            id: 1,
-            text: 'I love this blog!',
-            timestamp: Date.now(),
-            replies: []
-        },
-        {
-            id: 2,
-            text: 'I have a secret to tell you',
-            timestamp: Date.now(),
-            replies: [
-                {
-                    id: 1,
-                    text: 'What is it?',
-                    timestamp: Date.now()
-                },
-            ]
-        },
+        // {
+        //     id: 1,
+        //     text: 'I love this blog!',
+        //     timestamp: Date.now(),
+        //     replies: []
+        // },
+        // {
+        //     id: 2,
+        //     text: 'I have a secret to tell you',
+        //     timestamp: Date.now(),
+        //     replies: [
+        //         {
+        //             id: 1,
+        //             text: 'What is it?',
+        //             timestamp: Date.now()
+        //         },
+        //     ]
+        // },
     ]
 
 };
@@ -47,6 +47,10 @@ const commentReducer = (state = initialState, action) => {
                         : comment
                 ),
             };
+        case 'FETCH_COMMENTS_SUCCESS':
+            return {...state, comments: action.payload};
+        case 'FETCH_COMMENTS_FAILURE':
+            return {...state, error: action.error}
         default:
             return state;
     }

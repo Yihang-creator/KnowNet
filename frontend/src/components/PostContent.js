@@ -5,7 +5,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
-import Comments from './Comment';
+import CommentBoard from './CommentBoard';
 
 
 export const PostContent = () => {
@@ -83,9 +83,9 @@ export const PostContent = () => {
                   <ShareOutlinedIcon />
                   <span className="ml-2">Share</span>
               </div>
-              {commentOpen && <Comments />}
           </div>
       </div>
+      {commentOpen && <CommentBoard postId={post.id}/>}
     </div>
     )
 
