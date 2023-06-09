@@ -1,6 +1,6 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect, useCallback } from 'react';
-import { PostContent } from '../components/PostContent';
+import Contents from "../components/mainPage/Contents";
 
 const Home = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -43,8 +43,7 @@ const Home = () => {
   //uncommented code below to show postContent 
   return (
     <div>
-      <ul>
-      </ul>
+      <Contents />
     </div>
   );
 };
