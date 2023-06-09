@@ -2,6 +2,7 @@ import React from 'react';
 import './Contents.css';
 import { useState, useEffect } from 'react';
 import PreviewCard from "../PreviewCard";
+import { Link } from "react-router-dom";
 
 const Contents = () => {
 
@@ -22,12 +23,14 @@ const Contents = () => {
     }
 
     return (
-        <div className="flex justify-center ">
+        <div className="flex justify-center mt-28">
         <div className="flex-container justify-center rounded-lg border bg-grey-600 w-11/12">
             <ul className="flex flex-row flex-wrap justify-center">
                 {posts.map((post, index) => (   
                     <li key={index}>
-                        <PreviewCard src={post.mediaUrl} title={post.title} previewText={post.text}/>
+                        <Link to={`/post/${post.id}`}>
+                        <PreviewCard type={post.mediaType} src={post.mediaUrl} title={post.title} previewText={post.text}/>
+                        </Link>
                     </li>
                 ))}
             </ul>

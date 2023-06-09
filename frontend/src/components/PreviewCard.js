@@ -5,7 +5,7 @@ const PreviewCard = (props) => {
     return (
         <div class="w-80 h-80 m-5 bg-slate-50 border-2 border-cyan-200 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700">
             <a href=" ">
-                <Resource link={props.src}/>
+                <Resource type={props.type} link={props.src}/>
             </a >
             <div class="p-5">
                 <a href="#">

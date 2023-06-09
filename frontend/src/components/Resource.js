@@ -1,7 +1,7 @@
 import React from "react";
 
 const Resource = (props) => {
-    if (props.link.substr(-3) === "jpg") {
+    if (props.type === "image") {
         return (<img className="rounded-t-lg h-3/5 w-full border-b-4 border-orange-200" src={props.link} alt="Image Not Avaliable"/>)
     } else {
         return (
