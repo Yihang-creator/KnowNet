@@ -17,6 +17,7 @@
     border-radius: 10px;
     padding: 10px 20px;
     width: 200px;
+    z-index: 1;
 }
 
 .dropdown-menu::before {

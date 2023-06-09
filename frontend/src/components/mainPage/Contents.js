@@ -1,24 +1,35 @@
 import React from 'react';
+import './Contents.css';
+import { useState, useEffect } from 'react';
+import PreviewCard from "../PreviewCard";
 
 const Contents = () => {
+
+    const [posts, setPosts] = useState(null);
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/posts`)
+            .then((response) => {
+                if (!response.ok) throw new Error('API call failed');
+                return response.json();
+            })
+            .then((data) => setPosts(data))
+            .catch((error) => console.error('Error', error));
+    });
+
+    if (!posts) {
+        return <div> Post Loading ...</div>
+    }
+
     return (
-        <div class="grid gap-4 grid-cols-3 grid-rows-3">
-            <span class="inline-grid grid-cols-3 gap-4">
-                <span>01</span>
-                <span>02</span>
-                <span>03</span>
-                <span>04</span>
-                <span>05</span>
-                <span>06</span>
-            </span>
-            <span class="inline-grid grid-cols-3 gap-4">
-                <span>01</span>
-                <span>02</span>
-                <span>03</span>
-                <span>04</span>
-                <span>05</span>
-                <span>06</span>
-            </span>
+        <div className="flex-container">
+            <ul className="child-flex-container">
+                {posts.map((post, index) => (
+                    <li key={index}>
+                        <PreviewCard src={post.mediaUrl} title={post.title} previewText={post.title} className="child-item"/>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }

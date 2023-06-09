@@ -23,10 +23,10 @@ const App = () => {
     <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
       <Container text style={{marginTop: '7em'}} className="App">
         <header className="App-header">
-          <Dropdown />
-          <Contents />
         </header>
         <main>
+          <Dropdown />
+          <Contents />
           <Routes />
         </main>
       </Container>
