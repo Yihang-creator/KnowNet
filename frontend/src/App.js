@@ -4,17 +4,19 @@ import { OktaAuth, toRelativeUrl } from '@okta/okta-auth-js';
 import { Security } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 import config from './auth/oktaConfig';
 import Navbar from './components/Navbar';
 import Routes from './auth/Routes';
+import {configureStore} from "@reduxjs/toolkit";
+
 import rootReducer from './redux/reducers/index';
 
-let store;
-
-store = createStore(rootReducer, applyMiddleware(thunk));
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: [thunk],
+});
 
 const oktaAuth = new OktaAuth(config.oidc);
 
