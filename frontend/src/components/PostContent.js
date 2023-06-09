@@ -5,7 +5,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
-// import Comments from '../components/Comments';
+import Comments from './Comment';
 
 
 export const PostContent = () => {
@@ -66,21 +66,25 @@ export const PostContent = () => {
           <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
           <p className="text-gray-700">{post.text}</p>
         </div>
-        <div className="mt-4 flex justify-between">
-          <div>
-            {likes ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            <span className="ml-2">12 Likes</span>
+          <div className="mt-4 flex justify-between">
+              <div>
+                  {likes ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+                  <span className="ml-2">12 Likes</span>
+              </div>
+              <div>
+                  <button
+                      onClick={() => setCommentOpen(!commentOpen)}
+                      className="flex items-center">
+                      <TextsmsOutlinedIcon />
+                      <span className="ml-2">12 Comments</span>
+                  </button>
+              </div>
+              <div>
+                  <ShareOutlinedIcon />
+                  <span className="ml-2">Share</span>
+              </div>
+              {commentOpen && <Comments />}
           </div>
-          <div onClick={() => setCommentOpen(!commentOpen)}>
-            <TextsmsOutlinedIcon />
-            <span className="ml-2">12 Comments</span>
-          </div>
-          <div>
-            <ShareOutlinedIcon />
-            <span className="ml-2">Share</span>
-          </div>
-        </div>
-        {/* {commentOpen && <Comments />} */}
       </div>
     </div>
     )
