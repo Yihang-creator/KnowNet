@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import Messages from "../pages/Messages";
 import Profile from "../pages/Profile";
 import { PostContent } from "../components/PostContent";
+import CommentPage from "../components/CommentBoard";
 import UserInfoPage from "../pages/UserInfoPage";
 
 const AppRoutes = () => {
@@ -17,9 +18,9 @@ const AppRoutes = () => {
         path="login/callback"
         element={<LoginCallback loadingElement={<Loading />} />}
       />
-      {/* <Route path="/messages" element={<RequiredAuth/>}>
-        <Route path="" element={<Messages/>}/>
-      </Route> */}
+      <Route path="/comments" element={<RequiredAuth />}>
+        <Route path="" element={<CommentPage />} />
+      </Route>
       <Route path="/profile" element={<RequiredAuth />}>
         <Route path="" element={<Profile />} />
       </Route>
