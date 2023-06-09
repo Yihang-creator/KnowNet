@@ -22,7 +22,8 @@ const Contents = () => {
     }
 
     return (
-        <div className="flex-container justify-center">
+        <div className="flex justify-center ">
+        <div className="flex-container justify-center rounded-lg border bg-grey-600 w-11/12">
             <ul className="flex flex-row flex-wrap justify-center">
                 {posts.map((post, index) => (   
                     <li key={index}>
@@ -30,6 +31,7 @@ const Contents = () => {
                     </li>
                 ))}
             </ul>
+        </div>
         </div>
     );
 }
