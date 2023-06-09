@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import user_image from "../../img/user.jpeg";
 import './Dropdown.css';
-
 import { useOktaAuth } from '@okta/okta-react';
 import { Link } from 'react-router-dom';
 
 const Dropdown = () => {
     const { authState, oktaAuth } = useOktaAuth();
+
+    const [open, setOpen] = useState(false);
 
     const login = async () => oktaAuth.signInWithRedirect();
     const logout = async () => oktaAuth.signOut();
@@ -15,7 +16,7 @@ const Dropdown = () => {
         return null;
     }
 
-    const [open, setOpen] = useState(false);
+
 
     return (
         <div className="menu-container">
