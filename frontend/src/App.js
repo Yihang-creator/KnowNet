@@ -5,6 +5,8 @@ import { Security } from '@okta/okta-react';
 import { Container } from 'semantic-ui-react';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import Dropdown from './components/mainPage/Dropdown'
+import Contents from "./components/mainPage/Contents";
 
 import config from './auth/oktaConfig';
 import Routes from './auth/Routes';
@@ -17,8 +19,7 @@ const store = configureStore({
   middleware: [thunk],
 });
 
-import Dropdown from './components/mainPage/Dropdown'
-import Contents from "./components/mainPage/Contents";
+
 
 
 const oktaAuth = new OktaAuth(config.oidc);
