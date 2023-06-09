@@ -1,10 +1,11 @@
 import React from "react";
+import Resource from "./Resource";
 
 const PreviewCard = (props) => {
     return (
-        <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div class="max-w-sm w-2/3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href=" ">
-                < img class="rounded-t-lg w-1/12 h-1/12" src={props.src} alt="Image Not Avaliable" />
+                <Resource link={props.src}/>
             </a >
             <div class="p-5">
                 <a href="#">

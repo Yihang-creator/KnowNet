@@ -22,11 +22,11 @@ const Contents = () => {
     }
 
     return (
-        <div className="flex-container">
-            <ul className="child-flex-container">
-                {posts.map((post, index) => (
+        <div className="flex-container justify-center">
+            <ul className="flex flex-row flex-wrap">
+                {posts.map((post, index) => (   
                     <li key={index}>
-                        <PreviewCard src={post.mediaUrl} title={post.title} previewText={post.title} className="child-item"/>
+                        <PreviewCard src={post.mediaUrl} title={post.title} previewText={post.text} className="child-item"/>
                     </li>
                 ))}
             </ul>

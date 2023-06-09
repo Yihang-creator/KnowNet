@@ -21,7 +21,7 @@ const App = () => {
   };
   return (
     <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-      <Container text style={{marginTop: '7em'}} className="App">
+      <Container text style={{marginTop: '7em'}} className="flex justify-center">
         <header className="App-header">
         </header>
         <main>
