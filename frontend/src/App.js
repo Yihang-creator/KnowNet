@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
 import config from './auth/oktaConfig';
-import Navbar from './components/Navbar';
 import Routes from './auth/Routes';
 import {configureStore} from "@reduxjs/toolkit";
 
@@ -18,26 +17,27 @@ const store = configureStore({
   middleware: [thunk],
 });
 
+import Dropdown from './components/mainPage/Dropdown'
+import Contents from "./components/mainPage/Contents";
+
+
 const oktaAuth = new OktaAuth(config.oidc);
 
 const App = () => {
   const navigate = useNavigate();
+
   const restoreOriginalUri = (_oktaAuth,  originalUri) => {
     navigate(toRelativeUrl(originalUri || '/', window.location.origin));
   };
   return (
-      <Provider store={store}>
-        <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-          <Container text style={{marginTop: '7em'}} className="App">
-            <header className="App-header">
-              <Navbar/>
-            </header>
-            <main>
-              <Routes />
-            </main>
-          </Container>
-        </Security>
-      </Provider>
+    <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+      <main>
+          <Dropdown />
+          <Contents />
+          <Routes />
+      </main>
+    </Security>
   );
 };
+
 export default App;

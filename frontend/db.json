@@ -122,8 +122,8 @@
       },
       {
         "id": 16,
+        "mediaType": "image",
         "userId": 2,
-        "mediaType": "video",
         "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.jpg",
         "title": "Post Title 16",
         "text": "This is the content of post 16."
