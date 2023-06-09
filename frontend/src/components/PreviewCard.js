@@ -3,7 +3,7 @@ import Resource from "./Resource";
 
 const PreviewCard = (props) => {
     return (
-        <div class="max-w-sm w-2/3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div class="w-80 h-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href=" ">
                 <Resource link={props.src}/>
             </a >

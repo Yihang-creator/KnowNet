@@ -21,15 +21,13 @@ const App = () => {
   };
   return (
     <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-      <Container text style={{marginTop: '7em'}} className="flex justify-center">
-        <header className="App-header">
-        </header>
-        <main>
+      <main style={{marginTop: '7em'}}>
+      {/* <Container> */}
           <Dropdown />
           <Contents />
           <Routes />
-        </main>
-      </Container>
+      {/* </Container> */}
+      </main>
     </Security>
   );
 };
