@@ -6,6 +6,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import CommentBoard from "./CommentBoard";
+import CloseIcon from "@mui/icons-material/Close";
 
 export const PostContent = () => {
   const [post, setPost] = useState(null);
@@ -35,73 +36,69 @@ export const PostContent = () => {
   // mb-6 margin-bottom 1.5rem
 
   return (
-    <Link to={`/post/`}>
-      <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50">
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-          <div className="container mx-auto">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                <img
-                  src={post.profilePic}
-                  alt=""
-                  className="w-12 h-12 rounded-full mr-4"
-                />
-                <div className="text-sm">
-                  <Link
-                    to={`/profile/${post.userId}`}
-                    className="text-black no-underline hover:underline"
-                  >
-                    <span className="font-bold">{post.name}</span>
-                  </Link>
-                  {/* date */}
-                  <div className="text-gray-600">Posted 1 min ago</div>
-                </div>
-              </div>
-              <MoreHorizIcon />
-            </div>
-            <div className="mt-4">
-              {post.mediaType === "image" ? (
-                <img
-                  src={post.mediaUrl}
-                  alt={post.title}
-                  className="max-w-screen-sm mx-auto"
-                />
-              ) : (
-                <video controls className="max-w-screen-sm mx-auto">
-                  <source src={post.mediaUrl} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              )}
-              <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
-              <p className="text-gray-700">{post.text}</p>
-            </div>
-            <div className="mt-4 flex justify-between">
-              <div>
-                {likes ? (
-                  <FavoriteOutlinedIcon />
-                ) : (
-                  <FavoriteBorderOutlinedIcon />
-                )}
-                <span className="ml-2">12 Likes</span>
-              </div>
-              <div>
-                <button
-                  onClick={() => setCommentOpen(!commentOpen)}
-                  className="flex items-center"
-                >
-                  <TextsmsOutlinedIcon />
-                  <span className="ml-2">12 Comments</span>
-                </button>
-              </div>
-              <div>
-                <ShareOutlinedIcon />
-                <span className="ml-2">Share</span>
-              </div>
+    <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div className="container mx-auto">
+        <Link to={`/`}>
+          <CloseIcon />
+        </Link>
+
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <img
+              src={post.profilePic}
+              alt=""
+              className="w-12 h-12 rounded-full mr-4"
+            />
+            <div className="text-sm">
+              <Link
+                to={`/profile/${post.userId}`}
+                className="text-black no-underline hover:underline"
+              >
+                <span className="font-bold">{post.name}</span>
+              </Link>
+              {/* date */}
+              <div className="text-gray-600">Posted 1 min ago</div>
             </div>
           </div>
-          {commentOpen && <CommentBoard postId={post.id} />}
+          <MoreHorizIcon />
+        </div>
+        <div className="mt-4">
+          {post.mediaType === "image" ? (
+            <img
+              src={post.mediaUrl}
+              alt={post.title}
+              className="max-w-screen-sm mx-auto"
+            />
+          ) : (
+            <video controls className="max-w-screen-sm mx-auto">
+              <source src={post.mediaUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+          <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
+          <p className="text-gray-700">{post.text}</p>
+        </div>
+        <div className="mt-4 flex justify-between">
+          <div>
+            {likes ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+            <span className="ml-2">12 Likes</span>
+          </div>
+          <div>
+            <button
+              onClick={() => setCommentOpen(!commentOpen)}
+              className="flex items-center"
+            >
+              <TextsmsOutlinedIcon />
+              <span className="ml-2">12 Comments</span>
+            </button>
+          </div>
+          <div>
+            <ShareOutlinedIcon />
+            <span className="ml-2">Share</span>
+          </div>
         </div>
       </div>
-    </Link>
+      {commentOpen && <CommentBoard postId={post.id} />}
+    </div>
   );
 };
