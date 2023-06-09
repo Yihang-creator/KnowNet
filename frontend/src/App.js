@@ -5,7 +5,6 @@ import { Security } from "@okta/okta-react";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import Dropdown from "./components/mainPage/Dropdown";
-import Contents from "./components/mainPage/Contents";
 
 import config from "./auth/oktaConfig";
 import Routes from "./auth/Routes";
@@ -31,7 +30,6 @@ const App = () => {
       <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
         <main>
           <Dropdown />
-          <Contents />
           <Routes />
         </main>
       </Security>
