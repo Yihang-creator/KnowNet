@@ -26,6 +26,6 @@ export const fetchComments = (postId) => async (dispatch) => {
         const data = await response.json();
         dispatch({type:'FETCH_COMMENTS_SUCCESS',payload: data});
     } catch (error) {
-        dispatch({type:'FETCH_COMMENTS_SUCCESS', error});
+        dispatch({type:'FETCH_COMMENTS_FAILURE', error});
     }
 }
