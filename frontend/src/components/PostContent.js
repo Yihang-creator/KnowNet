@@ -7,13 +7,14 @@ import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import CommentBoard from "./CommentBoard";
 import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate, BrowserRouter as Router } from "react-router-dom";
 
 export const PostContent = () => {
   const [post, setPost] = useState(null);
   const [likes, setLikes] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
-
   const { id: postId } = useParams();
+  const nav = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:8080/posts/${postId}`)
@@ -38,9 +39,9 @@ export const PostContent = () => {
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-6">
       <div className="container mx-auto">
-        <Link to={`/`}>
+        <button onClick={() => nav(-1)}>
           <CloseIcon />
-        </Link>
+        </button>
 
         <div className="flex justify-between items-center">
           <div className="flex items-center">

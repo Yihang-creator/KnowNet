@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useOktaAuth } from '@okta/okta-react';
-import { Header, Icon, Table } from 'semantic-ui-react';
+import React, { useState, useEffect } from "react";
+import { useOktaAuth } from "@okta/okta-react";
+import { Header, Icon, Table } from "semantic-ui-react";
+import UserInfoPage from "./UserInfoPage";
 
 const Profile = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -29,25 +30,22 @@ const Profile = () => {
 
   return (
     <div>
-      <div>
+      <div className="hidden">
         <Header as="h1">
-          <Icon name="drivers license" />
-          {' '}
-          My User Profile (ID Token Claims)
-          {' '}
+          <Icon name="drivers license" /> My User Profile (ID Token Claims){" "}
         </Header>
         <p>
-          Below is the information from your ID token which was obtained during the &nbsp;
-          <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a>
-          {' '}
+          Below is the information from your ID token which was obtained during
+          the &nbsp;
+          <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">
+            PKCE Flow
+          </a>{" "}
           and is now stored in local storage.
         </p>
         <p>
-          This route is protected with the
-          {' '}
-          <code>&lt;SecureRoute&gt;</code>
-          {' '}
-          component, which will ensure that this page cannot be accessed until you have authenticated.
+          This route is protected with the <code>&lt;SecureRoute&gt;</code>{" "}
+          component, which will ensure that this page cannot be accessed until
+          you have authenticated.
         </p>
         <Table>
           <thead>
@@ -71,6 +69,13 @@ const Profile = () => {
           </tbody>
         </Table>
       </div>
+
+      {
+        <UserInfoPage
+          name={Object.entries(userInfo)[1][1].toString()}
+          email={Object.entries(userInfo)[2][1].toString()}
+        />
+      }
     </div>
   );
 };
