@@ -7,7 +7,7 @@ import Loading from "./Loading";
 import Messages from "../pages/Messages";
 import Profile from "../pages/Profile";
 import { PostContent } from "../components/PostContent";
-import CommentPage from "../components/CommentBoard";
+import CommentPage from "../components/comments/CommentBoard";
 import UserInfoPage from "../pages/UserInfoPage";
 
 const AppRoutes = () => {
