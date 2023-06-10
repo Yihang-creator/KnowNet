@@ -1,10 +1,13 @@
 export const addComment = (postId, commentText) => {
     const newComment = {
-        id: `${postId}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        id: `${postId}-${commentText}-${Date.now()}`,
+        postId,
+        userId: 1,
         text: commentText,
         timestamp: Date.now(),
         replies: [],
     };
+
 
     return {
         type: 'ADD_COMMENT',
@@ -12,9 +15,11 @@ export const addComment = (postId, commentText) => {
     };
 };
 
-export const addReply = (commentId, replyText) => {
+export const addReply = (parentId, replyText) => {
     const newReply = {
-        id: `${commentId}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        id: `${parentId}-${replyText}-${Date.now()}`,
+        parentId,
+        userId: 1, // Replace with the appropriate user ID
         text: replyText,
         timestamp: Date.now(),
         replies: [],
@@ -22,12 +27,10 @@ export const addReply = (commentId, replyText) => {
 
     return {
         type: 'ADD_REPLY',
-        payload: {
-            commentId,
-            reply: newReply,
-        },
+        payload: newReply,
     };
 };
+
 
 export const fetchComments = (postId) => async (dispatch) => {
     try {

@@ -6,15 +6,21 @@ const initialState = {
 
 const addReplyToComment = (comments, action) => {
     return comments.map(comment => {
-        if (comment.id === action.payload.commentId) {
-            return { ...comment, replies: [...comment.replies, action.payload.reply] };
-        }
-        if (comment.replies.length > 0) {
-            return { ...comment, replies: addReplyToComment(comment.replies, action) };
+        if (comment.id === action.payload.parentId) {
+            return {
+                ...comment,
+                replies: [...comment.replies, action.payload],
+            };
+        } else if (comment.replies.length > 0) {
+            return {
+                ...comment,
+                replies: addReplyToComment(comment.replies, action),
+            };
         }
         return comment;
     });
 };
+
 
 const commentReducer = (state = initialState, action) => {
     switch (action.type) {
