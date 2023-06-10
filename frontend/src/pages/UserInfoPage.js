@@ -1,8 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PopupButton from "./PopupButton";
+import { Link } from "react-router-dom";
+import ProfileCard from "../components/ProfileCard";
 
-const UserInfoPage = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+const UserInfoPage = ({ name, email }) => {
+  const [selectedImage, setSelectedImage] = useState("/images/user.jpeg");
+  const [posts, setPosts] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/posts`)
+      .then((response) => {
+        if (!response.ok) throw new Error("API call failed");
+        return response.json();
+      })
+      .then((data) => setPosts(data))
+      .catch((error) => console.error("Error", error));
+  }, []);
+
+  if (!posts) {
+    return <div> Post Loading ...</div>;
+  }
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -14,10 +31,6 @@ const UserInfoPage = () => {
 
     reader.readAsDataURL(file);
   };
-
-  // const image = "ubc.jpg";
-
-  // "bg-scroll" style={{ backgroundImage: `url(${image})` }}
 
   return (
     <div className="p-2 flex flex-col gap-4">
@@ -53,8 +66,8 @@ const UserInfoPage = () => {
 
           <div className="p-2 text-white rounded-md">
             <div className="flex p-2 flex-col border-2 rounded-md">
-              <span>Chendong</span>
-              <span>Account ID: OWTOP500</span>
+              <span>{name}</span>
+              <span>@{email}</span>
               <span>Age: 23</span>
             </div>
           </div>
@@ -78,15 +91,19 @@ const UserInfoPage = () => {
           <button className="border-2 rounded-md p-2">Liked</button>
         </div>
 
-        <div className="grid grid-cols-3 gap-4 bg-white p-2 rounded-md">
-          <div className="p-10 border-2 bg-blue-200">01</div>
-          <div className="p-10 border-2 bg-blue-200">02</div>
-          <div className="p-10 border-2 bg-blue-200">03</div>
-          <div className="p-10 border-2 bg-blue-200">04</div>
-          <div className="p-10 border-2 bg-blue-200">05</div>
-          <div className="p-10 border-2 bg-blue-200">06</div>
-          <div className="p-10 border-2 bg-blue-200">07</div>
-          <div className="p-10 border-2 bg-blue-200">08</div>
+        <div className="grid grid-cols-5 gap-2 bg-white p-2 rounded-md justify-items-center m-4">
+          {posts.map((post, index) => (
+            <div key={index}>
+              <Link to={`/post/${post.id}`}>
+                <ProfileCard
+                  type={post.mediaType}
+                  src={post.mediaUrl}
+                  title={post.title}
+                  previewText={post.text}
+                />
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </div>

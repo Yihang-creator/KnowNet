@@ -4,11 +4,10 @@ import { LoginCallback } from "@okta/okta-react";
 import { RequiredAuth } from "./SecureRoute";
 import Home from "../pages/MainPage";
 import Loading from "./Loading";
-import Messages from "../pages/Messages";
 import Profile from "../pages/Profile";
 import { PostContent } from "../components/PostContent";
 import CommentPage from "../components/comments/CommentBoard";
-import UserInfoPage from "../pages/UserInfoPage";
+
 
 const AppRoutes = () => {
   return (
@@ -26,10 +25,6 @@ const AppRoutes = () => {
       </Route>
       <Route path="/post/:id" element={<RequiredAuth />}>
         <Route path="" element={<PostContent />} />
-      </Route>
-
-      <Route path="/usrInfo" element={<RequiredAuth />}>
-        <Route path="" element={<UserInfoPage />} />
       </Route>
     </Routes>
   );
