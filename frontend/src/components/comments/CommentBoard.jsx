@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addComment, addReply, fetchComments } from '../redux/actions/index';
+import { addComment, addReply, fetchComments } from '../../redux/actions';
 import Comment from './Comment';
 import CommentInput from './CommentInput';
 import { useEffect } from 'react';
@@ -9,17 +9,17 @@ const CommentBoard = ({ postId, fetchComments, comments, addComment, addReply })
 
     useEffect(() => {
         fetchComments(postId);
-      }, [postId, fetchComments]);
+    }, [postId, fetchComments]);
 
     return (
         <div>
             <h1>Comment Board</h1>
             <div>
-                {comments.map((comment, index) => (
-                    <Comment key={index} comment={comment} addReply={addReply} />
+                {comments.map((comment) => (
+                    <Comment key={comment.id} comment={comment} addReply={addReply} depth={0} />
                 ))}
             </div>
-            <CommentInput addComment={addComment} />
+            <CommentInput addComment={(text) => addComment(postId, text)} />
         </div>
     );
 };

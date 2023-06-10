@@ -1,48 +1,26 @@
+.comment-timestamp {
+    color: #888;
+    font-style: italic;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
 .comment {
     border: 1px solid black;
     margin: 10px;
     padding: 10px;
-    background-color: #fff;
-}
-
-.comment-content {
-    margin-bottom: 10px;
-}
-
-.comment-reply {
-    margin-left: 20px;
+    background-color: #f0f0f0; /* change this to the color you want for the comment box background */
 }
 
 .comment-user {
     font-weight: bold;
     margin-bottom: 5px;
+    color: #333; /* change this to the color you want for the username text */
 }
 
-.comment-timestamp {
-    color: #888;
-    margin-bottom: 5px;
-}
-
-.comment-input {
+.comment-content {
+    color: #111; /* change this to the color you want for the comment text */
     margin-bottom: 10px;
 }
 
-.comment-input textarea {
-    width: 100%;
-    resize: vertical;
-    padding: 5px;
-    border: 1px solid #888;
-}
-
-.comment-input button {
-    margin-top: 5px;
-    padding: 5px 10px;
-    background-color: #0079d3;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.comment-input button:hover {
-    background-color: #005ea6;
-}
+/* add other CSS as needed... */

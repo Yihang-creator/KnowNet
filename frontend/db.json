@@ -175,36 +175,23 @@
     ],
     "comments": [
       {
-          "id": 1,
-          "postId": 1,
-          "userId": 2,
-          "text": "I love this blog!",
-          "timestamp": "2023-06-08T00:00:00Z",
-          "replies": []
+        "id": "post1-1617922800000-123abc",
+        "text": "This is the first comment.",
+        "timestamp": 1617922800000,
+        "replies": [
+          {
+            "id": "post1-1617922800000-123abc-1617922900000-xyz789",
+            "text": "This is a reply to the first comment.",
+            "timestamp": 1617922900000,
+            "replies": []
+          }
+        ]
       },
       {
-          "id": 2,
-          "postId": 1,
-          "userId": 1,
-          "text": "I have a secret to tell you",
-          "timestamp": "2023-06-08T00:05:00Z",
-          "replies": [
-              {
-                  "id": 3,
-                  "parentId": 2,
-                  "userId": 2,
-                  "text": "What is it?",
-                  "timestamp": "2023-06-08T00:06:00Z"
-              }
-          ]
-      },
-      {
-          "id": 3,
-          "postId": 2,
-          "userId": 1,
-          "text": "Nice post!",
-          "timestamp": "2023-06-08T00:10:00Z",
-          "replies": []
+        "id": "post1-1617923000000-456def",
+        "text": "This is the second comment.",
+        "timestamp": 1617923000000,
+        "replies": []
       }
     ],
     "likes": [

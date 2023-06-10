@@ -1,56 +1,37 @@
-
-import {combineReducers} from "@reduxjs/toolkit";
+import { combineReducers } from "@reduxjs/toolkit";
 
 const initialState = {
-    comments: [
-        // {
-        //     id: 1,
-        //     text: 'I love this blog!',
-        //     timestamp: Date.now(),
-        //     replies: []
-        // },
-        // {
-        //     id: 2,
-        //     text: 'I have a secret to tell you',
-        //     timestamp: Date.now(),
-        //     replies: [
-        //         {
-        //             id: 1,
-        //             text: 'What is it?',
-        //             timestamp: Date.now()
-        //         },
-        //     ]
-        // },
-    ]
+    comments: []
+};
 
+const addReplyToComment = (comments, action) => {
+    return comments.map(comment => {
+        if (comment.id === action.payload.commentId) {
+            return { ...comment, replies: [...comment.replies, action.payload.reply] };
+        }
+        if (comment.replies.length > 0) {
+            return { ...comment, replies: addReplyToComment(comment.replies, action) };
+        }
+        return comment;
+    });
 };
 
 const commentReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'ADD_COMMENT':
-            const newComment = {
-                id: Date.now(),
-                text: action.payload,
-                timestamp: Date.now(),
-                replies: [],
-            };
             return {
                 ...state,
-                comments: [...state.comments, newComment],
+                comments: [...state.comments, action.payload],
             };
         case 'ADD_REPLY':
             return {
                 ...state,
-                comments: state.comments.map(comment =>
-                    comment.id === action.payload.commentId
-                        ? { ...comment, replies: [...comment.replies, action.payload.reply] }
-                        : comment
-                ),
+                comments: addReplyToComment(state.comments, action),
             };
         case 'FETCH_COMMENTS_SUCCESS':
-            return {...state, comments: action.payload};
+            return { ...state, comments: action.payload };
         case 'FETCH_COMMENTS_FAILURE':
-            return {...state, error: action.error}
+            return { ...state, error: action.error }
         default:
             return state;
     }
