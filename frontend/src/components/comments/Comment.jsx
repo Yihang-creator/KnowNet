@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Styles/Comment.css';
+import '../../Styles/Comment.css';
 
 const Comment = ({ comment, addReply, depth }) => {
     const [newReply, setNewReply] = useState('');
@@ -19,24 +19,28 @@ const Comment = ({ comment, addReply, depth }) => {
 
     return (
         <div style={commentStyle} className="comment">
-            <p>{comment.text}</p>
-            <p>{new Date(comment.timestamp).toLocaleString()}</p>
-            <div>
+            <div className="comment-content">
+                <p className="comment-text">{comment.text}</p>
+                <p className="comment-timestamp">{new Date(comment.timestamp).toLocaleString()}</p>
+            </div>
+            <div className="comment-replies">
                 {comment.replies && comment.replies.map((reply, index) => (
                     <Comment
-                        key={index}
+                        key={reply.id}
                         comment={reply}
                         addReply={addReply}
-                        depth={depth + 1} // Increase depth for each reply
+                        depth={depth + 1}
                     />
                 ))}
             </div>
-            <textarea
-                value={newReply}
-                onChange={(e) => setNewReply(e.target.value)}
-                placeholder="Type your reply here..."
-            />
-            <button onClick={handleAddReply}>Reply</button>
+            <div className="comment-input">
+                <textarea
+                    value={newReply}
+                    onChange={(e) => setNewReply(e.target.value)}
+                    placeholder="Type your reply here..."
+                />
+                <button onClick={handleAddReply}>Reply</button>
+            </div>
         </div>
     );
 };

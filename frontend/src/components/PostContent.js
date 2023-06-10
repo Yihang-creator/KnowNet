@@ -5,7 +5,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import CommentBoard from "./CommentBoard";
+import CommentBoard from "./comments/CommentBoard";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, BrowserRouter as Router } from "react-router-dom";
 
@@ -82,7 +82,7 @@ export const PostContent = () => {
         <div className="mt-4 flex justify-between">
           <div>
             {likes ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            <span className="ml-2">12 Likes</span>
+            <span className="ml-2"> 12 Likes</span>
           </div>
           <div>
             <button
@@ -90,7 +90,7 @@ export const PostContent = () => {
               className="flex items-center"
             >
               <TextsmsOutlinedIcon />
-              <span className="ml-2">12 Comments</span>
+              <span className="ml-2">Comments</span>
             </button>
           </div>
           <div>
