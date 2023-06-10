@@ -9,18 +9,17 @@
     border: 1px solid black;
     margin: 10px;
     padding: 10px;
-    background-color: #f0f0f0; /* change this to the color you want for the comment box background */
+    background-color: #f0f0f0;
 }
 
 .comment-user {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #333; /* change this to the color you want for the username text */
+    color: #333;
 }
 
 .comment-content {
-    color: #111; /* change this to the color you want for the comment text */
+    color: #111;
     margin-bottom: 10px;
 }
 
-/* add other CSS as needed... */
