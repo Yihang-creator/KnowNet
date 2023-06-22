@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addComment, addReply, fetchComments } from '../../redux/actions';
+import { addComment, addReply, fetchComments } from '../../redux/actions/commentActions';
 import Comment from './Comment';
 import CommentInput from './CommentInput';
 import { useEffect } from 'react';
