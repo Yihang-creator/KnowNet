@@ -1,5 +1,4 @@
 import React from "react";
-import "./Contents.css";
 import { useState, useEffect } from "react";
 import PreviewCard from "../PreviewCard";
 import { Link } from "react-router-dom";
