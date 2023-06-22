@@ -13,7 +13,7 @@ const CommentBoard = ({ postId, fetchComments, comments, addComment, addReply })
 
     return (
         <div>
-            <h1>Comment Board</h1>
+            {/*<h1>Comment Board</h1>*/}
             <div>
                 {comments.map((comment) => (
                     <Comment key={comment.id} comment={comment} addReply={addReply} depth={0} />

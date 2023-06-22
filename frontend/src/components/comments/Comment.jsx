@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import '../../Styles/Comment.css';
 
-const Comment = ({ comment, addReply, depth }) => {
+const Comment = ({comment, addReply, depth}) => {
     const [newReply, setNewReply] = useState('');
     const [showReplyInput, setShowReplyInput] = useState(false);
 

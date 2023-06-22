@@ -6,7 +6,7 @@
 }
 
 .comment {
-    border: 1px solid black;
+    border-left: 1px solid black;
     margin: 10px;
     padding: 10px;
     background-color: #ffffff;
@@ -25,9 +25,26 @@
 
 .reply-button {
     font-family: Arial, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    /* Add more font styles as needed */
+    font-size: 10px;
+    /*font-weight: bold;*/
+    /*!* Add more font styles as needed *!*/
 }
+
+.comment-input textarea {
+    width: 100%; /* Set the width of the input box */
+    padding: 5px; /* Adjust the padding */
+    resize: vertical; /* Allow vertical resizing */
+    border: 1px solid #ccc; /* Add a border */
+    border-radius: 4px; /* Add border-radius for rounded corners */
+    font-size: 14px; /* Adjust the font size */
+}
+
+
+.comment-input textarea:focus {
+    outline: none; /* Remove the default outline */
+    border-color: #666; /* Change the border color when focused */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a box shadow when focused */
+}
+
 
 
