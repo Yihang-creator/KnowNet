@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../../Styles/Comment.css';
 
 const CommentInput = ({ addComment }) => {
     const [newComment, setNewComment] = useState('');
@@ -13,6 +14,7 @@ const CommentInput = ({ addComment }) => {
     return (
         <div>
             <textarea
+                className="comment-input"
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Type your comment here..."
