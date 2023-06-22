@@ -81,8 +81,10 @@ export const PostContent = () => {
         </div>
         <div className="mt-4 flex justify-between">
           <div>
-            {likes ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            <span className="ml-2"> 12 Likes</span>
+            <div style={{display: "inline"}} onClick={() => setLikes(!likes)}>
+              {likes ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+            </div>
+            <span className="ml-2" style={{display: "inline"}}> 12 Likes</span>
           </div>
           <div>
             <button

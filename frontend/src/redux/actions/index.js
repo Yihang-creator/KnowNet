@@ -15,6 +15,24 @@ export const addComment = (postId, commentText) => {
     };
 };
 
+export const addLike = (postId) => {
+    // const newComment = {
+    //     id: `${postId}-${commentText}-${Date.now()}`,
+    //     postId,
+    //     userId: 1,
+    //     text: commentText,
+    //     timestamp: Date.now(),
+    //     replies: [],
+    // };
+
+
+    return {
+        type: 'ADD_LIKE',
+        payload: postId,
+    };
+};
+
+
 export const addReply = (parentId, replyText) => {
     const newReply = {
         id: `${parentId}-${replyText}-${Date.now()}`,
