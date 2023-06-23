@@ -16,7 +16,7 @@ const PopupButton = ({ name }) => {
       </button>
 
       {isOpen && (
-        <div className="z-40 fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50">
+        <div className="z-40 fixed flex items-center justify-center  w-full h-full bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg w-1/2">
             <div className="flex-col p-6 border-b border-gray-200">
               <button
