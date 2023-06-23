@@ -12,16 +12,16 @@ const CommentInput = ({ addComment }) => {
     };
 
     return (
-        <div>
-            <textarea
-                className="comment-input"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                placeholder="Type your comment here..."
-            />
+        <div className="comment-input">
+        <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Type your comment here..."
+        />
             <button onClick={handleAddComment}>Add Comment</button>
         </div>
     );
+
 };
 
 export default CommentInput;
