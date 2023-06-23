@@ -255,8 +255,8 @@ const addLike = (posts, postID) => {
   for (let post of deep) {
     if (post.id === postID) {
       post.like = post.like + 1;
+      break;
     }
-    break;
   }
   return deep;
 };
@@ -266,8 +266,8 @@ const cancelLike = (posts, postID) => {
     for (let post of deep) {
       if (post.id === postID) {
         post.like = post.like - 1;
+        break;
       }
-      break;
     }
     return deep;
   };
