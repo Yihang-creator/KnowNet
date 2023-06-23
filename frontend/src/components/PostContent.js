@@ -3,18 +3,24 @@ import { useParams, Link } from "react-router-dom";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { red } from '@mui/material/colors';
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import CommentBoard from "./comments/CommentBoard";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, BrowserRouter as Router } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { addLike, cancelLike } from "../redux/actions/commentActions";
 
 export const PostContent = () => {
+
   const [post, setPost] = useState(null);
-  const [likes, setLikes] = useState(false);
+  const [liked, setLiked] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
   const { id: postId } = useParams();
+  const likes = useSelector((state) => state.likes.posts[postId - 1].like);
   const nav = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetch(`http://localhost:8080/posts/${postId}`)
@@ -28,6 +34,11 @@ export const PostContent = () => {
 
   if (!post) {
     return <div> Post Loading ...</div>;
+  }
+
+  const changeLiked = (liked) => {
+    setLiked(!liked);
+    !liked? dispatch(addLike(Number(postId))): dispatch(cancelLike(Number(postId)));
   }
 
   // bg-white background color
@@ -81,8 +92,10 @@ export const PostContent = () => {
         </div>
         <div className="mt-4 flex justify-between">
           <div>
-            {likes ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            <span className="ml-2"> 12 Likes</span>
+            <div style={{display: "inline"}} onClick={() => changeLiked(liked)}>
+              {liked ? <FavoriteOutlinedIcon sx={{ color: red[500] }}/> : <FavoriteBorderOutlinedIcon />}
+            </div>
+            <span className="ml-2" style={{display: "inline"}}> {likes} Likes</span>
           </div>
           <div>
             <button

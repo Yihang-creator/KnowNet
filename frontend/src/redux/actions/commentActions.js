@@ -31,6 +31,19 @@ export const addReply = (parentId, replyText) => {
     };
 };
 
+export const addLike = (postID) => {
+    return {
+        type: 'ADD_LIKE',
+        payload: postID,
+    };
+};
+
+export const cancelLike = (postID) => {
+    return {
+        type: 'CANCEL_LIKE',
+        payload: postID,
+    };
+};
 
 export const fetchComments = (postId) => async (dispatch) => {
     try {

@@ -1,4 +1,7 @@
-{
+import { combineReducers } from "@reduxjs/toolkit";
+import _ from "lodash";
+
+const initialState ={
     "posts": [
       {
         "id": 1,
@@ -7,7 +10,7 @@
         "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
         "title": "Post Title 1",
         "text": "This is the content of post 1.",
-        "like": 3
+        "like": 10
       },
       {
         "id": 2,
@@ -227,4 +230,94 @@
         "replies": []
       }
     ]
+  };
+
+
+const addReplyToComment = (comments, action) => {
+  return comments.map((comment) => {
+    if (comment.id === action.payload.parentId) {
+      return {
+        ...comment,
+        replies: [...comment.replies, action.payload],
+      };
+    } else if (comment.replies.length > 0) {
+      return {
+        ...comment,
+        replies: addReplyToComment(comment.replies, action),
+      };
+    }
+    return comment;
+  });
+};
+
+const addLike = (posts, postID) => {
+    let deep = _.cloneDeep(posts);
+  for (let post of deep) {
+    if (post.id === postID) {
+      post.like = post.like + 1;
+    }
+    break;
   }
+  return deep;
+};
+
+const cancelLike = (posts, postID) => {
+    let deep = _.cloneDeep(posts);
+    for (let post of deep) {
+      if (post.id === postID) {
+        post.like = post.like - 1;
+      }
+      break;
+    }
+    return deep;
+  };
+
+const commentReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "ADD_COMMENT":
+      return {
+        ...state,
+        comments: [...state.comments, action.payload],
+      };
+    case "ADD_REPLY":
+      return {
+        ...state,
+        comments: addReplyToComment(state.comments, action),
+      };
+    case "FETCH_COMMENTS_SUCCESS":
+      return { ...state, comments: action.payload };
+    case "FETCH_COMMENTS_FAILURE":
+      return { ...state, error: action.error };
+    default:
+      return state;
+  }
+};
+
+const likeReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case "ADD_LIKE":
+          return {
+            ...state,
+            posts: addLike(state.posts, action.payload),
+          };
+        case "CANCEL_LIKE":
+          return {
+            ...state,
+            posts: cancelLike(state.posts, action.payload),
+          };
+        default:
+          return state;
+      }
+
+}
+
+
+
+
+
+const rootReducer = combineReducers({
+    comments: commentReducer,
+    likes: likeReducer
+});
+
+export default rootReducer;
