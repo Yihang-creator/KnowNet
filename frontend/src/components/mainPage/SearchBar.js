@@ -3,11 +3,9 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import {IconButton} from "@mui/material";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -28,7 +26,6 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
-  pointerEvents: 'none',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -51,7 +48,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchBar() {
+const handleSearch = (searchTerm, setSearchTerm) => {
+  setSearchTerm(searchTerm);
+};
+
+export default function SearchBar({ setSearchTerm }) {
+  const [localSearchTerm, setLocalSearchTerm] = React.useState('');
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: 'black' }}>
@@ -59,11 +61,16 @@ export default function SearchBar() {
           <img src={"/images/ae.png"}
                className = "z-40 w-40"/>
           <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
+              <IconButton size="large" aria-label="search" color="inherit"
+                          onClick={() => handleSearch(localSearchTerm, setSearchTerm)} style={{ cursor: 'pointer' }}>
+                <SearchIconWrapper>
+                  <SearchIcon/>
+                </SearchIconWrapper>
+              </IconButton>
             <StyledInputBase
               placeholder="Search…"
+              value={localSearchTerm}
+              onChange={(e) => setLocalSearchTerm(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>

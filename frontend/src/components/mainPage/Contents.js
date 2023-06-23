@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import PreviewCard from "../PreviewCard";
 import { Link } from "react-router-dom";
 
-const Contents = () => {
+const Contents = ({searchTerm}) => {
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
@@ -20,11 +20,17 @@ const Contents = () => {
     return <div> Post Loading ...</div>;
   }
 
+    const filteredPosts = searchTerm
+        ? posts.filter((post) =>
+            post.title.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : posts;
+
   return (
     <div className="flex justify-center mt-28">
       <div className="flex-container justify-center rounded-lg border bg-grey-600 w-11/12">
         <ul className="flex flex-row flex-wrap justify-center">
-          {posts.map((post, index) => (
+          {filteredPosts.map((post, index) => (
             <li key={index}>
               <Link to={`/post/${post.id}`}>
                 <PreviewCard
