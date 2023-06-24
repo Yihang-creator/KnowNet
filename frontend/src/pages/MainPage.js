@@ -1,5 +1,5 @@
-import { useOktaAuth } from '@okta/okta-react';
-import React, { useState, useEffect, useCallback } from 'react';
+import { useOktaAuth } from "@okta/okta-react";
+import React, { useState, useEffect, useCallback } from "react";
 import Contents from "../components/mainPage/Contents";
 import SearchBar from "../components/mainPage/SearchBar";
 import Dropdown from "../components/mainPage/Dropdown";
@@ -7,7 +7,7 @@ import Dropdown from "../components/mainPage/Dropdown";
 const Home = () => {
   const { authState, oktaAuth } = useOktaAuth();
   const [userInfo, setUserInfo] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     if (!authState || !authState.isAuthenticated) {
@@ -38,12 +38,10 @@ const Home = () => {
   }, [authState, oktaAuth, login]);
 
   if (!authState) {
-    return (
-      <div>Loading...</div>
-    );
+    return <div>Loading...</div>;
   }
 
-  //uncommented code below to show postContent 
+  //uncommented code below to show postContent
   return (
     <div>
       <SearchBar setSearchTerm={setSearchTerm} />
