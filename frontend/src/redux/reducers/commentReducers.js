@@ -281,16 +281,14 @@ const addLike = (posts, postID) => {
 };
 
 const cancelLike = (posts, postID) => {
-
-    let deep = _.cloneDeep(posts);
-    for (let post of deep) {
-      if (post.id === postID) {
-        post.like = post.like - 1;
-        break;
-      }
-
+  let deep = _.cloneDeep(posts);
+  for (let post of deep) {
+    if (post.id === postID) {
+      post.like = post.like - 1;
+      break;
     }
   }
+
   return deep;
 };
 
