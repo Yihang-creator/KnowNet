@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import { red } from '@mui/material/colors';
+import { red } from "@mui/material/colors";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import CommentBoard from "./comments/CommentBoard";
@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { addLike, cancelLike } from "../redux/actions/commentActions";
 
 export const PostContent = () => {
-
   const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
@@ -38,8 +37,10 @@ export const PostContent = () => {
 
   const changeLiked = (liked) => {
     setLiked(!liked);
-    !liked? dispatch(addLike(Number(postId))): dispatch(cancelLike(Number(postId)));
-  }
+    !liked
+      ? dispatch(addLike(Number(postId)))
+      : dispatch(cancelLike(Number(postId)));
+  };
 
   // bg-white background color
   // shadow-md set shadow
@@ -92,10 +93,20 @@ export const PostContent = () => {
         </div>
         <div className="mt-4 flex justify-between">
           <div>
-            <div style={{display: "inline"}} onClick={() => changeLiked(liked)}>
-              {liked ? <FavoriteOutlinedIcon sx={{ color: red[500] }}/> : <FavoriteBorderOutlinedIcon />}
+            <div
+              style={{ display: "inline" }}
+              onClick={() => changeLiked(liked)}
+            >
+              {liked ? (
+                <FavoriteOutlinedIcon sx={{ color: red[500] }} />
+              ) : (
+                <FavoriteBorderOutlinedIcon />
+              )}
             </div>
-            <span className="ml-2" style={{display: "inline"}}> {likes} Likes</span>
+            <span className="ml-2" style={{ display: "inline" }}>
+              {" "}
+              {likes} Likes
+            </span>
           </div>
           <div>
             <button

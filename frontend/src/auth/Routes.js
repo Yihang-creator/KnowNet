@@ -8,7 +8,6 @@ import Profile from "../pages/Profile";
 import { PostContent } from "../components/PostContent";
 import CommentPage from "../components/comments/CommentBoard";
 
-
 const AppRoutes = () => {
   return (
     <Routes>

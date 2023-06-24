@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { OktaAuth, toRelativeUrl } from "@okta/okta-auth-js";
 import { Security } from "@okta/okta-react";
@@ -13,7 +13,7 @@ import store from "./store";
 const oktaAuth = new OktaAuth(config.oidc);
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
   const restoreOriginalUri = (_oktaAuth, originalUri) => {

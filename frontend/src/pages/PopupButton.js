@@ -1,41 +1,61 @@
 import { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import AccountCard from "../components/AccountCard";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { updateFollowings } from "../redux/actions/userActions";
 const PopupButton = ({ name }) => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => setIsOpen(false);
   const openModal = () => setIsOpen(true);
 
+  useEffect(() => {
+    if (!isOpen) {
+      dispatch(updateFollowings());
+    }
+  }, [isOpen, dispatch]);
+
+  const currState = useSelector((state) => state.userReducer);
+
+  const followers = currState.followers;
+  const followings = currState.followings;
+
+  const users = name === "Followings" ? followings : followers;
+
   return (
     <div className="p-6">
       <button
-        className="p-2 border-2 text-white bg-blue-500 rounded"
+        className="flex flex-col items-center p-2 text-white"
         onClick={openModal}
       >
-        {name}
+        <span>{users.length}</span>
+        <span>{name}</span>
       </button>
 
       {isOpen && (
-        <div className="z-40 fixed flex items-center justify-center  w-full h-full bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg w-1/2">
-            <div className="flex-col p-6 border-b border-gray-200">
-              <button
-                className="text-gray-400 hover:text-gray-500"
-                onClick={closeModal}
-              >
-                <CloseIcon />
-              </button>
+        <div className="fixed left-0 right-0 top-0 z-40 flex h-full w-full items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="h-1/2 w-1/2 rounded-lg bg-white">
+            <button
+              className="m-2 rounded-lg border-2 bg-red-500 p-2 text-gray-400 hover:text-gray-500"
+              onClick={closeModal}
+            >
+              <CloseIcon />
+            </button>
 
-              <div className="flex flex-col gap-4 bg-white p-2 rounded-md">
-                <div className="p-10 border-2 bg-blue-200">01</div>
-                <div className="p-10 border-2 bg-blue-200">02</div>
-                <div className="p-10 border-2 bg-blue-200">03</div>
-                <div className="p-10 border-2 bg-blue-200">04</div>
-                <div className="p-10 border-2 bg-blue-200">05</div>
-                <div className="p-10 border-2 bg-blue-200">06</div>
-                <div className="p-10 border-2 bg-blue-200">07</div>
-                <div className="p-10 border-2 bg-blue-200">08</div>
-              </div>
+            <div className="flex h-full w-full flex-col gap-4 overflow-y-scroll rounded-md bg-white p-2">
+              {users.map((user) => {
+                return (
+                  <div className="border-2 bg-blue-200 p-10">
+                    <AccountCard
+                      name={user.name}
+                      description={user.description}
+                      userId={user.id}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
