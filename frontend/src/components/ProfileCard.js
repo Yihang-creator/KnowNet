@@ -3,7 +3,7 @@ import ProfileResource from "./ProfileResource";
 
 const ProfileCard = (props) => {
   return (
-    <div className="flex flex-col justify-items-center w-80 h-80 bg-slate-50 border-2 border-cyan-200 rounded-lg shadow-xl dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex w-full flex-col justify-items-center rounded-lg border-2 border-cyan-200 bg-slate-50 shadow-xl dark:border-gray-700 dark:bg-gray-800">
       <ProfileResource type={props.type} link={props.src} />
 
       <div className="p-5">
