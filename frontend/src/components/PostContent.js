@@ -11,26 +11,21 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, BrowserRouter as Router } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addLike, cancelLike } from "../redux/actions/commentActions";
+import { fetchPost } from "../redux/actions/PostActions";
 
 export const PostContent = () => {
 
-  const [post, setPost] = useState(null);
   const [liked, setLiked] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
   const { id: postId } = useParams();
   const likes = useSelector((state) => state.likes.posts[postId - 1].like);
   const nav = useNavigate();
   const dispatch = useDispatch();
+  const post = useSelector((state) => state.post);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/posts/${postId}`)
-      .then((response) => {
-        if (!response.ok) throw new Error("API call failed");
-        return response.json();
-      })
-      .then((data) => setPost(data))
-      .catch((error) => console.error("Error", error));
-  }, [postId]);
+    dispatch(fetchPost(postId));
+  }, [dispatch, postId]);
 
   if (!post) {
     return <div> Post Loading ...</div>;

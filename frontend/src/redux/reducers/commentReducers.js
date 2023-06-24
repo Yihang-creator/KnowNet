@@ -308,16 +308,21 @@ const likeReducer = (state = initialState, action) => {
         default:
           return state;
       }
-
 }
 
-
-
-
+const postReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'SET_POST':
+      return action.payload;
+    default:
+      return state;
+  }
+};
 
 const rootReducer = combineReducers({
     comments: commentReducer,
-    likes: likeReducer
+    likes: likeReducer,
+    post: postReducer,
 });
 
 export default rootReducer;
