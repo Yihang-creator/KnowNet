@@ -24,7 +24,7 @@ const Dropdown = () => {
           setOpen(!open);
         }}
       >
-        <img src={user_image}></img>
+        <img src={user_image} alt=""></img>
       </div>
 
       <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
@@ -60,7 +60,7 @@ const Dropdown = () => {
 function DropdownItem(props) {
   return (
     <li className="dropdownItem" onClick={props.onClick}>
-      <img src={props.img}></img>
+      <img src={props.img} alt=""></img>
       <a> {props.text} </a>
     </li>
   );

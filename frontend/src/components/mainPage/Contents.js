@@ -2,19 +2,25 @@ import React from "react";
 import { useState, useEffect } from "react";
 import PreviewCard from "../PreviewCard";
 import { Link } from "react-router-dom";
+import { useOktaAuth } from "@okta/okta-react";
 
 const Contents = ({searchTerm}) => {
+  const { authState } = useOktaAuth();
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/posts`)
+    fetch(`http://localhost:8080/posts`, {
+      headers: {
+        Authorization: 'Bearer ' + authState.accessToken.accessToken
+      }
+    })
       .then((response) => {
         if (!response.ok) throw new Error("API call failed");
         return response.json();
       })
       .then((data) => setPosts(data))
       .catch((error) => console.error("Error", error));
-  }, []);
+  }, [authState]);
 
   if (!posts) {
     return <div> Post Loading ...</div>;

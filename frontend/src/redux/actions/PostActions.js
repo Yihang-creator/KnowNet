@@ -1,6 +1,11 @@
-export const fetchPost = (postId) => {
+export const fetchPost = (postId, accessToken) => {
+    console.log(accessToken);
     return (dispatch) => {
-      fetch(`http://localhost:8080/posts/${postId}`)
+      fetch(`http://localhost:8080/posts/${postId}`, {
+        headers: {
+          Authorization: 'Bearer ' + accessToken
+        }
+      })
         .then((response) => {
           if (!response.ok) throw new Error('API call failed');
           return response.json();
