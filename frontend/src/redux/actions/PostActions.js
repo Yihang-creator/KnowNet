@@ -1,7 +1,7 @@
 export const fetchPost = (postId, accessToken) => {
     console.log(accessToken);
     return (dispatch) => {
-      fetch(`http://localhost:8080/posts/${postId}`, {
+      fetch(`/posts/${postId}`, {
         headers: {
           Authorization: 'Bearer ' + accessToken
         }

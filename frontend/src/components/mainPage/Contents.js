@@ -9,7 +9,7 @@ const Contents = ({searchTerm}) => {
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/posts`, {
+    fetch(`/posts`, {
       headers: {
         Authorization: 'Bearer ' + authState.accessToken.accessToken
       }
@@ -33,7 +33,7 @@ const Contents = ({searchTerm}) => {
         : posts;
 
   return (
-    <div className="flex justify-center mt-28">
+    <div className="flex justify-center mt-20">
       <div className="flex-container justify-center rounded-lg border bg-grey-600 w-11/12">
         <ul className="flex flex-row flex-wrap justify-center">
           {filteredPosts.map((post, index) => (

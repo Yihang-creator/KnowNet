@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const { body, validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
 
 const posts = [
@@ -195,6 +196,35 @@ router.get('/:postId', function (req, res, next) {
       .set('Content-Type', 'application/json')
       .status(200)
       .send(foundPost);
+});
+
+router.post('/', [
+  body('mediaType').isIn(['image', 'video']),
+  body('mediaUrl').isURL(),
+  body('title').isLength({ min: 1 }),
+  body('text').isLength({ min: 1 })
+], function(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { userId, mediaType, mediaUrl, title, text} = req.body;
+  const newPost = {
+    "id": uuidv4(), // generate a new ID
+    "userId": userId, 
+    "mediaType": mediaType,
+    "mediaUrl": mediaUrl,
+    "title": title,
+    "text": text,
+    "like": 0
+  };
+
+  console.log(newPost);
+
+  posts.push(newPost);
+
+  res.status(201).json(newPost);
 });
 
 module.exports = router;

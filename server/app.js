@@ -4,6 +4,7 @@ require('dotenv').config(); // dotenv is package to load environment variables
 var cors = require('cors')
 var indexRouter = require("./routes/index.js");
 var postRouter = require("./routes/posts.js");
+var awsRouter = require("./routes/awsPresignedURL.js");
 const { authenticationRequired } = require("./authMiddleware.js");
 
 const app = express();
@@ -21,6 +22,7 @@ mongoose.connect(uri,
 app.use('*', authenticationRequired);
 app.use("/", indexRouter);
 app.use("/posts", postRouter);
+app.use("/api/upload", awsRouter);
 
 app.listen(8080,() => console.log('Server is running on port 8080'));
 
