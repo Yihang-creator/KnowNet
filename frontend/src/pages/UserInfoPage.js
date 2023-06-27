@@ -9,7 +9,7 @@ const UserInfoPage = ({ name, email }) => {
   const [posts, setPosts] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/posts`)
+    fetch(`/posts`)
       .then((response) => {
         if (!response.ok) throw new Error("API call failed");
         return response.json();
