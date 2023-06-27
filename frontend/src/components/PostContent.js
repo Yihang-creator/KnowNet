@@ -29,12 +29,12 @@ export const PostContent = () => {
   }, [dispatch, postId, authState]);
 
   const post = useSelector((state) => state.posts.find(post => post.id === postId));
-  var likes = post.like;
 
   if (!post) {
     return <div> Post Loading ...</div>;
   }
 
+  var likes = post.like;
   const changeLiked = (liked) => {
     setLiked(!liked);
     !liked
