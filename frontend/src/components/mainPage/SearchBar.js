@@ -59,7 +59,7 @@ export default function SearchBar({ setSearchTerm }) {
       <AppBar position="static" sx={{ backgroundColor: 'black' }}>
         <Toolbar>
           <img src={"/images/ae.png"}
-               className = "z-40 w-40"/>
+               className = "z-40 w-40" alt=""/>
           <Search>
               <IconButton size="large" aria-label="search" color="inherit"
                           onClick={() => handleSearch(localSearchTerm, setSearchTerm)} style={{ cursor: 'pointer' }}>

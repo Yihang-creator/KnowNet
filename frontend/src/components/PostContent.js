@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import ReactPlayer from 'react-player/lazy';
+import { useOktaAuth } from '@okta/okta-react';
 import { useParams, Link } from "react-router-dom";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
@@ -8,34 +10,36 @@ import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import CommentBoard from "./comments/CommentBoard";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate, BrowserRouter as Router } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addLike, cancelLike } from "../redux/actions/commentActions";
 import { fetchPost } from "../redux/actions/PostActions";
 
 export const PostContent = () => {
 
+  const { authState } = useOktaAuth();
   const [liked, setLiked] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
   const { id: postId } = useParams();
-  const likes = useSelector((state) => state.likes.posts[postId - 1].like);
   const nav = useNavigate();
   const dispatch = useDispatch();
-  const post = useSelector((state) => state.post);
 
   useEffect(() => {
-    dispatch(fetchPost(postId));
-  }, [dispatch, postId]);
+    dispatch(fetchPost(postId, authState.accessToken.accessToken));
+  }, [dispatch, postId, authState]);
+
+  const post = useSelector((state) => state.posts.find(post => post.id === postId));
 
   if (!post) {
     return <div> Post Loading ...</div>;
   }
 
+  var likes = post.like;
   const changeLiked = (liked) => {
     setLiked(!liked);
     !liked
-      ? dispatch(addLike(Number(postId)))
-      : dispatch(cancelLike(Number(postId)));
+      ? dispatch(addLike(postId))
+      : dispatch(cancelLike(postId));
   };
 
   // bg-white background color
@@ -79,10 +83,7 @@ export const PostContent = () => {
               className="max-w-screen-sm mx-auto"
             />
           ) : (
-            <video controls className="max-w-screen-sm mx-auto">
-              <source src={post.mediaUrl} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            <ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />
           )}
           <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
           <p className="text-gray-700">{post.text}</p>

@@ -1,25 +1,25 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import PreviewCard from "../PreviewCard";
 import { Link } from "react-router-dom";
+import { useOktaAuth } from "@okta/okta-react";
+import { fetchAllPost } from "../../redux/actions/PostActions";
+import { useSelector, useDispatch } from "react-redux";
 
 const Contents = ({searchTerm}) => {
-  const [posts, setPosts] = useState(null);
+  const { authState } = useOktaAuth();
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts);
+  
 
   useEffect(() => {
-    fetch(`http://localhost:8080/posts`)
-      .then((response) => {
-        if (!response.ok) throw new Error("API call failed");
-        return response.json();
-      })
-      .then((data) => setPosts(data))
-      .catch((error) => console.error("Error", error));
-  }, []);
+    dispatch(fetchAllPost(authState.accessToken.accessToken))
+  }, [dispatch, authState]);
 
   if (!posts) {
     return <div> Post Loading ...</div>;
   }
-
+  console.log(posts);
     const filteredPosts = searchTerm
         ? posts.filter((post) =>
             post.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -27,7 +27,7 @@ const Contents = ({searchTerm}) => {
         : posts;
 
   return (
-    <div className="flex justify-center mt-28">
+    <div className="flex justify-center mt-20">
       <div className="flex-container justify-center rounded-lg border bg-grey-600 w-11/12">
         <ul className="flex flex-row flex-wrap justify-center">
           {filteredPosts.map((post, index) => (

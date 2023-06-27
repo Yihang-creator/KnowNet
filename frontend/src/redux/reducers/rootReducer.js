@@ -1,13 +1,12 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import { commentReducer, likeReducer } from "./commentReducers";
+import { commentReducer} from "./commentReducers";
 import userReducer from "./userReducer";
 import postReducer from "./postReducer";
 
 const rootReducer = combineReducers({
   comments: commentReducer,
-  likes: likeReducer,
   userReducer,
-  post: postReducer,
+  posts: postReducer,
 });
 
 export default rootReducer;

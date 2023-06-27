@@ -45,9 +45,13 @@ export const cancelLike = (postID) => {
     };
 };
 
-export const fetchComments = (postId) => async (dispatch) => {
+export const fetchComments = (postId, accessToken) => async (dispatch) => {
     try {
-        const response = await fetch(`http://localhost:8080/comments?postId=${postId}`);
+        const response = await fetch(`/api/comments?postId=${postId}`, {
+            headers: {
+              Authorization: 'Bearer ' + accessToken
+            }
+        });
         const data = await response.json();
         dispatch({ type: 'FETCH_COMMENTS_SUCCESS', payload: data });
     } catch (error) {

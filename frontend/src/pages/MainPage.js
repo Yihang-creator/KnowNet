@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Contents from "../components/mainPage/Contents";
 import SearchBar from "../components/mainPage/SearchBar";
 import Dropdown from "../components/mainPage/Dropdown";
+import CreatePostButton from "../components/mainPage/CreatePostButton";
 
 const Home = () => {
   const { authState, oktaAuth } = useOktaAuth();
@@ -41,11 +42,11 @@ const Home = () => {
     return <div>Loading...</div>;
   }
 
-  //uncommented code below to show postContent
   return (
     <div>
       <SearchBar setSearchTerm={setSearchTerm} />
       <Dropdown />
+      <CreatePostButton />
       <Contents searchTerm={searchTerm} />
     </div>
   );

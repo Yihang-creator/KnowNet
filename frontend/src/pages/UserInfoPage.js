@@ -3,13 +3,18 @@ import PopupButton from "./PopupButton";
 import { Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import Dropdown from "../components/mainPage/Dropdown";
+import { useOktaAuth } from "@okta/okta-react";
 
 const UserInfoPage = ({ name, email }) => {
   const [selectedImage, setSelectedImage] = useState("/images/user.jpeg");
   const [posts, setPosts] = useState(null);
+  const { authState } = useOktaAuth();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/posts`)
+    fetch(`/api/posts`, {
+      headers: {
+        Authorization: 'Bearer ' + authState.accessToken.accessToken
+      }})
       .then((response) => {
         if (!response.ok) throw new Error("API call failed");
         return response.json();
