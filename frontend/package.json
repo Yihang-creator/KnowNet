@@ -24,7 +24,10 @@
     "redux-thunk": "^2.4.2",
     "semantic-ui-react": "^2.1.4",
     "text-encoding": "^0.7.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "prettier": "^2.8.8",
+    "prettier-plugin-tailwindcss": "^0.3.0",
+    "tailwindcss": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -51,10 +54,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080",
-  "devDependencies": {
-    "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.3.0",
-    "tailwindcss": "^3.3.2"
-  }
+  "proxy": "http://localhost:8080"
 }

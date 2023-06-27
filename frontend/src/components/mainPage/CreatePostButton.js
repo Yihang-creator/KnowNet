@@ -46,7 +46,7 @@ const CreatePostButton = () => {
     }
 
     // Get the pre-signed URL from the backend
-    const response = await fetch('/api/upload?fileType=' + encodeURIComponent(media.type), 
+    const response = await fetch('/api/aws/upload?fileType=' + encodeURIComponent(media.type), 
     {
       headers: {
       Authorization: 'Bearer ' + authState.accessToken.accessToken
@@ -75,7 +75,7 @@ const CreatePostButton = () => {
     const fileUrl = url.split('?')[0];
 
     // Send the URL and other post data to the backend
-    const postResponse = await fetch('/posts', {
+    const postResponse = await fetch('/api/posts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

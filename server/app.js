@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
 require('dotenv').config(); // dotenv is package to load environment variables
 var cors = require('cors')
 var indexRouter = require("./routes/index.js");
@@ -20,11 +21,19 @@ mongoose.connect(uri,
     {useNewUrlParser: true, useUnifiedTopology: true});
 
 //authorization middleware
-app.use('*', authenticationRequired);
-app.use("/", indexRouter);
-app.use("/posts", postRouter);
-app.use("/comments", commentRouter);
-app.use("/api/upload", awsRouter);
 
-app.listen(8080,() => console.log('Server is running on port 8080'));
+
+app.use('/api/*', authenticationRequired);
+// app.use("/", indexRouter);
+app.use("/api/posts", postRouter);
+app.use("/api/comments", commentRouter);
+app.use("/api/aws/upload", awsRouter);
+
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'));
+});
+
+app.listen(process.env.PORT || 8080,() => console.log(`Server is running on port ${process.env.PORT || 8080}`));
 

@@ -47,7 +47,7 @@ export const cancelLike = (postID) => {
 
 export const fetchComments = (postId, accessToken) => async (dispatch) => {
     try {
-        const response = await fetch(`/comments?postId=${postId}`, {
+        const response = await fetch(`/api/comments?postId=${postId}`, {
             headers: {
               Authorization: 'Bearer ' + accessToken
             }

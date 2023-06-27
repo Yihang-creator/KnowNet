@@ -1,6 +1,6 @@
 export const fetchPost = (postId, accessToken) => {
     return (dispatch) => {
-      fetch(`/posts/${postId}`, {
+      fetch(`/api/posts/${postId}`, {
         headers: {
           Authorization: 'Bearer ' + accessToken
         }
@@ -20,7 +20,7 @@ export const fetchPost = (postId, accessToken) => {
 
 export const fetchAllPost = (accessToken) => {
   return (dispatch) => {
-    fetch(`/posts/`, {
+    fetch(`/api/posts/`, {
       headers: {
         Authorization: 'Bearer ' + accessToken
       }
