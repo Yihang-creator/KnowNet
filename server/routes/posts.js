@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const posts = [
     {
-      "id": 1,
+      "id": "1",
       "userId": 1,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
@@ -14,7 +14,7 @@ const posts = [
       "like": 3
     },
     {
-      "id": 2,
+      "id": "2",
       "userId": 1,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
@@ -23,7 +23,7 @@ const posts = [
       "like": 2
     },
     {
-      "id": 3,
+      "id": "3",
       "userId": 2,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
@@ -32,7 +32,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 4,
+      "id": "4",
       "userId": 2,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
@@ -40,7 +40,7 @@ const posts = [
       "text": "This is the content of post 4."
     },
     {
-      "id": 5,
+      "id": "5",
       "userId": 1,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
@@ -49,7 +49,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 6,
+      "id": "6",
       "userId": 1,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
@@ -58,7 +58,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 7,
+      "id": "7",
       "userId": 1,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerEscapes.jpg",
@@ -67,7 +67,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 8,
+      "id": "8",
       "userId": 1,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
@@ -76,7 +76,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 9,
+      "id": "9",
       "userId": 1,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerFun.jpg",
@@ -85,7 +85,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 10,
+      "id": "10",
       "userId": 1,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
@@ -94,7 +94,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 11,
+      "id": "11",
       "userId": 1,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerJoyrides.jpg",
@@ -103,7 +103,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 12,
+      "id": "12",
       "userId": 1,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
@@ -112,7 +112,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 13,
+      "id": "13",
       "userId": 1,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerMeltdowns.jpg",
@@ -121,7 +121,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 14,
+      "id": "14",
       "userId": 1,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
@@ -130,7 +130,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 17,
+      "id": "17",
       "userId": 2,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/SubaruOutbackOnStreetAndDirt.jpg",
@@ -139,7 +139,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 18,
+      "id": "18",
       "userId": 2,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
@@ -148,7 +148,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 19,
+      "id": "19",
       "userId": 2,
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg",
@@ -157,7 +157,7 @@ const posts = [
       "like": 0
     },
     {
-      "id": 20,
+      "id": "20",
       "userId": 2,
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",

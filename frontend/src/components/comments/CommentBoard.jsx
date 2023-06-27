@@ -4,12 +4,16 @@ import { addComment, addReply, fetchComments } from '../../redux/actions/comment
 import Comment from './Comment';
 import CommentInput from './CommentInput';
 import { useEffect } from 'react';
+import { useOktaAuth } from '@okta/okta-react';
 
 const CommentBoard = ({ postId, fetchComments, comments, addComment, addReply }) => {
 
+    const { authState } = useOktaAuth();
     useEffect(() => {
-        fetchComments(postId);
-    }, [postId, fetchComments]);
+        fetchComments(postId,authState.accessToken.accessToken);
+    }, [postId, fetchComments,authState]);
+
+
 
     return (
         <div>

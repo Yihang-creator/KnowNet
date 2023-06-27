@@ -21,14 +21,15 @@ export const PostContent = () => {
   const [liked, setLiked] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
   const { id: postId } = useParams();
-  const likes = useSelector((state) => state.likes.posts.find(post => post.id == postId).like); //TODO need to switch to triple equal once all postId switch to type string
   const nav = useNavigate();
   const dispatch = useDispatch();
-  const post = useSelector((state) => state.post);
 
   useEffect(() => {
     dispatch(fetchPost(postId, authState.accessToken.accessToken));
   }, [dispatch, postId, authState]);
+
+  const post = useSelector((state) => state.posts.find(post => post.id === postId));
+  var likes = post.like;
 
   if (!post) {
     return <div> Post Loading ...</div>;
@@ -37,8 +38,8 @@ export const PostContent = () => {
   const changeLiked = (liked) => {
     setLiked(!liked);
     !liked
-      ? dispatch(addLike(Number(postId)))
-      : dispatch(cancelLike(Number(postId)));
+      ? dispatch(addLike(postId))
+      : dispatch(cancelLike(postId));
   };
 
   // bg-white background color

@@ -5,6 +5,7 @@ var cors = require('cors')
 var indexRouter = require("./routes/index.js");
 var postRouter = require("./routes/posts.js");
 var awsRouter = require("./routes/awsPresignedURL.js");
+var commentRouter = require("./routes/comments.js");
 const { authenticationRequired } = require("./authMiddleware.js");
 
 const app = express();
@@ -22,6 +23,7 @@ mongoose.connect(uri,
 app.use('*', authenticationRequired);
 app.use("/", indexRouter);
 app.use("/posts", postRouter);
+app.use("/comments", commentRouter);
 app.use("/api/upload", awsRouter);
 
 app.listen(8080,() => console.log('Server is running on port 8080'));
