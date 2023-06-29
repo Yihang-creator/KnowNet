@@ -1,6 +1,7 @@
-var express = require('express');
-const {body, validationResult} = require("express-validator");
-var router = express.Router();
+const express = require('express');
+const { body, validationResult } = require("express-validator");
+const router = express.Router();
+const { v4: uuidv4 } = require('uuid'); // import the uuid library
 
 const comments = [
     {
@@ -95,4 +96,26 @@ router.get('/', function(req, res, next) {
     return res.status(200).json(relatedComments);
 });
 
+// server.js
+
+router.post('/:commentId/replies', function(req, res, next) {
+    const commentId = parseInt(req.params.id);
+    const reply = req.body;
+
+    const commentIndex = comments.findIndex(comment => comment.id === commentId);
+    if (commentIndex === -1) {
+        return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    reply.id = uuidv4();
+    reply.parentId = commentId;
+    reply.timestamp = new Date().toISOString();
+
+    comments[commentIndex].replies.push(reply);
+
+    res.status(201).json(reply);
+});
+
 module.exports = router;
+
+
