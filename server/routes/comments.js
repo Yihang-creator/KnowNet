@@ -40,43 +40,7 @@ const comments = [
 
 
 
-// get all comments
-router.get('/', function(req, res, next) {
-    const postId = parseInt(req.query.postId);
-
-    if (isNaN(postId)) {
-        return res
-            .status(400)
-            .json({ error: 'Invalid postId.' });
-    }
-    const relatedComments = comments.filter(comment => comment.postId === postId);
-    return res
-        .status(200)
-        .json(relatedComments);
-});
-
-//delete a comment
-router.delete('/:id', function(req, res, next) {
-    const id = req.params.id;
-    const index = comments.findIndex(comment => comment.id === id);
-
-    if (index === -1) {
-        return res
-            .status(404)
-            .setHeader('Content-Type', 'application/json')
-            .send({ error: 'Comment not found' });
-    }
-
-    const deletedComment = comments.splice(index, 1);
-
-    return res
-        .status(200)
-        .setHeader('Content-Type', 'application/json')
-        .send(deletedComment);
-});
-
-
-// add a comment
+// get all comments under a post
 router.post('/', [
     body('postId').notEmpty(),
     body('userId').notEmpty(),
@@ -87,7 +51,10 @@ router.post('/', [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { postId, userId, text } = req.body;
+    const postId = parseInt(req.body.postId);
+    const userId = parseInt(req.body.userId);
+    const text = req.body.text;
+
     const newComment = {
         "id": uuidv4(),
         "postId": postId,
@@ -102,6 +69,30 @@ router.post('/', [
     res.status(201).json(newComment);
 });
 
+router.delete('/:id', function(req, res, next) {
+    const id = req.params.id;
+    const index = comments.findIndex(comment => comment.id === id);
 
+    if (index === -1) {
+        return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    const [deletedComment] = comments.splice(index, 1);
+
+    return res.status(200).json(deletedComment);
+});
+
+
+router.get('/', function(req, res, next) {
+    const postId = parseInt(req.query.postId);
+
+    if (isNaN(postId)) {
+        return res.status(400).json({ error: 'Invalid postId.' });
+    }
+
+    const relatedComments = comments.filter(comment => comment.postId === postId);
+
+    return res.status(200).json(relatedComments);
+});
 
 module.exports = router;
