@@ -6,16 +6,16 @@ let postsPreview = [
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
       "userPhotoUrl": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
-      "title": "Post Title 1",
+      "title": "Look what we have here!",
     },
     {
       "postId": 2,
       "userId": 1,
       "userName": "Kunyi",
-      "mediaType": "video",
-      "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "mediaType": "image",
+      "mediaUrl": "https://images.unsplash.com/photo-1611003229235-fb5748510459?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80",
       "userPhotoUrl": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
-      "title": "Post Title 2",
+      "title": "Leave some course seats for me plz🥹🥹🥹",
     },
     {
       "postId": 3,
@@ -24,7 +24,7 @@ let postsPreview = [
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
       "userPhotoUrl": "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg",
-      "title": "Post Title 3",
+      "title": "I met a bad guy on campus last week!",
     },
     {
       "postId": 4,
@@ -33,7 +33,7 @@ let postsPreview = [
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
       "userPhotoUrl": "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg",
-      "title": "Post Title 4",
+      "title": "A nice and cool video",
     },
     {
       "postId": 5,
@@ -42,7 +42,7 @@ let postsPreview = [
       "mediaType": "image",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
       "userPhotoUrl": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
-      "title": "Post Title 5",
+      "title": "Khaleesi … there sits Balerion, come again",
     },
     {
       "postId": 6,
@@ -51,7 +51,7 @@ let postsPreview = [
       "mediaType": "video",
       "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
       "userPhotoUrl": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
-      "title": "Post Title 6",
+      "title": "She is the mother of dragons!",
     },
     {
       "postId": 7,
