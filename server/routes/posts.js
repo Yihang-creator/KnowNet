@@ -3,6 +3,8 @@ var router = express.Router();
 const { body, validationResult } = require('express-validator');
 const { v4: uuidv4 } = require('uuid');
 var {postsPreview} = require("../data/postsPreview.js");
+var {posts} = require("../data/posts.js");
+var {users} = require("../data/users.js");
 
 router.get('/', function(req, res, next) {
     const page = parseInt(req.query.page);
@@ -27,7 +29,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:postId', function (req, res, next) {
-    const foundPost = postsPreview.find(post => post.id == req.params.postId);
+    const foundPost = posts.find(post => post.postId == req.params.postId);
     console.log(`Get Post request ${req.params.postId}`);
     return res
       .set('Content-Type', 'application/json')
@@ -46,20 +48,40 @@ router.post('/', [
     return res.status(400).json({ errors: errors.array() });
   }
 
+  function findUserName(userId) {
+    for (const user of users) {
+      if (user.userId ===  userId) {
+        return user.username;
+      }
+    }
+  }
+
+  function findUserPhotoUrl(userId) {
+    for (const user of users) {
+      if (user.userId ===  userId) {
+        return user.userPhotoUrl;
+      }
+    }
+  }
+
   const { userId, mediaType, mediaUrl, title, text} = req.body;
   const newPost = {
-    "id": uuidv4(), // generate a new ID
+    "postId": uuidv4(), // generate a new ID
     "userId": userId, 
+    "userName": findUserName(userId),
+    "userPhotoUrl": findUserPhotoUrl(userId),
     "mediaType": mediaType,
     "mediaUrl": mediaUrl,
     "title": title,
     "text": text,
-    "like": 0
+    "like": [],
+    "comments": [],
+    "timestamp": new Date().toISOString()
   };
 
   console.log(newPost);
 
-  postsPreview.push(newPost);
+  posts.push(newPost);
 
   res.status(201).json(newPost);
 });
