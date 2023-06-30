@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, TextField, Box } from '@mui/material';
 import '../../Styles/Comment.css';
 
 const CommentInput = ({ addComment }) => {
@@ -12,14 +13,22 @@ const CommentInput = ({ addComment }) => {
     };
 
     return (
-        <div className="comment-input">
-        <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Type your comment here..."
-        />
-            <button onClick={handleAddComment}>Add Comment</button>
-        </div>
+        <Box>
+            <TextField
+                id="comment-input"
+                label="Write a comment"
+                variant="outlined"
+                multiline
+                rows={2}
+                fullWidth
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                sx={{ marginTop: 1 }}
+            />
+            <Button variant="contained" color="primary" onClick={handleAddComment} sx={{ marginTop: 1 }}>
+                Submit
+            </Button>
+        </Box>
     );
 
 };
