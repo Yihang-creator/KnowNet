@@ -14,7 +14,7 @@ const currentDateTime = () => {
 }
 
 const Comment = ({ user, timestamp, text, likes, replies }) => {
-    const [likeCount, setLikeCount] = useState(likes);
+    const [likeCount, setLikeCount] = useState(parseInt(likes));
     const [showReplies, setShowReplies] = useState(false);
     const [reply, setReply] = useState('');
     const [isSecLevelComment, setSecLevelComment] = useState(false) // if it is a second level comment
