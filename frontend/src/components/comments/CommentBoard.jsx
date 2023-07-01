@@ -15,7 +15,6 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
     }, [postId, fetchComments,authState]);
 
     const comments = useSelector(state => state.comments.comments);
-    // 这里暂时用的假数据，redux的comments先删掉了，你自己调一调数据结构
     /*
     const comments = [
         {
