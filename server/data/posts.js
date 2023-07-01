@@ -4,7 +4,7 @@ let posts = [
     "userId": "1",
     "mediaType": "image",
     "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
-    "title": "We have Big Buck Bunny!",
+    "title": "We have the Big Buck Bunny here!",
     "text": "Check out this delightful image of Big Buck Bunny, everyone's favorite character from the renowned animated short film. " +
         "This affable rabbit, with his endearing charm and charisma, never fails to put a smile on our faces. Despite his size, his gentle and kind-hearted nature makes him a true hero. " +
         "Let's take a moment to appreciate this adorable creature and the joy he brings into our lives!.",
