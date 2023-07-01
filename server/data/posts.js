@@ -42,7 +42,7 @@ let posts = [
     "userId": "2",
     "mediaType": "video",
     "mediaUrl": "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-    "title": "Post Title 4",
+    "title": "A nice and cool video",
     "text": "A nice and cool video.",
     "like": [],
     "comments": [],
