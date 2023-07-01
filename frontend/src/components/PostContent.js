@@ -28,7 +28,7 @@ export const PostContent = () => {
     dispatch(fetchPost(postId, authState.accessToken.accessToken));
   }, [dispatch, postId, authState]);
 
-  const post = useSelector((state) => state.posts.find(post => post.id === postId));
+  const post = useSelector((state) => state.posts.find(post => post.postId === postId));
 
   if (!post) {
     return <div> Post Loading ...</div>;
@@ -38,8 +38,8 @@ export const PostContent = () => {
   const changeLiked = (liked) => {
     setLiked(!liked);
     !liked
-      ? dispatch(addLike(postId))
-      : dispatch(cancelLike(postId));
+        ? dispatch(addLike(postId))
+        : dispatch(cancelLike(postId));
   };
 
   // bg-white background color
@@ -49,78 +49,78 @@ export const PostContent = () => {
   // mb-6 margin-bottom 1.5rem
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-      <div className="container mx-auto">
-        <button onClick={() => nav(-1)}>
-          <CloseIcon />
-        </button>
+      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+        <div className="container mx-auto">
+          <button onClick={() => nav(-1)}>
+            <CloseIcon />
+          </button>
 
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <img
-              src={post.profilePic}
-              alt=""
-              className="w-12 h-12 rounded-full mr-4"
-            />
-            <div className="text-sm">
-              <Link
-                to={`/profile/${post.userId}`}
-                className="text-black no-underline hover:underline"
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <img
+                  src={post.profilePic}
+                  alt=""
+                  className="w-12 h-12 rounded-full mr-4"
+              />
+              <div className="text-sm">
+                <Link
+                    to={`/profile/${post.userId}`}
+                    className="text-black no-underline hover:underline"
+                >
+                  <span className="font-bold">{post.name}</span>
+                </Link>
+                {/* date */}
+                <div className="text-gray-600">Posted 1 min ago</div>
+              </div>
+            </div>
+            <MoreHorizIcon />
+          </div>
+          <div className="mt-4">
+            {post.mediaType === "image" ? (
+                <img
+                    src={post.mediaUrl}
+                    alt={post.title}
+                    className="max-w-screen-sm mx-auto"
+                />
+            ) : (
+                <ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />
+            )}
+            <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
+            <p className="text-gray-700">{post.text}</p>
+          </div>
+          <div className="mt-4 flex justify-between">
+            <div>
+              <div
+                  style={{ display: "inline" }}
+                  onClick={() => changeLiked(liked)}
               >
-                <span className="font-bold">{post.name}</span>
-              </Link>
-              {/* date */}
-              <div className="text-gray-600">Posted 1 min ago</div>
-            </div>
-          </div>
-          <MoreHorizIcon />
-        </div>
-        <div className="mt-4">
-          {post.mediaType === "image" ? (
-            <img
-              src={post.mediaUrl}
-              alt={post.title}
-              className="max-w-screen-sm mx-auto"
-            />
-          ) : (
-            <ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />
-          )}
-          <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
-          <p className="text-gray-700">{post.text}</p>
-        </div>
-        <div className="mt-4 flex justify-between">
-          <div>
-            <div
-              style={{ display: "inline" }}
-              onClick={() => changeLiked(liked)}
-            >
-              {liked ? (
-                <FavoriteOutlinedIcon sx={{ color: red[500] }} />
-              ) : (
-                <FavoriteBorderOutlinedIcon />
-              )}
-            </div>
-            <span className="ml-2" style={{ display: "inline" }}>
+                {liked ? (
+                    <FavoriteOutlinedIcon sx={{ color: red[500] }} />
+                ) : (
+                    <FavoriteBorderOutlinedIcon />
+                )}
+              </div>
+              <span className="ml-2" style={{ display: "inline" }}>
               {" "}
-              {likes} Likes
+                {likes} Likes
             </span>
-          </div>
-          <div>
-            <button
-              onClick={() => setCommentOpen(!commentOpen)}
-              className="flex items-center"
-            >
-              <TextsmsOutlinedIcon />
-              <span className="ml-2">Comments</span>
-            </button>
-          </div>
-          <div>
-            <ShareOutlinedIcon />
-            <span className="ml-2">Share</span>
+            </div>
+            <div>
+              <button
+                  onClick={() => setCommentOpen(!commentOpen)}
+                  className="flex items-center"
+              >
+                <TextsmsOutlinedIcon />
+                <span className="ml-2">Comments</span>
+              </button>
+            </div>
+            <div>
+              <ShareOutlinedIcon />
+              <span className="ml-2">Share</span>
+            </div>
           </div>
         </div>
+        <CommentBoard postId={post.postId} />
       </div>
-      {commentOpen && <CommentBoard postId={post.id} />}
-    </div>
   );
 };

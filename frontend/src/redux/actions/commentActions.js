@@ -58,21 +58,6 @@ export const cancelLike = (postID) => {
     };
 };
 
-// export const fetchComments = (postId, accessToken) => async (dispatch) => {
-//     try {
-//         const response = await fetch(`/api/comments?postId=${postId}`, {
-//             headers: {
-//               Authorization: 'Bearer ' + accessToken
-//             }
-//         });
-//         const data = await response.json();
-//         dispatch({ type: 'FETCH_COMMENTS_SUCCESS', payload: data });
-//     } catch (error) {
-//         dispatch({ type: 'FETCH_COMMENTS_FAILURE', error });
-//     }
-// };
-// actions.js
-
 export const addComment = (postId, commentText, accessToken) => async (dispatch) => {
     const newComment = {
         postId,
@@ -105,7 +90,7 @@ export const addComment = (postId, commentText, accessToken) => async (dispatch)
 
 export const fetchComments = (postId, accessToken) => async (dispatch) => {
     try {
-        const response = await fetch(`/api/comments?postId=${postId}`, {
+        const response = await fetch(`/api/comments/getCommentDetail?postId=${postId}`, {
             headers: {
                 Authorization: 'Bearer ' + accessToken
             }

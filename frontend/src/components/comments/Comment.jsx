@@ -31,13 +31,13 @@ const Comment = ({ user, timestamp, text, likes, replies }) => {
         setReplyUserId(userId)
     };
 
-    console.log(user)
+    const { username = "", userPhotoUrl = "" } = user || {};
 
     return (
         <Box display="flex" alignItems="flex-start" marginBottom={2} sx={{ padding: 2, borderRadius: 4, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-            <Avatar src={user.userprofile} alt={user.username} />
+            <Avatar src={userPhotoUrl} alt={username} />
             <Box marginLeft={2} flexGrow={1}>
-                <Typography variant="subtitle1">{user.username}</Typography>
+                <Typography variant="subtitle1">{username}</Typography>
                 <Typography variant="body2" color="text.secondary">
                     {timestamp}
                 </Typography>
@@ -71,9 +71,9 @@ const Comment = ({ user, timestamp, text, likes, replies }) => {
                                 marginTop: 1,
                             }}
                         >
-                            <Avatar src={review.user.userprofile} alt={review.user.username} />
+                            <Avatar src={review.user?.userPhotoUrl} alt={review.user?.username} />
                             <Box marginLeft={2}>
-                                <Typography variant="subtitle2">{review.user.username}</Typography>
+                                <Typography variant="subtitle2">{review.user?.username}</Typography>
                                 <Typography variant="body2" color="text.secondary">
                                     {review.timestamp}
                                 </Typography>
@@ -85,7 +85,7 @@ const Comment = ({ user, timestamp, text, likes, replies }) => {
                                     {/* reply to second level comment */}
                                     <Box>
                                         {/* should be userid, use user name for now */}
-                                        <IconButton onClick={() => toggleReplies(review.user.username, 'secLevelComment')} sx={{ fontSize: 'x-small' }}>
+                                        <IconButton onClick={() => toggleReplies(review.user?.username, 'secLevelComment')} sx={{ fontSize: 'x-small' }}>
                                             <ReplyIcon />reply
                                         </IconButton>
                                     </Box>
