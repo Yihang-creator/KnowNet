@@ -3,15 +3,6 @@ const { body, validationResult } = require("express-validator");
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid'); // import the uuid library
 var {comments} = require("../data/comments.js");
-var {users} = require("../data/users.js");
-
-function findUserName(userId) {
-  for (const user of users) {
-    if (user.userId ===  userId) {
-      return user.username;
-    }
-  }
-}
 
 
 router.post('/', [
@@ -24,15 +15,12 @@ router.post('/', [
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const postId = parseInt(req.body.postId);
-    const userId = parseInt(req.body.userId);
     const text = req.body.text;
-
+    const {postId, userId} = req.body;
     const newComment = {
         "commentId": uuidv4(),
         "postId": postId,
         "userId": userId,
-        "username": findUserName(userId),
         "text": text,
         "timestamp": new Date().toISOString(),
         "replies": []
@@ -56,9 +44,33 @@ router.delete('/:id', function(req, res, next) {
     return res.status(200).json(deletedComment);
 });
 
+// server.js
+
+router.post('/replies/:commentId/:userId/:replyTo', function(req, res, next) {
+  const commentId = req.params.commentId;
+  const reply = req.body.text;
+
+  const commentIndex = comments.findIndex(comment => comment.commentId === commentId);
+  if (commentIndex === -1) {
+      return res.status(404).json({ error: 'Comment not found' });
+  }
+
+  const newReply = {
+    "replyId": uuidv4(),
+    "userId": req.params.userId,
+    "replyTo": req.params.replyTo,
+    "text": reply,
+    "time": new Date().toISOString()
+  }
+
+  comments[commentIndex].replies.push(newReply);
+
+  res.status(201).json(newReply);
+});
+
 
 router.get('/', function(req, res, next) {
-  const postId = parseInt(req.query.postId);
+  const postId = req.query.postId;
 
     if (isNaN(postId)) {
         return res.status(400).json({ error: 'Invalid postId.' });
@@ -67,30 +79,6 @@ router.get('/', function(req, res, next) {
     const relatedComments = comments.filter(comment => comment.postId === postId);
 
     return res.status(200).json(relatedComments);
-});
-
-// server.js
-
-router.post('/:commentId/:userId/replies', function(req, res, next) {
-  const commentId = parseInt(req.params.id);
-  const reply = req.body;
-
-  const commentIndex = comments.findIndex(comment => comment.id === commentId);
-  if (commentIndex === -1) {
-      return res.status(404).json({ error: 'Comment not found' });
-  }
-
-  const newReply = {
-    "replyId": uuidv4(),
-    "userId": userId,
-    "username": findUserName(userId),
-    "text":reply,
-    "time": new Date().toISOString()
-  }
-
-  comments[commentIndex].replies.push(reply);
-
-  res.status(201).json(reply);
 });
 
 module.exports = router;
