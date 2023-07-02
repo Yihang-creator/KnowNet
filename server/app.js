@@ -23,7 +23,7 @@ mongoose.connect(uri,
 //authorization middleware
 
 
-app.use('/api/*', authenticationRequired);
+//app.use('/api/*', authenticationRequired);
 // app.use("/", indexRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);

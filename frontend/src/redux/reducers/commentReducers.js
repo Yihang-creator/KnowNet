@@ -1,39 +1,39 @@
 const initialState = {
   comments: [
     {
-      id: 1,
+      commentId: "1",
       postId: "1",
-      userId: 2,
+      userId: "2",
       text: "I love this blog!",
       timestamp: "2023-06-08T00:00:00Z",
-      replies: [],
+      likes: "10",
+      replies: [{
+        replyId: "1",
+        userId: "1",
+        replyTo: "2",
+        text: "What is it?",
+        timestamp: "2023-06-08T00:06:00Z",
+      }]
     },
     {
-      id: 2,
+      commentId: "2",
       postId: "1",
-      userId: 1,
+      userId: "1",
       text: "I have a secret to tell you",
       timestamp: "2023-06-08T00:05:00Z",
-      replies: [
-        {
-          id: 4,
-          parentId: 2,
-          userId: 2,
-          text: "What is it?",
-          timestamp: "2023-06-08T00:06:00Z",
-          replies: [],
-        },
-      ],
+      likes: "10",
+      replies: []
     },
     {
-      id: 3,
+      commentId: "3",
       postId: "2",
-      userId: 1,
-      text: "Nice post!",
+      userId: "1",
+      text: 'Nice post!',
       timestamp: "2023-06-08T00:10:00Z",
-      replies: [],
-    },
-  ],
+      likes: "10",
+      replies: []
+    }
+  ]
 };
 
 const addReplyToComment = (comments, action) => {

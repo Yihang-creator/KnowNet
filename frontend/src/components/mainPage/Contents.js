@@ -10,7 +10,7 @@ const Contents = ({searchTerm}) => {
   const { authState } = useOktaAuth();
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
-  
+
 
   useEffect(() => {
     dispatch(fetchAllPost(authState.accessToken.accessToken))
@@ -19,32 +19,32 @@ const Contents = ({searchTerm}) => {
   if (!posts) {
     return <div> Post Loading ...</div>;
   }
-  console.log(posts);
-    const filteredPosts = searchTerm
-        ? posts.filter((post) =>
-            post.title.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-        : posts;
+
+  const filteredPosts = searchTerm
+      ? posts.filter((post) =>
+          post.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      : posts;
 
   return (
-    <div className="flex justify-center mt-20">
-      <div className="flex-container justify-center rounded-lg border bg-grey-600 w-11/12">
-        <ul className="flex flex-row flex-wrap justify-center">
-          {filteredPosts.map((post, index) => (
-            <li key={index}>
-              <Link to={`/post/${post.id}`}>
-                <PreviewCard
-                  type={post.mediaType}
-                  src={post.mediaUrl}
-                  title={post.title}
-                  previewText={post.text}
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
+      <div className="flex justify-center mt-20">
+        <div className="flex-container justify-center rounded-lg border bg-grey-600 w-11/12">
+          <ul className="flex flex-row flex-wrap justify-center">
+            {filteredPosts.map((post, index) => (
+                <li key={index}>
+                  <Link to={`/post/${post.postId}`}>
+                    <PreviewCard
+                        type={post.mediaType}
+                        src={post.mediaUrl}
+                        title={post.title}
+                        previewText={post.text}
+                    />
+                  </Link>
+                </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
   );
 };
 
