@@ -11,14 +11,17 @@ router.post('/', [
     body('userId').notEmpty(),
     body('text').isLength({ min: 1 })
 ], function(req, res, next) {
-    console.log('postId1:', postId)
+    // First validate and extract data from the request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
 
     const text = req.body.text;
-    const {postId, userId} = req.body;
+    const {postId, userId} = req.body; // postId is defined here
+
+    console.log('postId1:', postId) // move this line here, after postId is defined
+
     const newComment = {
         "commentId": uuidv4(),
         "postId": postId,
@@ -32,6 +35,7 @@ router.post('/', [
 
     res.status(201).json(newComment);
 });
+
 
 router.delete('/:id', function(req, res, next) {
     const id = req.params.id;
@@ -105,6 +109,11 @@ router.get('/getCommentDetail', function(req, res, next) {
 
     return res.status(200).json(relatedComments);
 });
+
+router.get('/all', function(req, res, next) {
+    return res.status(200).json(comments);
+});
+
 
 module.exports = router;
 
