@@ -8,12 +8,12 @@ import { useOktaAuth } from "@okta/okta-react";
 const UserInfoPage = ({ name, email }) => {
   const [selectedImage, setSelectedImage] = useState("/images/user.jpeg");
   const [posts, setPosts] = useState(null);
-  const { authState } = useOktaAuth();
+  const { oktaAuth } = useOktaAuth();
 
   useEffect(() => {
     fetch(`/api/posts`, {
       headers: {
-        Authorization: 'Bearer ' + authState.accessToken.accessToken
+        Authorization: 'Bearer ' + oktaAuth.getAccessToken()
       }})
       .then((response) => {
         if (!response.ok) throw new Error("API call failed");

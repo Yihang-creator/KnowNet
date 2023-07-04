@@ -17,7 +17,7 @@ import { fetchPost } from "../redux/actions/PostActions";
 
 export const PostContent = () => {
 
-  const { authState } = useOktaAuth();
+  const { oktaAuth } = useOktaAuth();
   const [liked, setLiked] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
   const { id: postId } = useParams();
@@ -25,8 +25,8 @@ export const PostContent = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPost(postId, authState.accessToken.accessToken));
-  }, [dispatch, postId, authState]);
+    dispatch(fetchPost(postId, oktaAuth.getAccessToken()));
+  }, [dispatch, postId, oktaAuth]);
 
   const post = useSelector((state) => state.posts.find(post => post.postId === postId));
 
