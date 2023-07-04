@@ -22,22 +22,26 @@ const options = {
   };
   
 var uri = `mongodb+srv://${process.env.mongoDB_username}:${process.env.mongoDB_password}@cluster0.mpphpz5.mongodb.net/?retryWrites=true&w=majority`
+
 mongoose.connect(uri, options);
 
+
 //authorization middleware
-
-
 //app.use('/api/*', authenticationRequired);
+
+// API routes
 // app.use("/", indexRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/aws/upload", awsRouter);
 
+// Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/build')));
 
+// The catch-all handler: for any request that doesn't
+// match one above, send back React's index.html file.
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../frontend', 'build', 'index.html'));
 });
 
 app.listen(process.env.PORT || 8080,() => console.log(`Server is running on port ${process.env.PORT || 8080}`));
-

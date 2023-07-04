@@ -19,8 +19,10 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
     return (
         <div>
             {/*<h1>Comment Board</h1>*/}
+
             <div>
-                {comments.map((comment) => (
+                {comments && comments.length > 0 ? (
+                comments.map((comment) => (
                     <Comment
                         key={comment.id}
                         user={comment.user}
@@ -29,7 +31,11 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
                         likes={comment.likes}
                         replies={comment.replies} // review
                     />
-                ))}
+                ))
+                    ) : (
+                        <p>No comments yet</p>
+                    )
+                }
             </div>
             <CommentInput addComment={(text) => addComment(postId, text)} />
         </div>
