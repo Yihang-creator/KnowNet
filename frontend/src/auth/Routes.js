@@ -11,7 +11,9 @@ import CommentPage from "../components/comments/CommentBoard";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" exact={true} element={<Home />} />
+      <Route path="/" element={<RequiredAuth />}>
+        <Route path="" exact={true} element={<Home />} />
+      </Route>
       <Route
         path="login/callback"
         element={<LoginCallback loadingElement={<Loading />} />}

@@ -5,19 +5,19 @@ import { Link } from "react-router-dom";
 import { useOktaAuth } from "@okta/okta-react";
 import { fetchAllPost } from "../../redux/actions/PostActions";
 import { useSelector, useDispatch } from "react-redux";
+import Loading from '../../auth/Loading';
 
 const Contents = ({searchTerm}) => {
-  const { authState } = useOktaAuth();
+  const { oktaAuth } = useOktaAuth();
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
 
-
   useEffect(() => {
-    dispatch(fetchAllPost(authState.accessToken.accessToken))
-  }, [dispatch, authState]);
+    dispatch(fetchAllPost(oktaAuth.getAccessToken()))
+  }, [dispatch, oktaAuth]);
 
   if (!posts) {
-    return <div> Post Loading ...</div>;
+    return (<Loading />);
   }
 
   const filteredPosts = searchTerm
