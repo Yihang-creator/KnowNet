@@ -28,7 +28,8 @@ router.post('/', [
         "userId": userId,
         "text": text,
         "timestamp": new Date().toISOString(),
-        "replies": []
+        "replies": [],
+        "likes": 0
     };
     console.log('postId:', postId)
     comments.push(newComment);
