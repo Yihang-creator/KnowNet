@@ -15,10 +15,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
+const options = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    dbName: 'cpsc455'
+  };
+  
 var uri = `mongodb+srv://${process.env.mongoDB_username}:${process.env.mongoDB_password}@cluster0.mpphpz5.mongodb.net/?retryWrites=true&w=majority`
-console.log(uri);
-mongoose.connect(uri,
-    {useNewUrlParser: true, useUnifiedTopology: true});
+
+mongoose.connect(uri, options);
+
 
 //authorization middleware
 //app.use('/api/*', authenticationRequired);

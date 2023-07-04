@@ -9,10 +9,10 @@ import {useSelector} from "react-redux";
 
 const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
 
-    const { authState } = useOktaAuth();
+    const { oktaAuth } = useOktaAuth();
     useEffect(() => {
-        fetchComments(postId, authState.accessToken.accessToken);
-    }, [postId, fetchComments,authState]);
+        fetchComments(postId, oktaAuth.getAccessToken());
+    }, [postId, fetchComments, oktaAuth]);
 
     const comments = useSelector(state => state.comments.comments);
 
