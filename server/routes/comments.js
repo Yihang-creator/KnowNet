@@ -77,7 +77,7 @@ router.post('/replies/:commentId/:userId/:replyTo', function(req, res, next) {
 router.get('/', function(req, res, next) {
     const postId = req.query.postId;
 
-    if (isNaN(postId)) {
+    if (typeof postId !== "string") {
         return res.status(400).json({ error: 'Invalid postId.' });
     }
 
