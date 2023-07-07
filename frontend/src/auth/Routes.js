@@ -7,6 +7,7 @@ import Loading from "./Loading";
 import Profile from "../pages/Profile";
 import { PostContent } from "../components/PostContent";
 import CommentPage from "../components/comments/CommentBoard";
+import JoinPage from "../components/videoRoom/JoinPage";
 
 const AppRoutes = () => {
   return (
@@ -26,6 +27,9 @@ const AppRoutes = () => {
       </Route>
       <Route path="/post/:id" element={<RequiredAuth />}>
         <Route path="" element={<PostContent />} />
+      </Route>
+      <Route path="/joinVideoRoom" element={<RequiredAuth />}>
+        <Route path="" exact={true} element={<JoinPage />} />
       </Route>
     </Routes>
   );
