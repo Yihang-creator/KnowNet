@@ -38,6 +38,8 @@ router.post('/', [
 });
 
 
+
+
 router.delete('/:id', function(req, res, next) {
     const id = req.params.id;
     const index = comments.findIndex(comment => comment.commentId === id);
@@ -54,7 +56,7 @@ router.delete('/:id', function(req, res, next) {
 
 router.post('/replies/:commentId/:userId/:replyTo', function(req, res, next) {
     const commentId = req.params.commentId;
-    const reply = req.body.text;
+    const { text: reply, isSecLevelComment } = req.body;
 
     const commentIndex = comments.findIndex(comment => comment.commentId === commentId);
     if (commentIndex === -1) {
@@ -66,7 +68,8 @@ router.post('/replies/:commentId/:userId/:replyTo', function(req, res, next) {
         "userId": req.params.userId,
         "replyTo": req.params.replyTo,
         "text": reply,
-        "time": new Date().toISOString()
+        "time": new Date().toISOString(),
+        "isSecLevelComment": isSecLevelComment
     }
 
     comments[commentIndex].replies.push(newReply);
@@ -102,6 +105,7 @@ router.get('/getCommentDetail', function(req, res, next) {
                 replies: (comment.replies || []).map(reply => ({
                     ...reply,
                     user: users.filter((user) => user.userId === reply.userId)[0] || {},
+                    replyToUser: reply.isSecLevelComment ? users.filter((user) => user.userId === reply.replyTo)[0] || {} : {},
                 }))
             }
             return newComment

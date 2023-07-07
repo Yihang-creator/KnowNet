@@ -24,6 +24,8 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
                 {comments && comments.length > 0 ? (
                 comments.map((comment) => (
                     <Comment
+                        postId={postId}
+                        commentId={comment.commentId}
                         key={comment.id}
                         user={comment.user}
                         timestamp={comment.timestamp}
@@ -37,7 +39,7 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
                     )
                 }
             </div>
-            <CommentInput addComment={(text) => addComment(postId, text)} />
+            <CommentInput addComment={(text) => addComment(postId, text, oktaAuth)} />
         </div>
     );
 };

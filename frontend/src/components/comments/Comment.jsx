@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Avatar, Box, Typography, Button, TextField} from '@mui/material';
+import { connect } from 'react-redux';
+import { addSecLevelComment } from '../../redux/actions/commentActions';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import { useOktaAuth } from '@okta/okta-react';
 import ReplyIcon from '@mui/icons-material/Reply';
 import IconButton from "@mui/material/IconButton";
 import '../../Styles/Comment.css';
@@ -13,25 +16,31 @@ const currentDateTime = () => {
     return `${year}-${month}-${day}`;
 }
 
-const Comment = ({ user, timestamp, text, likes, replies }) => {
+const Comment = ({ user, timestamp, text, likes, replies, addSecLevelComment, commentId, postId }) => {
     const [likeCount, setLikeCount] = useState(parseInt(likes));
     const [showReplies, setShowReplies] = useState(false);
     const [reply, setReply] = useState('');
     const [isSecLevelComment, setSecLevelComment] = useState(false) // if it is a second level comment
-    const [replyUserId, setReplyUserId] = useState('') // should be userId, use username for now
+    const [replyUserInfo, setReplyUserInfo] = useState({}) // should be userId, use username for now
+    const { oktaAuth } = useOktaAuth();
 
     const handleLike = () => {
         setLikeCount(likeCount + 1);
     };
 
-    const toggleReplies = (userId, secLevelComment) => {
+    const toggleReplies = (userId, username, secLevelComment) => {
         // the userId is the user who is being replied to
         setShowReplies(!showReplies);
         setSecLevelComment(!!secLevelComment)
-        setReplyUserId(userId)
+        setReplyUserInfo({userId, username})
     };
 
-    const { username = "", userPhotoUrl = "" } = user || {};
+    const hanleSubmit = useCallback(() => {
+        // isSecLevelComment: if it is a second level comment
+        addSecLevelComment(postId, commentId, reply, replyUserInfo.userId, isSecLevelComment, oktaAuth)
+    }, [oktaAuth, reply, replyUserInfo, isSecLevelComment])
+
+    const { userId, username = "", userPhotoUrl = "" } = user || {};
 
     return (
         <Box display="flex" alignItems="flex-start" marginBottom={2} sx={{ padding: 2, borderRadius: 4, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
@@ -46,7 +55,7 @@ const Comment = ({ user, timestamp, text, likes, replies }) => {
                 </Typography>
                 <Box display="flex" alignItems="center">
                     <Box>
-                        <IconButton onClick={toggleReplies} sx={{ fontSize: 'x-small' }}>
+                        <IconButton onClick={() => toggleReplies(userId, username)} sx={{ fontSize: 'x-small' }}>
                             <ReplyIcon />reply
                         </IconButton>
                     </Box>
@@ -79,15 +88,24 @@ const Comment = ({ user, timestamp, text, likes, replies }) => {
                                 </Typography>
                                 <Typography variant="body2" gutterBottom>
                                     {/* reply to */}
-                                    { review.replyTo ? (<span>Reply <span className='text-gray-400'>{review.replyTo.username}:</span>  {review.text}</span>) : review.text }
+                                    { review.replyToUser?.username ? (<span>Reply <span className='text-gray-400'>{review.replyToUser.username}:</span>  {review.text}</span>) : review.text }
                                 </Typography>
                                 <Box display="flex" alignItems="center">
                                     {/* reply to second level comment */}
                                     <Box>
                                         {/* should be userid, use user name for now */}
-                                        <IconButton onClick={() => toggleReplies(review.user?.username, 'secLevelComment')} sx={{ fontSize: 'x-small' }}>
+                                        <IconButton onClick={() => toggleReplies(review.user?.userId, review.user?.username, 'secLevelComment')} sx={{ fontSize: 'x-small' }}>
                                             <ReplyIcon />reply
                                         </IconButton>
+                                    </Box>
+                                    <Box sx={{ marginLeft: 'auto' }}>
+                                        <Button
+                                            variant="text"
+                                            color="primary"
+                                            startIcon={<ThumbUpIcon />}
+                                        >
+                                            {review.likes}
+                                        </Button>
                                     </Box>
                                 </Box>
                             </Box>
@@ -111,7 +129,7 @@ const Comment = ({ user, timestamp, text, likes, replies }) => {
                                     <Typography variant="body2" color="text.secondary">
                                         {currentDateTime()}
                                         {
-                                            isSecLevelComment && replyUserId ? <span>   Reply To {replyUserId}</span> : null
+                                            isSecLevelComment && replyUserInfo.username ? <span>   Reply To {replyUserInfo.username}</span> : null
                                         }
                                     </Typography>
                                 </Box>
@@ -126,7 +144,7 @@ const Comment = ({ user, timestamp, text, likes, replies }) => {
                                     fullWidth
                                     sx={{ marginTop: 1 }}
                                 />
-                                <Button variant="contained" color="primary" onClick={() => {}} sx={{ marginTop: 1 }}>
+                                <Button variant="contained" color="primary" onClick={hanleSubmit} sx={{ marginTop: 1 }}>
                                     Submit
                                 </Button>
                             </Box>
@@ -139,4 +157,12 @@ const Comment = ({ user, timestamp, text, likes, replies }) => {
     );
 };
 
-export default Comment;
+const mapStateToProps = (state) => ({
+    comments: state.comments.comments,
+});
+
+const mapDispatchToProps = {
+    addSecLevelComment
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);
