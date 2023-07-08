@@ -34,7 +34,7 @@ export const PostContent = () => {
     return <div> Post Loading ...</div>;
   }
 
-  var likes = post.like;
+  var likes = post.like.length;
   const changeLiked = (liked) => {
     setLiked(!liked);
     !liked
