@@ -14,6 +14,20 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addLike, cancelLike } from "../redux/actions/commentActions";
 import { fetchPost } from "../redux/actions/PostActions";
+import { convertFromRaw, EditorState, Editor, ContentState } from 'draft-js';
+
+
+function createEditorStateFromText(text) {
+  try {
+    const rawContentFromDB = JSON.parse(text);
+    const contentState = convertFromRaw(rawContentFromDB);
+    return EditorState.createWithContent(contentState);
+  } catch (e) {
+    // The text was not in JSON format, so treat it as plain text
+    const contentState = ContentState.createFromText(text);
+    return EditorState.createWithContent(contentState);
+  }
+}
 
 export const PostContent = () => {
 
@@ -35,6 +49,7 @@ export const PostContent = () => {
   }
 
   var likes = post.like;
+  var enrichedText = typeof post.text === 'undefined' ? EditorState.createEmpty() : createEditorStateFromText(post.text);
   const changeLiked = (liked) => {
     setLiked(!liked);
     !liked
@@ -86,7 +101,12 @@ export const PostContent = () => {
                 <ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />
             )}
             <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
-            <p className="text-gray-700">{post.text}</p>
+            <div className="text-gray-700">
+              <Editor
+                editorState={enrichedText}
+                readOnly
+              />
+            </div>
           </div>
           <div className="mt-4 flex justify-between">
             <div>
