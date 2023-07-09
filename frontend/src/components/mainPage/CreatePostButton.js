@@ -195,6 +195,7 @@ const CreatePostButton = () => {
               }}
               onEditorStateChange={setContent}
               placeholder="What's on your mind?"
+              wrapperStyle={{ height: '300px' }} 
           />
           <TextField
             autoFocus
