@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Divider } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ReactPlayer from 'react-player/lazy';
@@ -195,13 +195,13 @@ const CreatePostButton = () => {
               }}
               onEditorStateChange={setContent}
               placeholder="What's on your mind?"
-              wrapperStyle={{ height: '300px' }} 
+              editorStyle={{ height: '300px' }} 
           />
+          <Divider />
           <TextField
-            autoFocus
             margin="dense"
             id="media-url"
-            label="Or enter media URL"
+            label="Enter media URL"
             type="url"
             fullWidth
             onChange={handleMediaUrlChange}
