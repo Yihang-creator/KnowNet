@@ -1,4 +1,4 @@
-import { Container, List, ListItem } from '@mui/material';
+import { Container, List, ListItem, Typography } from '@mui/material';
 import React from 'react';
 
 class VideoQueue extends React.Component {
@@ -48,6 +48,7 @@ class VideoQueue extends React.Component {
     render() {
       return (
         <Container>
+          <Typography variant="h5" className="mb-3 items-center justify-center">Video List</Typography>
           <List>{this.makeList()}</List>
         </Container>
       );
