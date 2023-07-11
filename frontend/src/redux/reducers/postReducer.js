@@ -19,7 +19,7 @@ const postReducer = (state = [], action) => {
 const testId = "3";
 
 const setPost = (state, postContent) => {
-  const existingIndex = state.findIndex(post => post.postId === postContent.id);
+  const existingIndex = state.findIndex(post => post.postId === postContent.postId);
   if (existingIndex !== -1) {
     // Post already exists, update it
     const updatedState = [...state];
