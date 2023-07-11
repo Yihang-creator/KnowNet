@@ -12,11 +12,16 @@ const attachSocketServer = (httpServer) => {
 
     io.on('connection', (socket) => {
         console.log('A user connected'); // Log: A user connected
+
+        socket.on('username', (name) => {
+            socket.username = name;
+            console.log(`User ${name} connected`);
+        });
     
         socket.on('create-room', (room) => {
             console.log('Creating a new room'); // Log: Creating a new room
             const id = Date.now().toString();
-            rooms[id] = {roomId: id, ...room};
+            rooms[id] = {roomId: id, ...room, users: [{socketId: socket.id, username: socket.username}]};
             socket.join(id);
             socket.emit('room-created', id);
             console.log(`Room ${id} created and user joined`); // Log: Room [id] created and user joined
@@ -26,6 +31,7 @@ const attachSocketServer = (httpServer) => {
             console.log(`User joining room ${roomId}`); // Log: User joining room [roomId]
     
             if (rooms[roomId]) {
+                rooms[roomId].users.push({socketId: socket.id, username: socket.username});
                 socket.join(roomId);
                 socket.emit('room-state', rooms[roomId]);
                 console.log(`User joined room ${roomId}`); // Log: User joined room [roomId]
@@ -80,8 +86,10 @@ const attachSocketServer = (httpServer) => {
     
             if (rooms[roomId]) {
                 rooms[roomId].chats = rooms[roomId].chats || [];
-                rooms[roomId].chats.push(message);
+                message = {...message, user: socket.username}
+                rooms[roomId].chats.push();
                 socket.to(roomId).emit('chat-added', message);
+                socket.emit('chat-added', message);
                 console.log(`Chat added in room ${roomId}: ${message}`); // Log: Chat added in room [roomId]: [message]
             } else {
                 socket.emit('error', 'The room does not exist');
@@ -113,3 +121,4 @@ const attachSocketServer = (httpServer) => {
 module.exports = {
     attachSocketServer: attachSocketServer
 };
+

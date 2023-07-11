@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 class Backend {
     constructor() {
         this.state = { 
-            roomId: ""
+            roomId: "",
         };
         this.socket = io('', {
             path: '/socket/videoRoom'

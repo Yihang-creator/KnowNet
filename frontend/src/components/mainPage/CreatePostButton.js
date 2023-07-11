@@ -1,14 +1,53 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Divider } from "@mui/material";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ReactPlayer from 'react-player/lazy';
 import { useOktaAuth } from '@okta/okta-react';
 import validator from 'validator';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#00bcd4',
+    },
+    secondary: {
+      main: '#009688',
+    },
+  },
+});
+
+const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', 
+'😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '🤪', '😝', '🤑', 
+'🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', 
+'🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', 
+'🥶', '🥴', '😵', '🤯', '🤠', '🥳', '😎', '🤓', '🧐', '😕', '😟', '🙁', '☹️', 
+'😮', '😯', '😲', '😳', '🥺', '😦', '😧', '😨', '😰', '😥', '😢', '😭', '😱', 
+'😖', '😣', '😞', '😓', '😩', '😫', '😤', '😡', '😠', '🤬', '😈', '👿', '💀', 
+'☠️', '💩', '🤡', '👹', '👺', '👻', '👽', '👾', '🤖', '😺', '😸', '😹', '😻', 
+'😼', '😽', '🙀', '😿', '😾', '🙈', '🙉', '🙊', '💋', '💌', '💘', '💝', '💖', 
+'💗', '💓', '💞', '💕', '💟', '❣️', '💔', '❤️', '🧡', '💛', '💚', '💙', '💜', 
+'🤎', '🖤', '🤍', '💯', '💢', '💥', '💫', '💦', '💨', '🕳️', '💣', '💬', '👁️‍🗨️', 
+'🗨️', '🗯️', '💭', '💤', '👋', '🤚', '🖐️', '✋', '🖖', '👌', '🤏', '✌️', '🤞', 
+'🤟', '🤘', '🤙', '👈', '👉', '👆', '🖕', '👇', '☝️', '👍', '👎', '✊', '👊', 
+'🤛', '🤜', '👏', '🙌', '👐', '🤲', '🤝', '🙏', '✍️', '💅', '🤳', '💪', '🦾', 
+'🦿', '🦵', '🦶', '👂', '🦻', '👃', '🧠', '🦷', '🦴', '👀', '👁️', '👅', '👄', 
+'👶', '🧒', '👦', '👧', '🧑', '👱', '👨', '🧔', '👨‍🦰', '👨‍🦱', '👨‍🦳', '👨‍🦲', 
+'👩', '👩‍🦰', '👩‍🦱', '👩‍🦳', '👩‍🦲', '👱‍♀️', '👱‍♂️', '🧓', '👴', '👵', 
+'🙍', '🙍‍♂️', '🙍‍♀️', '🙎', '🙎‍♂️', '🙎‍♀️', '🙅', '🙅‍♂️', '🙅‍♀️', '🙆', 
+'🙆‍♂️', '🙆‍♀️', '💁', '💁‍♂️', '💁‍♀️', '🙋', '🙋‍♂️', '🙋‍♀️', '🙇', '🙇‍♂️', 
+'🙇‍♀️', '🤦', '🤦‍♂️', '🤦‍♀️', '🤷', '🤷‍♂️', '🤷‍♀️', '🧑‍⚕️', '👨‍⚕️', '👩‍⚕️', 
+'🧑‍🎓', '👨‍🎓', '👩‍🎓', '🧑‍🏫', '👨‍🏫', '👩‍🏫', '🧑‍⚖️', '👨‍⚖️', '👩‍⚖️', 
+'🧑‍🌾', '👨‍🌾', '👩‍🌾', '🧑'];
 
 const CreatePostButton = () => {
   const { oktaAuth } = useOktaAuth();  
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("")
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(EditorState.createEmpty());
   const [media, setMedia] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null); 
   const [mediaUrl, setMediaUrl] = useState(''); //url given by user
@@ -111,7 +150,7 @@ const CreatePostButton = () => {
       },
       body: JSON.stringify({
         title: title,
-        text: content,
+        text: JSON.stringify(convertToRaw(content.getCurrentContent())),
         mediaUrl: fileUrl,
         mediaType: mediaType,
         userId: 1 //TODO switch to true user id
@@ -125,9 +164,16 @@ const CreatePostButton = () => {
 
   return (
     <div className="mt-4">
-      <Button variant="contained" color= "primary" onClick={handleClickOpen} disableElevation>
-        Add Post
-      </Button>
+      <ThemeProvider theme={theme}>
+        <div className="group">
+            <Button variant="contained" color= "primary" onClick={handleClickOpen} disableElevation className="relative overflow-hidden transition-opacity duration-300 w-32 h-12">
+                <AddCircleOutlineIcon className="absolute inset-0 m-auto opacity-100 group-hover:opacity-0 transition-opacity duration-300"/>
+                <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Add Post
+                </span>
+            </Button>
+        </div>
+      </ThemeProvider>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New Post </DialogTitle>
         <DialogContent>
@@ -140,21 +186,22 @@ const CreatePostButton = () => {
             fullWidth
             onChange={handleTitleChange}
           />
-          <TextField
-            margin="dense"
-            id="content"
-            label="What's on your mind?"
-            type="text"
-            fullWidth
-            multiline
-            rows={8}
-            onChange={handleTextChange}
+          <Editor
+              editorState={content}
+              toolbar={{
+                emoji: {
+                  emojis: emojis,
+                },
+              }}
+              onEditorStateChange={setContent}
+              placeholder="What's on your mind?"
+              editorStyle={{ height: '300px' }} 
           />
+          <Divider />
           <TextField
-            autoFocus
             margin="dense"
             id="media-url"
-            label="Or enter media URL"
+            label="Enter media URL"
             type="url"
             fullWidth
             onChange={handleMediaUrlChange}
