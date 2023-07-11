@@ -30,19 +30,10 @@ export const PostContent = () => {
     dispatch(fetchPost(postId, oktaAuth.getAccessToken()));
   }, [dispatch, postId, oktaAuth]);
 
-  // const post = useSelector((state) => state.posts.find(post => post.postId === postId));
-  console.log(post);
-
-
   if (!post) {
     return <div> Post Loading ...</div>;
   }
   
-  
-  if (!post.like) {
-    return <div> Like Loading ...</div>;
-  }
-
   var likes = post.like.length;
 
   const changeLiked = (liked) => {
