@@ -1,26 +1,8 @@
-// export const addComment = (postId, commentText) => {
-//     const newComment = {
-//         id: `${postId}-${commentText}-${Date.now()}`,
-//         postId,
-//         userId: 1,
-//         text: commentText,
-//         timestamp: Date.now(),
-//         replies: [],
-//     };
-//
-//
-//     return {
-//         type: 'ADD_COMMENT',
-//         payload: newComment,
-//     };
-// };
-
-// actions.js
 
 export const addReply = (parentId, replyText, accessToken) => async (dispatch) => {
     const newReply = {
         parentId,
-        userId: 1, // Replace with the appropriate user ID
+        userId: 3, // Replace with the appropriate user ID
         text: replyText,
         timestamp: Date.now(),
         replies: [],
@@ -61,7 +43,7 @@ export const cancelLike = (postID) => {
 export const addComment = (postId, commentText, accessToken) => async (dispatch) => {
     const newComment = {
         postId,
-        userId: 1,
+        userId: 3,
         text: commentText,
         timestamp: Date.now(),
         replies: [],
@@ -87,6 +69,33 @@ export const addComment = (postId, commentText, accessToken) => async (dispatch)
     }
 };
 
+export const addSecLevelComment = (postId, commentId, commentText, replyTo, isSecLevelComment, accessToken) => async (dispatch) => {
+    const newComment = {
+        text: commentText,
+        timestamp: Date.now(),
+        isSecLevelComment
+    };
+
+    try {
+        // use id 1 for now
+        const response = await fetch(`/api/comments/replies/${commentId}/3/${replyTo}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + accessToken
+            },
+            body: JSON.stringify(newComment)
+        });
+        const data = await response.json();
+
+        dispatch({ type: 'ADD_COMMENT_SUCCESS', payload: data });
+
+        // Fetch the updated comments after adding a new comment
+        dispatch(fetchComments(postId, accessToken));
+    } catch (error) {
+        dispatch({ type: 'ADD_COMMENT_FAILURE', error });
+    }
+};
 
 export const fetchComments = (postId, accessToken) => async (dispatch) => {
     try {
