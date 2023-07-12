@@ -93,7 +93,7 @@ router.get('/', function(req, res, next) {
 router.get('/getCommentDetail', function(req, res, next) {
     const postId = req.query.postId;
     console.log('postId:', postId)
-    if (isNaN(postId)) {
+    if (typeof postId !== "string") {
         return res.status(400).json({ error: 'Invalid postId.' });
     }
 
