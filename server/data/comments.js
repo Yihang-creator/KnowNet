@@ -20,7 +20,7 @@ let comments = [
       "replyTo": "1",
       "text": "I love this Bunny!",
       "timestamp": "2023-06-08T00:06:00Z",
-      // "isSecLevelComment": true, // This is a second level comment
+      "isSecLevelComment": true,
       "likes": "3",
     }]
   },
