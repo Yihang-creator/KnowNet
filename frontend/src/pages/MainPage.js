@@ -6,11 +6,15 @@ import SearchBar from "../components/mainPage/SearchBar";
 import Dropdown from "../components/mainPage/Dropdown";
 import CreatePostButton from "../components/mainPage/CreatePostButton";
 import JoinVideoRoomButton from "../components/mainPage/JoinVideoRoomButton";
+import { useUserContext } from "../auth/UserContext";
 
 const Home = () => {
   const { authState } = useOktaAuth();
   // const [userInfo, setUserInfo] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const { userInfo, setUserInfo, userEmail, setUserEmail } = useUserContext();
+
+  console.log(userEmail);
 
   // const login = useCallback(async () => {
   //   await oktaAuth.signInWithRedirect();

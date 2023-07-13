@@ -3,9 +3,11 @@ import { useOktaAuth } from '@okta/okta-react';
 import { toRelativeUrl } from '@okta/okta-auth-js';
 import { Outlet } from 'react-router-dom';
 import Loading from './Loading';
+import { useUserContext } from './UserContext';
 
 export const RequiredAuth = () => {
   const { oktaAuth, authState } = useOktaAuth();
+  const { userInfo, setUserInfo, userEmail, setUserEmail } = useUserContext();
 
   useEffect(() => {
     if (!authState) {
@@ -16,6 +18,13 @@ export const RequiredAuth = () => {
       const originalUri = toRelativeUrl(window.location.href, window.location.origin);
       oktaAuth.setOriginalUri(originalUri);
       oktaAuth.signInWithRedirect();
+    } else {
+      oktaAuth.getUser().then((info) => {
+        setUserEmail(info.email);
+        // 1. fetch userId based on email
+        // 2. use setUserInfo to set current user info
+        // 3. use useUserContext hook anywhere in the app
+      });
     }
   }, [oktaAuth, !!authState, authState?.isAuthenticated]);
 
