@@ -29,10 +29,10 @@ const Contents = ({searchTerm}) => {
   return (
       <div className="flex justify-center mt-20">
         <div className="flex-container justify-center rounded-lg border bg-grey-600 w-11/12">
-          <ul className="flex flex-row flex-wrap justify-center">
+          <ul className="rounded-md bg-white p-2 md:columns-2 lg:columns-4">
             {filteredPosts.map((post, index) => (
                 <li key={index}>
-                  <Link to={`/post/${post.postId}`}>
+                  <Link to={`/post/${post.postId}`} className="inline-block w-full p-2">
                     <PreviewCard
                         type={post.mediaType}
                         src={post.mediaUrl}
