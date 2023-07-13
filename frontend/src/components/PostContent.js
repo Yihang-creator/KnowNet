@@ -33,6 +33,10 @@ export const PostContent = () => {
   if (!post) {
     return <div> Post Loading ...</div>;
   }
+
+  if (!post.like) {
+    return <div> Like Loading ...</div>;
+  }
   
   var likes = post.like.length;
 
