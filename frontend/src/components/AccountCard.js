@@ -2,10 +2,11 @@ import { Avatar } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { updateUser } from "../redux/actions/userActions";
+import { toggleFollowingAndFollowers } from "../redux/actions/userActions";
 
-const AccountCard = ({ name, url, description, userId }) => {
-  const [selected, setSelected] = React.useState(true);
+const AccountCard = ({ name, url, description, userId, type, status }) => {
+  const [selected, setSelected] = React.useState(status);
+
   const dispatch = useDispatch();
   return (
     <div className="flex flex-row justify-between text-white">
@@ -20,15 +21,15 @@ const AccountCard = ({ name, url, description, userId }) => {
 
       <div className="self-center border-2">
         <ToggleButton
-          selected={selected}
+          selected={selected === "following"}
           onChange={() => {
-            dispatch(updateUser(userId));
+            dispatch(toggleFollowingAndFollowers(userId, type));
 
-            setSelected(!selected);
+            setSelected(selected === "following" ? "unfollowing" : "following");
           }}
           sx={{ width: 96, height: 48 }}
         >
-          <span>{selected ? "Following" : "Follow"}</span>
+          <span>{selected === "following" ? "Following" : "Follow"}</span>
         </ToggleButton>
       </div>
     </div>

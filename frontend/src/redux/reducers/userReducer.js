@@ -1,44 +1,71 @@
-const initialState = {
-  followers: [
-    { id: 0, name: "Kunyi", description: "455 student" },
-    { id: 1, name: "Hanze", description: "455 student" },
-    { id: 2, name: "Yihang", description: "455 student" },
-    { id: 3, name: "Bill", description: "455 student" },
-  ],
-
-  followings: [
-    { id: 4, name: "Elon Musk", description: "455 student", remove: false },
-    { id: 5, name: "Bill Gates", description: "455 student", remove: false },
-    { id: 6, name: "Jeff Bezos", description: "455 student", remove: false },
-    { id: 0, name: "Kunyi", description: "455 student", remove: false },
-    { id: 1, name: "Hanze", description: "455 student", remove: false },
-    { id: 2, name: "Yihang", description: "455 student", remove: false },
-    { id: 3, name: "Bill", description: "455 student", remove: false },
-  ],
-};
-
-const userReducer = (state = initialState, action) => {
+const userReducer = (state = [], action) => {
   switch (action.type) {
-    case "UPDATE_USER":
-      var newFollowings = state.followings.map((u) => {
-        if (u.id === action.payload) {
-          return { ...u, remove: !u.remove };
-        }
+    case "FAF_TOGGLE":
+      if (action.payload.listType === "followings") {
+        let followings = state.followings;
 
-        return u;
+        let updatedFollowings = followings.map((user) => {
+          console.log(user.userId);
+          console.log(action.payload);
+          if (user.userId === action.payload.userId) {
+            if (user.status === "following") {
+              return { ...user, status: "unfollowing" };
+            } else {
+              return { ...user, status: "following" };
+            }
+          } else {
+            return user;
+          }
+        });
+
+        return {
+          ...state,
+          followings: updatedFollowings,
+        };
+      } else {
+        let followers = state.followers;
+
+        let updatedFollowers = followers.map((user) => {
+          if (user.userId === action.payload.userId) {
+            if (user.status === "following") {
+              return { ...user, status: "unfollowing" };
+            } else {
+              return { ...user, status: "following" };
+            }
+          } else {
+            return user;
+          }
+        });
+
+        return {
+          ...state,
+          followers: updatedFollowers,
+        };
+      }
+
+    case "FAF_UPDATE":
+      let followings = action.payload.followings;
+
+      let followers = action.payload.followers;
+
+      let followingIds = followings.map((user) => {
+        return user.userId;
       });
 
-      return {
-        ...state,
-        followings: newFollowings,
-      };
+      let updatedFollowings = followings.map((user) => {
+        return { ...user, status: "following" };
+      });
 
-    case "FOLLOWINGS_UPDATE":
-      var newFollowings = state.followings.filter((u) => !u.remove);
-
+      let updatedFollowers = followers.map((user) => {
+        if (followingIds.includes(user.userId)) {
+          return { ...user, status: "following" };
+        } else {
+          return { ...user, status: "unfollowing" };
+        }
+      });
       return {
-        ...state,
-        followings: newFollowings,
+        followers: updatedFollowers,
+        followings: updatedFollowings,
       };
 
     default:
