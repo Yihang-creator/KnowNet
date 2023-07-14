@@ -5,8 +5,29 @@ export const updateUser = (userId) => {
   };
 };
 
-export const updateFollowings = () => {
+export const updateFollowingAndFollowers = (data) => {
   return {
-    type: "FOLLOWINGS_UPDATE",
+    type: "FAF_UPDATE",
+    payload: data,
+  };
+};
+
+export const fetchFollowingsAndFollowers = (userId, accessToken) => {
+  return (dispatch) => {
+    fetch(`/api/users/${userId}/faf`, {
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("API call failed");
+        return response.json();
+      })
+      .then((data) => {
+        dispatch(updateFollowingAndFollowers(data));
+      })
+      .catch((error) => {
+        console.error("Error", error);
+      });
   };
 };

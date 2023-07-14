@@ -3,8 +3,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccountCard from "../components/AccountCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { updateFollowings } from "../redux/actions/userActions";
-const PopupButton = ({ name }) => {
+import { fetchFollowingsAndFollowers } from "../redux/actions/userActions";
+const PopupButton = ({ name, token }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -13,7 +13,7 @@ const PopupButton = ({ name }) => {
 
   useEffect(() => {
     if (!isOpen) {
-      dispatch(updateFollowings());
+      dispatch(fetchFollowingsAndFollowers("1", token));
     }
   }, [isOpen, dispatch]);
 
@@ -49,9 +49,10 @@ const PopupButton = ({ name }) => {
                 return (
                   <div className="border-2 bg-blue-200 p-10">
                     <AccountCard
-                      name={user.name}
-                      description={user.description}
-                      userId={user.id}
+                      name={user.username}
+                      email={user.email}
+                      userId={user.userId}
+                      url={user.userPhotoUrl}
                     />
                   </div>
                 );

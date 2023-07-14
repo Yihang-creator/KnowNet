@@ -4,7 +4,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../redux/actions/userActions";
 
-const AccountCard = ({ name, url, description, userId }) => {
+const AccountCard = ({ name, url, email, userId }) => {
   const [selected, setSelected] = React.useState(true);
   const dispatch = useDispatch();
   return (
@@ -14,7 +14,7 @@ const AccountCard = ({ name, url, description, userId }) => {
 
         <div className="flex flex-col border-2">
           <span> {name} </span>
-          <span> {description}</span>
+          <span> {email}</span>
         </div>
       </div>
 

@@ -13,8 +13,9 @@ const UserInfoPage = ({ name, email }) => {
   useEffect(() => {
     fetch(`/api/posts`, {
       headers: {
-        Authorization: 'Bearer ' + oktaAuth.getAccessToken()
-      }})
+        Authorization: "Bearer " + oktaAuth.getAccessToken(),
+      },
+    })
       .then((response) => {
         if (!response.ok) throw new Error("API call failed");
         return response.json();
@@ -82,8 +83,8 @@ const UserInfoPage = ({ name, email }) => {
 
         <div className="flex justify-between p-2 text-white">
           <div className="flex gap-2">
-            <PopupButton name="Followings" />
-            <PopupButton name="Followers" />
+            <PopupButton name="Followings" token={oktaAuth.getAccessToken()} />
+            <PopupButton name="Followers" token={oktaAuth.getAccessToken()} />
           </div>
         </div>
       </div>
