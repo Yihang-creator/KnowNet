@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const postSchema = new mongoose.Schema({
   _id: String,
   userId: String,
+  username: String,
+  userPhotoUrl: String,
   mediaType: String,
   mediaUrl: String,
   title: String,

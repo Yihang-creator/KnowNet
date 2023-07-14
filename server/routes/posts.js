@@ -31,13 +31,13 @@ router.get("/", async function (req, res, next) {
       postsPreview = await Post.find()
         .skip(startIndex)
         .limit(limit)
-        .select("_id userId mediaType mediaUrl title");
+        .select("_id userId username userPhotoUrl mediaType mediaUrl title");
 
       return res
         .setHeader("Content-Type", "application/json")
         .send(postsPreview);
     } else {
-      postsPreview = await Post.find().select("_id userId mediaType mediaUrl title");
+      postsPreview = await Post.find().select("_id userId username userPhotoUrl mediaType mediaUrl title");
       return res
         .setHeader("Content-Type", "application/json")
         .send(postsPreview);
