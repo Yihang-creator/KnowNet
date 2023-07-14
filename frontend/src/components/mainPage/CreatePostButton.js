@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Divider } from "@mui/material";
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ReactPlayer from 'react-player/lazy';
 import { useOktaAuth } from '@okta/okta-react';
 import validator from 'validator';
 import { EditorState, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { useTheme } from '@mui/material/styles';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#00bcd4',
-    },
-    secondary: {
-      main: '#009688',
-    },
-  },
-});
 
 const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', 
 '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '🤪', '😝', '🤑', 
@@ -51,6 +45,7 @@ const CreatePostButton = () => {
   const [media, setMedia] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null); 
   const [mediaUrl, setMediaUrl] = useState(''); //url given by user
+  const theme = useTheme();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,10 +53,6 @@ const CreatePostButton = () => {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleTextChange = (event) => {
-    setContent(event.target.value);
   };
 
   const handleTitleChange = (event) => {
@@ -163,17 +154,15 @@ const CreatePostButton = () => {
   };
 
   return (
-    <div className="mt-4">
-      <ThemeProvider theme={theme}>
-        <div className="group">
-            <Button variant="contained" color= "primary" onClick={handleClickOpen} disableElevation className="relative overflow-hidden transition-opacity duration-300 w-32 h-12">
-                <AddCircleOutlineIcon className="absolute inset-0 m-auto opacity-100 group-hover:opacity-0 transition-opacity duration-300"/>
-                <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Add Post
-                </span>
-            </Button>
-        </div>
-      </ThemeProvider>
+    <div>
+      <ListItem key={'Create Post'} disablePadding onClick={handleClickOpen}>
+        <ListItemButton>
+            <ListItemIcon sx={{ color: theme.palette.primary.main }}>
+                <AddCircleOutlineIcon/>
+            </ListItemIcon>
+            <ListItemText primary={'Create Post'} sx={{ color: theme.palette.text.primary }}/>
+        </ListItemButton>
+      </ListItem>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New Post </DialogTitle>
         <DialogContent>

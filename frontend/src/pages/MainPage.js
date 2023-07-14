@@ -1,11 +1,7 @@
 import { useOktaAuth } from "@okta/okta-react";
 import React, { useState } from "react";
 import Contents from "../components/mainPage/Contents";
-import { Divider } from "@mui/material";
-import SearchBar from "../components/mainPage/SearchBar";
-import Dropdown from "../components/mainPage/Dropdown";
-import CreatePostButton from "../components/mainPage/CreatePostButton";
-import JoinVideoRoomButton from "../components/mainPage/JoinVideoRoomButton";
+import Layout from "../components/mainPage/Layout";
 
 const Home = () => {
   const { authState } = useOktaAuth();
@@ -34,14 +30,9 @@ const Home = () => {
 
   return (
     <div>
-      <SearchBar setSearchTerm={setSearchTerm} />
-      <Dropdown />
-      <div className="flex">
-        <CreatePostButton />
-        <Divider variant="middle"/>
-        <JoinVideoRoomButton />
-      </div>
-      <Contents searchTerm={searchTerm} />
+      <Layout setSearchTerm={setSearchTerm}>
+        <Contents searchTerm={searchTerm} />
+      </Layout>
     </div>
   );
 };

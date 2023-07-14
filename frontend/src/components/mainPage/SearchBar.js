@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {IconButton} from "@mui/material";
+import Dropdown from './Dropdown';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -56,11 +57,12 @@ export default function SearchBar({ setSearchTerm }) {
   const [localSearchTerm, setLocalSearchTerm] = React.useState('');
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: 'black' }}>
+      <AppBar position="fixed" sx={{ backgroundColor: 'black' }}>
         <Toolbar>
           <img src={"/images/ae.png"}
                className = "z-40 w-40" alt=""/>
-          <Search>
+          {setSearchTerm && 
+          (<Search>
               <IconButton size="large" aria-label="search" color="inherit"
                           onClick={() => handleSearch(localSearchTerm, setSearchTerm)} style={{ cursor: 'pointer' }}>
                 <SearchIconWrapper>
@@ -73,8 +75,9 @@ export default function SearchBar({ setSearchTerm }) {
               onChange={(e) => setLocalSearchTerm(e.target.value)}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+          </Search>)}
         </Toolbar>
+        <Dropdown />
       </AppBar>
     </Box>
   );
