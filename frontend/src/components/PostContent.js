@@ -8,12 +8,31 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import { red } from "@mui/material/colors";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import CommentBoard from "./comments/CommentBoard";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addLike, cancelLike } from "../redux/actions/commentActions";
 import { fetchPost } from "../redux/actions/PostActions";
+import { convertFromRaw, EditorState, Editor, ContentState } from 'draft-js';
+import Layout from "./mainPage/Layout";
+
+export function createEditorStateFromText(text) {
+  try {
+    const rawContentFromDB = JSON.parse(text);
+    const contentState = convertFromRaw(rawContentFromDB);
+    return EditorState.createWithContent(contentState);
+  } catch (e) {
+    // The text was not in JSON format, so treat it as plain text
+    const contentState = ContentState.createFromText(text);
+    return EditorState.createWithContent(contentState);
+  }
+}
 
 export const PostContent = () => {
 
@@ -30,6 +49,8 @@ export const PostContent = () => {
     dispatch(fetchPost(postId, oktaAuth.getAccessToken()));
   }, [dispatch, postId, oktaAuth]);
 
+  const [openDialog, setOpenDialog] = useState(false);
+
   if (!post) {
     return <div> Post Loading ...</div>;
   }
@@ -39,6 +60,7 @@ export const PostContent = () => {
   }
   
   var likes = post.like.length;
+  var enrichedText = typeof post.text === 'undefined' ? EditorState.createEmpty() : createEditorStateFromText(post.text);
 
   const changeLiked = (liked) => {
     setLiked(!liked);
@@ -47,13 +69,23 @@ export const PostContent = () => {
         : dispatch(cancelLike(postId));
   };
 
+  const handleShareClick = () => {
+    setOpenDialog(true);
+  };
+
+  const handleClose = () => {
+    setOpenDialog(false);
+  };
+
+  const shareUrl = window.location.href;
+
   // bg-white background color
   // shadow-md set shadow
   // rounded-lg rounded corners
   // p-6 padding
   // mb-6 margin-bottom 1.5rem
 
-  return (
+  const content = (
       <div className="bg-white shadow-md rounded-lg p-6 mb-6">
         <div className="container mx-auto">
           <button onClick={() => nav(-1)}>
@@ -91,7 +123,12 @@ export const PostContent = () => {
                 <ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />
             )}
             <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
-            <p className="text-gray-700">{post.text}</p>
+            <div className="text-gray-700">
+              <Editor
+                editorState={enrichedText}
+                readOnly
+              />
+            </div>
           </div>
           <div className="mt-4 flex justify-between">
             <div>
@@ -120,12 +157,40 @@ export const PostContent = () => {
               </button>
             </div>
             <div>
-              <ShareOutlinedIcon />
-              <span className="ml-2">Share</span>
-            </div>
+              <IconButton onClick={handleShareClick}>
+                <ShareOutlinedIcon />
+              </IconButton>
+              <span className="ml-2" onClick={handleShareClick}>Share</span>
+              <Dialog open={openDialog} onClose={handleClose}>
+                <DialogActions>
+                  <IconButton
+                    component="a"
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FacebookIcon />
+                  </IconButton>
+                  <IconButton
+                    component="a"
+                    href={`https://twitter.com/share?url=${shareUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <TwitterIcon />
+                  </IconButton>
+                </DialogActions>
+              </Dialog>
+    </div>
           </div>
         </div>
         <CommentBoard postId={post.postId} />
       </div>
+  );
+
+  return (
+    <Layout>
+      {content}
+    </Layout>
   );
 };

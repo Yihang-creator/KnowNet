@@ -62,7 +62,7 @@ export default function SearchBar({ setSearchTerm }) {
   }
   return (
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ backgroundColor: 'black', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <AppBar position="fixed" sx={{ backgroundColor: 'black', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <Toolbar>
             <img src={"/images/ae.png"}
                  className = "z-40 w-40" alt=""/>

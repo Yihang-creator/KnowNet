@@ -5,6 +5,9 @@ import ProfileCard from "../components/ProfileCard";
 import Dropdown from "../components/mainPage/Dropdown";
 import { useOktaAuth } from "@okta/okta-react";
 import { useUserContext } from "../auth/UserContext";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import PostEdit from "../components/mainPage/postEdit";
 
 const UserInfoPage = ({ name, email }) => {
   const { userInfo } = useUserContext();
@@ -13,6 +16,8 @@ const UserInfoPage = ({ name, email }) => {
   const [selectedImage, setSelectedImage] = useState(avatar);
   const [posts, setPosts] = useState(null);
   const { oktaAuth } = useOktaAuth();
+  const [open, setOpen] = useState(false);
+  const [editPost, setEditPost] = useState(false);
 
   useEffect(() => {
     fetch(`/api/posts`, {
@@ -26,7 +31,7 @@ const UserInfoPage = ({ name, email }) => {
         })
         .then((data) => setPosts(data))
         .catch((error) => console.error("Error", error));
-  }, []);
+  }, [oktaAuth]);
 
   if (!posts) {
     return <div> Post Loading ...</div>;
@@ -41,6 +46,15 @@ const UserInfoPage = ({ name, email }) => {
     };
 
     reader.readAsDataURL(file);
+  };
+
+  const handleClickOpen = (post) => {
+    setEditPost(post);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -104,7 +118,7 @@ const UserInfoPage = ({ name, email }) => {
           <div className="rounded-md bg-white p-2 md:columns-2 lg:columns-4">
             {posts.map((post, index) => (
                 <div key={index} className="inline-block w-full p-2">
-                  <Link to={`/post/${post.id}`}>
+                  <Link to={`/post/${post.postId}`}>
                     <ProfileCard
                         type={post.mediaType}
                         src={post.mediaUrl}
@@ -112,8 +126,12 @@ const UserInfoPage = ({ name, email }) => {
                         previewText={post.text}
                     />
                   </Link>
+                  <IconButton aria-label="edit" onClick={() => handleClickOpen(post)} >
+                    <EditIcon />
+                  </IconButton>
                 </div>
             ))}
+            <PostEdit post={editPost} open={open} handleClose={handleClose}/>
           </div>
         </div>
       </div>
