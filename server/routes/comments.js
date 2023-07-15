@@ -18,9 +18,9 @@ router.post('/', [
     }
 
     const text = req.body.text;
-    const {postId, userId} = req.body; 
+    const {postId, userId} = req.body;
 
-    console.log('postId1:', postId) 
+    console.log('postId1:', postId)
 
     const newComment = new Comment({
         "commentId": uuidv4(),
@@ -44,7 +44,7 @@ router.post('/', [
 
 
 
-router.delete('/:id', async function(req, res, next) { 
+router.delete('/:id', async function(req, res, next) {
     const id = req.params.id;
 
     try {
@@ -60,7 +60,7 @@ router.delete('/:id', async function(req, res, next) {
 
 
 
-router.post('/replies/:commentId/:userId/:replyTo', async function(req, res, next) { 
+router.post('/replies/:commentId/:userId/:replyTo', async function(req, res, next) {
     const commentId = req.params.commentId;
     const { text: reply, isSecLevelComment } = req.body;
 
@@ -120,19 +120,41 @@ router.get('/getCommentDetail', async function(req, res, next) { // Note: the fu
             .populate('userId', 'username') // assuming the user model has a username field
             .exec();
 
+        const allUsers = await User
+            .find()
+
         if (!relatedComments) {
             return res.status(404).json({ error: 'No comments found for this post' });
         }
 
-        // Populate each reply in each comment
-        for (let comment of relatedComments) {
-            for (let reply of comment.replies) {
-                reply.user = await User.findOne({ userId: reply.userId });
-                reply.replyToUser = reply.isSecLevelComment ? await User.findOne({ userId: reply.replyTo }) : {};
+        const newComments = relatedComments.map(comment => {
+            console.log('comment:', comment)
+            const comment1 = comment.toObject()
+            if (postId === comment1.postId) {
+                const newComment = {
+                    ...comment1,
+                    user: allUsers.filter((user) => user.userId === comment1.userId)[0] || {},
+                    replies: (comment1.replies || []).map(reply => ({
+                        ...reply,
+                        user: allUsers.filter((user) => user.userId === reply.userId)[0] || {},
+                        replyToUser: reply.isSecLevelComment ? allUsers.filter((user) => user.userId === reply.replyTo)[0] || {} : {},
+                    }))
+                }
+                return newComment
             }
-        }
+        }).filter(i => i);
 
-        return res.status(200).json(relatedComments);
+        // Populate each reply in each comment
+        // for (let comment of relatedComments) {
+        //     // comment.user = await promiseFunc;
+        //     for (let reply of comment.replies) {
+        //         reply.user = await User.findOne({ userId: reply.userId });
+        //         reply.replyToUser = reply.isSecLevelComment ? await User.findOne({ userId: reply.replyTo }) : {};
+        //     }
+        // }
+        // const a = await User.findOne({ userId: relatedComments[0].userId });
+
+        return res.status(200).json(newComments);
     } catch (err) {
         return res.status(500).send(err);
     }

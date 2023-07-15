@@ -18,25 +18,23 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
 
     return (
         <div>
-            {/*<h1>Comment Board</h1>*/}
-
             <div>
                 {comments && comments.length > 0 ? (
-                comments.map((comment) => (
-                    <Comment
-                        postId={postId}
-                        commentId={comment.commentId}
-                        key={comment.id}
-                        user={comment.user}
-                        timestamp={comment.timestamp}
-                        text={comment.text}
-                        likes={comment.likes}
-                        replies={comment.replies} // review
-                    />
-                ))
-                    ) : (
-                        <p>No comments yet</p>
-                    )
+                    comments.map((comment) => (
+                        <Comment
+                            postId={postId}
+                            commentId={comment.commentId}
+                            key={comment.id}
+                            user={comment.user}
+                            timestamp={comment.timestamp}
+                            text={comment.text}
+                            likes={comment.likes}
+                            replies={comment.replies} // review
+                        />
+                    ))
+                ) : (
+                    <p>No comments yet</p>
+                )
                 }
             </div>
             <CommentInput addComment={(text) => addComment(postId, text, oktaAuth)} />
