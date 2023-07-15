@@ -38,6 +38,8 @@ const Contents = ({searchTerm}) => {
                         src={post.mediaUrl}
                         title={post.title}
                         previewText={post.text}
+                        username={post.username}
+                        userPhotoUrl={post.userPhotoUrl}
                     />
                   </Link>
                 </li>

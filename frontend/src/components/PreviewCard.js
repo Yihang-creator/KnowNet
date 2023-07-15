@@ -1,9 +1,14 @@
 import React from "react";
 import Resource from "./Resource";
+import "./PreviewCard.css";
 
 const PreviewCard = (props) => {
   return (
     <div className="flex w-full flex-col justify-items-center rounded-lg border-2 border-cyan-200 bg-slate-50 shadow-xl dark:border-gray-700 dark:bg-gray-800">
+      <div className="flex-container">
+        <img className="css-shadow" src={props.userPhotoUrl} alt="Image Not Avaliable" />
+        <h5>By: {props.username}</h5>
+      </div>
       <a href=" ">
         <Resource type={props.type} link={props.src} className=" w-full" />
       </a>

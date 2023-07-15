@@ -63,7 +63,7 @@ export const PostContent = () => {
           <div className="flex justify-between items-center">
             <div className="flex items-center">
               <img
-                  src={post.profilePic}
+                  src={post.userPhotoUrl}
                   alt=""
                   className="w-12 h-12 rounded-full mr-4"
               />
