@@ -2,6 +2,7 @@ import React from "react";
 import { Button, TextField, Typography } from '@mui/material';
 import Backend from "./Backend";
 import JoinVideoRoom from "./JoinVideoRoom";
+import Layout from "../mainPage/Layout";
 
 class JoinPage extends React.Component {
     constructor(props) {
@@ -54,11 +55,15 @@ class JoinPage extends React.Component {
     render() {
 
         if (this.state.room_set) {
-            return <JoinVideoRoom backend={this.state.backend} url={this.state.url} duration={this.state.duration} is_join={this.state.is_join} playing={this.state.playing} chats={this.state.chats} username={this.state.username}/>;
+            return (
+                <Layout>
+                    <JoinVideoRoom backend={this.state.backend} url={this.state.url} duration={this.state.duration} is_join={this.state.is_join} playing={this.state.playing} chats={this.state.chats} username={this.state.username}/>
+                </Layout>
+            );
         }
 
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        const content = (
+            <div className="flex flex-col items-center">
                 <Typography variant="h5" className="mb-3 items-center justify-center">Watch Video Together</Typography>
                 <TextField
                     label="Username"
@@ -86,6 +91,14 @@ class JoinPage extends React.Component {
                 </Button>
             </div>
         );
+
+        return (
+        <div>
+            <Layout>
+                {content}
+            </Layout>
+        </div>
+      )
     }
 }
 

@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import {IconButton} from "@mui/material";
+import Dropdown from './Dropdown';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -54,28 +55,37 @@ const handleSearch = (searchTerm, setSearchTerm) => {
 
 export default function SearchBar({ setSearchTerm }) {
   const [localSearchTerm, setLocalSearchTerm] = React.useState('');
+  const onKeyup = (e)=>{
+    if(e.keyCode === 13) {
+      handleSearch(localSearchTerm, setSearchTerm)
+    }
+  }
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: 'black' }}>
-        <Toolbar>
-          <img src={"/images/ae.png"}
-               className = "z-40 w-40" alt=""/>
-          <Search>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="fixed" sx={{ backgroundColor: 'black', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Toolbar>
+            <img src={"/images/ae.png"}
+                 className = "z-40 w-40" alt=""/>
+            <Search>
               <IconButton size="large" aria-label="search" color="inherit"
                           onClick={() => handleSearch(localSearchTerm, setSearchTerm)} style={{ cursor: 'pointer' }}>
                 <SearchIconWrapper>
                   <SearchIcon/>
                 </SearchIconWrapper>
               </IconButton>
-            <StyledInputBase
-              placeholder="Search…"
-              value={localSearchTerm}
-              onChange={(e) => setLocalSearchTerm(e.target.value)}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-        </Toolbar>
-      </AppBar>
-    </Box>
+              <StyledInputBase
+                  placeholder="Search…"
+                  value={localSearchTerm}
+                  onChange={(e) => setLocalSearchTerm(e.target.value)}
+                  inputProps={{ 'aria-label': 'search' }}
+                  onKeyUp={onKeyup}
+              />
+            </Search>
+          </Toolbar>
+          <div className='mr-5'>
+            <Dropdown />
+          </div>
+        </AppBar>
+      </Box>
   );
 }

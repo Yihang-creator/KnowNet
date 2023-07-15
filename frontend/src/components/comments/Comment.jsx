@@ -16,6 +16,73 @@ const currentDateTime = () => {
     return `${year}-${month}-${day}`;
 }
 
+const handleTimeStamp = (time) => {
+    let date = new Date(time);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1; // JavaScript months are O-indexed.
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    // Pad the month, day, hour and minute with leading zeros if neededmonth = month < 10 ?0' + month : month;
+    day = day <10 ?'0'+ day : day;
+    hour = hour < 10 ? '0'+ hour : hour;
+    minute = minute < 10 ?'0' + minute : minute;
+    let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
+    return formattedDate;
+}
+
+const SecondLevelReview = (props) => {
+    const { review, toggleReplies } = props;
+    const { id, user, timestamp, replyToUser, likes, text } = review;
+    const [secondLikeCount, setSecondLikeCount] = useState(parseInt(likes))
+
+    const handleSetLikesCount = () => {
+        setSecondLikeCount(secondLikeCount + 1)
+    }
+
+    return (
+        <Box
+            key={id}
+            sx={{
+                display: 'flex',
+                paddingLeft: 2,
+                marginTop: 1,
+            }}
+        >
+            <Avatar src={user?.userPhotoUrl} alt={user?.username} />
+            <Box marginLeft={2}>
+                <Typography variant="subtitle2">{user?.username}</Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {handleTimeStamp(timestamp)}
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                    {/* reply to */}
+                    { replyToUser?.username ? (<span>Reply <span className='text-gray-400'>{replyToUser.username}:</span>  {text}</span>) : review.text }
+                </Typography>
+                <Box display="flex" alignItems="center">
+                    {/* reply to second level comment */}
+                    <Box>
+                        {/* should be userid, use user name for now */}
+                        <IconButton onClick={() => toggleReplies(user?.userId, user?.username, 'secLevelComment')} sx={{ fontSize: 'x-small' }}>
+                            <ReplyIcon />reply
+                        </IconButton>
+                    </Box>
+                    <Box sx={{ marginLeft: '30px' }}>
+                        <Button
+                            variant="text"
+                            color="primary"
+                            startIcon={<ThumbUpIcon />}
+                            onClick={handleSetLikesCount}
+                        >
+                            {secondLikeCount}
+                        </Button>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+    )
+}
+
 const Comment = ({ user, timestamp, text, likes, replies, addSecLevelComment, commentId, postId }) => {
     const [likeCount, setLikeCount] = useState(parseInt(likes));
     const [showReplies, setShowReplies] = useState(false);
@@ -43,12 +110,12 @@ const Comment = ({ user, timestamp, text, likes, replies, addSecLevelComment, co
     const { userId, username = "", userPhotoUrl = "" } = user || {};
 
     return (
-        <Box display="flex" alignItems="flex-start" marginBottom={2} sx={{ padding: 2, borderRadius: 4, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
+        <Box display="flex" alignItems="flex-start" marginBottom={2} sx={{ padding: 6, borderRadius: 4, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
             <Avatar src={userPhotoUrl} alt={username} />
             <Box marginLeft={2} flexGrow={1}>
                 <Typography variant="subtitle1">{username}</Typography>
                 <Typography variant="body2" color="text.secondary">
-                    {timestamp}
+                    {handleTimeStamp(timestamp)}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                     {text}
@@ -59,7 +126,7 @@ const Comment = ({ user, timestamp, text, likes, replies, addSecLevelComment, co
                             <ReplyIcon />reply
                         </IconButton>
                     </Box>
-                    <Box sx={{ marginLeft: 'auto' }}>
+                    <Box sx={{ marginLeft: '30px' }}>
                         <Button
                             variant="text"
                             color="primary"
@@ -72,44 +139,7 @@ const Comment = ({ user, timestamp, text, likes, replies, addSecLevelComment, co
                 </Box>
                 <Box sx={{ marginLeft: 4 }}>
                     {replies.map((review) => (
-                        <Box
-                            key={review.id}
-                            sx={{
-                                display: 'flex',
-                                paddingLeft: 2,
-                                marginTop: 1,
-                            }}
-                        >
-                            <Avatar src={review.user?.userPhotoUrl} alt={review.user?.username} />
-                            <Box marginLeft={2}>
-                                <Typography variant="subtitle2">{review.user?.username}</Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {review.timestamp}
-                                </Typography>
-                                <Typography variant="body2" gutterBottom>
-                                    {/* reply to */}
-                                    { review.replyToUser?.username ? (<span>Reply <span className='text-gray-400'>{review.replyToUser.username}:</span>  {review.text}</span>) : review.text }
-                                </Typography>
-                                <Box display="flex" alignItems="center">
-                                    {/* reply to second level comment */}
-                                    <Box>
-                                        {/* should be userid, use user name for now */}
-                                        <IconButton onClick={() => toggleReplies(review.user?.userId, review.user?.username, 'secLevelComment')} sx={{ fontSize: 'x-small' }}>
-                                            <ReplyIcon />reply
-                                        </IconButton>
-                                    </Box>
-                                    <Box sx={{ marginLeft: 'auto' }}>
-                                        <Button
-                                            variant="text"
-                                            color="primary"
-                                            startIcon={<ThumbUpIcon />}
-                                        >
-                                            {review.likes}
-                                        </Button>
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </Box>
+                        <SecondLevelReview review={review} toggleReplies={toggleReplies} />
                     ))}
                     {showReplies && (
                         <Box

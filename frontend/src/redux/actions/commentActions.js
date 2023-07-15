@@ -2,7 +2,7 @@
 export const addReply = (parentId, replyText, accessToken) => async (dispatch) => {
     const newReply = {
         parentId,
-        userId: 3, // Replace with the appropriate user ID
+        userId: 1, // Replace with the appropriate user ID
         text: replyText,
         timestamp: Date.now(),
         replies: [],
@@ -43,7 +43,7 @@ export const cancelLike = (postID) => {
 export const addComment = (postId, commentText, accessToken) => async (dispatch) => {
     const newComment = {
         postId,
-        userId: 3,
+        userId: 1,
         text: commentText,
         timestamp: Date.now(),
         replies: [],
