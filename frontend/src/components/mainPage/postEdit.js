@@ -157,7 +157,7 @@ const PostEdit = (props) => {
             });
         } else {
             // Send the URL and other post data to the backend
-            postResponse = await fetch('/api/posts', {
+            postResponse = await fetch(`/api/posts/${post.postId}`, {
                 method: 'PUT',
                 headers: {
                 'Content-Type': 'application/json',
