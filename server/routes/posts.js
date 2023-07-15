@@ -101,4 +101,43 @@ router.post(
   }
 );
 
+router.put(
+  "/:postId",
+  [
+    body("mediaType").isIn(["image", "video"]),
+    body("mediaUrl").isURL(),
+    body("title").isLength({ min: 1 }),
+    body("text").isLength({ min: 1 }),
+  ],
+  async function (req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const { userId, mediaType, mediaUrl, title, text } = req.body;
+
+    try {
+      const post = await Post.findById(req.params.postId); // find the post by ID
+
+      if (!post) {
+        return res.status(404).json({ error: "Post not found" });
+      }
+
+      // Update the post's properties
+      post.mediaType = mediaType;
+      post.mediaUrl = mediaUrl;
+      post.title = title;
+      post.text = text;
+
+      const updatedPost = await post.save(); // save the updated post
+
+      console.log("Post updated:", updatedPost);
+      return res.status(200).json(updatedPost);
+    } catch (error) {
+      console.error("Error updating post:", error);
+      return res.status(500).json({ error: "Failed to update post" });
+    }
+  }
+);
+
 module.exports = router;
