@@ -4,17 +4,22 @@ import { Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import Dropdown from "../components/mainPage/Dropdown";
 import { useOktaAuth } from "@okta/okta-react";
+import { useUserContext } from "../auth/UserContext";
 
 const UserInfoPage = ({ name, email }) => {
-  const [selectedImage, setSelectedImage] = useState("/images/user.jpeg");
+  const { userInfo } = useUserContext();
+
+  const avatar = userInfo == null ? null : userInfo.userPhotoUrl;
+  const [selectedImage, setSelectedImage] = useState(avatar);
   const [posts, setPosts] = useState(null);
   const { oktaAuth } = useOktaAuth();
 
   useEffect(() => {
     fetch(`/api/posts`, {
       headers: {
-        Authorization: 'Bearer ' + oktaAuth.getAccessToken()
-      }})
+        Authorization: "Bearer " + oktaAuth.getAccessToken(),
+      },
+    })
       .then((response) => {
         if (!response.ok) throw new Error("API call failed");
         return response.json();
@@ -82,8 +87,8 @@ const UserInfoPage = ({ name, email }) => {
 
         <div className="flex justify-between p-2 text-white">
           <div className="flex gap-2">
-            <PopupButton name="Followings" />
-            <PopupButton name="Followers" />
+            <PopupButton type="followings" token={oktaAuth.getAccessToken()} />
+            <PopupButton type="followers" token={oktaAuth.getAccessToken()} />
           </div>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import config from "./auth/oktaConfig";
 import Routes from "./auth/Routes";
 import store from "./store";
+import { UserProvider } from "./auth/UserContext";
 
 const oktaAuth = new OktaAuth(config.oidc);
 
@@ -19,11 +20,13 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-        <main>
-          <Routes />
-        </main>
-      </Security>
+      <UserProvider>
+        <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+          <main>
+            <Routes />
+          </main>
+        </Security>
+      </UserProvider>
     </Provider>
   );
 };

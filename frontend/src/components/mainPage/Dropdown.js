@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import "./Dropdown.css";
 import { useOktaAuth } from "@okta/okta-react";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../../auth/UserContext";
 
 const Dropdown = () => {
-  const user_image = "/images/user.jpeg";
   const { authState, oktaAuth } = useOktaAuth();
 
   const [open, setOpen] = useState(false);
 
   const login = async () => oktaAuth.signInWithRedirect();
   const logout = async () => oktaAuth.signOut();
+
+  const { userInfo } = useUserContext();
+
+  const user_image = userInfo == null ? null : userInfo.userPhotoUrl;
 
   if (!authState) {
     return null;

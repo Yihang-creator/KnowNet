@@ -3,26 +3,30 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccountCard from "../components/AccountCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { updateFollowings } from "../redux/actions/userActions";
-const PopupButton = ({ name }) => {
+import {
+  fetchFollowingsAndFollowers,
+  updateFollowings,
+} from "../redux/actions/userActions";
+const PopupButton = ({ type, token }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    setIsOpen(false);
+  };
   const openModal = () => setIsOpen(true);
 
   useEffect(() => {
     if (!isOpen) {
-      dispatch(updateFollowings());
+      dispatch(fetchFollowingsAndFollowers("1", token));
     }
-  }, [isOpen, dispatch]);
+  }, [isOpen]);
 
-  const currState = useSelector((state) => state.userReducer);
+  const users = useSelector((state) => state.userReducer[type]);
 
-  const followers = currState.followers;
-  const followings = currState.followings;
-
-  const users = name === "Followings" ? followings : followers;
+  if (!users) {
+    return <div> Loading ...</div>;
+  }
 
   return (
     <div className="p-6">
@@ -31,7 +35,7 @@ const PopupButton = ({ name }) => {
         onClick={openModal}
       >
         <span>{users.length}</span>
-        <span>{name}</span>
+        <span>{type}</span>
       </button>
 
       {isOpen && (
@@ -49,9 +53,14 @@ const PopupButton = ({ name }) => {
                 return (
                   <div className="border-2 bg-blue-200 p-10">
                     <AccountCard
-                      name={user.name}
-                      description={user.description}
-                      userId={user.id}
+                      name={user.username}
+                      description={user.email}
+                      userId={user.userId}
+                      url={user.userPhotoUrl}
+                      type={type}
+                      status={user.status}
+                      token={token}
+                      myId="1"
                     />
                   </div>
                 );
