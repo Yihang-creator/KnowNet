@@ -191,6 +191,7 @@ const PostEdit = (props) => {
                 fullWidth
                 onChange={handleTitleChange}
                 text
+                value={title}
             />
             <Editor
                 editorState={content}
@@ -210,6 +211,7 @@ const PostEdit = (props) => {
                 label="Enter media URL"
                 type="url"
                 fullWidth
+                value={mediaUrl}
                 onChange={handleMediaUrlChange}
             />
             <Button variant="contained" component="label">

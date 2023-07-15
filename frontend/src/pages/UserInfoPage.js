@@ -49,8 +49,20 @@ const UserInfoPage = ({ name, email }) => {
   };
 
   const handleClickOpen = (post) => {
-    setEditPost(post);
-    setOpen(true);
+    fetch(`/api/posts/${post.postId}`, { // assuming your API endpoint follows this pattern and post objects have 'id' field
+      headers: {
+        Authorization: "Bearer " + oktaAuth.getAccessToken(),
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("API call failed");
+        return response.json();
+      })
+      .then((data) => {
+        setEditPost(data); // Here, the data should be the detailed post data returned from the server
+        setOpen(true);
+      })
+      .catch((error) => console.error("Error", error));
   };
 
   const handleClose = () => {
