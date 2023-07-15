@@ -1,58 +1,93 @@
 var express = require("express");
 var router = express.Router();
-const { body, validationResult } = require("express-validator");
-const { v4: uuidv4 } = require("uuid");
 var { users } = require("../data/users.js");
 
+const User = require("../model/user");
+const { default: mongoose } = require("mongoose");
+
 router.get("/", async function (req, res, next) {
-  res.json({ users: users });
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (error) {
+    res.status(500).send("Error retrieving users");
+  }
 });
 
-router.get("/:id/faf", async function (req, res) {
+router.get("/:email", async function (req, res, next) {
+  const { email } = req.params;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    next(error); // Pass errors to your error handler
+  }
+});
+
+router.get("/:id/faf", async function (req, res, next) {
   const id = req.params.id;
 
-  const user = users.find((user) => user.userId === id);
+  try {
+    const user = await User.findOne({ userId: id });
 
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  const followers = users.filter((user) => user.followings.includes(id));
-  const followings = users.filter((user) => user.followers.includes(id));
-
-  res.json({ followers: followers, followings: followings });
-});
-
-router.delete("/:id/followings", async function (req, res) {
-  const userId = req.params.id;
-  const { followingIds } = req.body;
-
-  // Ensure followingIds is an array
-  if (!Array.isArray(followingIds)) {
-    return res.status(400).json({ error: "followingIds must be an array" });
-  }
-
-  // Find the user
-  const userIndex = users.findIndex((user) => user.userId === userId);
-
-  if (userIndex === -1) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  // Filter out the IDs that need to be removed
-  users[userIndex].followings = users[userIndex].followings.filter(
-    (id) => !followingIds.includes(id)
-  );
-
-  users.forEach((user) => {
-    if (followingIds.includes(user.userId)) {
-      user.followers = user.followers.filter(
-        (followerId) => followerId !== userId
-      );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-  });
 
-  return res.status(200).json({ message: "Followings removed successfully" });
+    const followers = await User.find({ follow: id });
+    const followings = await User.find({ userId: { $in: user.follow } });
+
+    res.json({ followers, followings });
+  } catch (error) {
+    next(error); // Pass errors to your error handler
+  }
 });
 
+router.patch("/:id/unfollow", async function (req, res, next) {
+  const myId = req.params.id;
+  const { userId } = req.body;
+
+  try {
+    const user = await User.findOne({ userId: myId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.follow = user.follow.filter((id) => id !== userId);
+
+    await user.save();
+
+    return res.status(200).json({ message: "Unfollowed successfully" });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/:id/follow", async function (req, res, next) {
+  const myId = req.params.id;
+  const { userId } = req.body;
+
+  try {
+    const user = await User.findOne({ userId: myId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.follow.push(userId);
+
+    await user.save();
+
+    return res.status(200).json({ message: "Followed successfully" });
+  } catch (error) {
+    next(error); // Pass errors to your error handler
+  }
+});
 module.exports = router;

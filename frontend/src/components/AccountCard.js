@@ -2,9 +2,18 @@ import { Avatar } from "@mui/material";
 import ToggleButton from "@mui/material/ToggleButton";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { toggleFollowingAndFollowers } from "../redux/actions/userActions";
+import { follow } from "../redux/actions/userActions";
 
-const AccountCard = ({ name, url, description, userId, type, status }) => {
+const AccountCard = ({
+  name,
+  url,
+  description,
+  userId,
+  type,
+  status,
+  token,
+  myId,
+}) => {
   const [selected, setSelected] = React.useState(status);
 
   const dispatch = useDispatch();
@@ -23,8 +32,8 @@ const AccountCard = ({ name, url, description, userId, type, status }) => {
         <ToggleButton
           selected={selected === "following"}
           onChange={() => {
-            dispatch(toggleFollowingAndFollowers(userId, type));
-
+            let operation = selected === "following" ? "unfollow" : "follow";
+            dispatch(follow(myId, userId, operation, type, token));
             setSelected(selected === "following" ? "unfollowing" : "following");
           }}
           sx={{ width: 96, height: 48 }}

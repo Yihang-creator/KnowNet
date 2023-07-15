@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import Dropdown from "../components/mainPage/Dropdown";
 import { useOktaAuth } from "@okta/okta-react";
+import { useUserContext } from "../auth/UserContext";
 
 const UserInfoPage = ({ name, email }) => {
-  const [selectedImage, setSelectedImage] = useState("/images/user.jpeg");
+  const { userInfo } = useUserContext();
+
+  const avatar = userInfo == null ? null : userInfo.userPhotoUrl;
+  const [selectedImage, setSelectedImage] = useState(avatar);
   const [posts, setPosts] = useState(null);
   const { oktaAuth } = useOktaAuth();
 

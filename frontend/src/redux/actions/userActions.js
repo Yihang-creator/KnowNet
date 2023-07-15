@@ -32,55 +32,18 @@ export const fetchFollowingsAndFollowers = (userId, accessToken) => {
   };
 };
 
-export const updateFollowings = (userId, accessToken) => {
-  return (dispatch, getState) => {
-    const state = getState();
-
-    console.log(state);
-
-    let data = state.userReducer.followings
-      .filter((user) => user.status === "unfollowing")
-      .map((user) => user.userId);
-
-    console.log(data);
-
-    fetch(`/api/users/${userId}/followings`, {
-      method: "DELETE",
+export const follow = (myId, userId, operation, type, accessToken) => {
+  return (dispatch) => {
+    fetch(`/api/users/${myId}/${operation}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + accessToken,
       },
-      body: JSON.stringify({ followingIds: data }),
+      body: JSON.stringify({ userId: userId }),
     })
       .then((response) => response.json())
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
-};
-
-
-export const follow = (userId, accessToken) => {
-  return (getState) => {
-    const state = getState();
-
-    console.log(state);
-
-    let data = state.userReducer.followings
-      .filter((user) => user.status === "unfollowing")
-      .map((user) => user.userId);
-
-    console.log(data);
-
-    fetch(`/api/users/${userId}/followings`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      },
-      body: JSON.stringify({ followingIds: data }),
-    })
-      .then((response) => response.json())
+      .then(dispatch(toggleFollowingAndFollowers(userId, type)))
       .catch((error) => {
         console.error("Error:", error);
       });

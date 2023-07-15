@@ -5,8 +5,6 @@ const userReducer = (state = [], action) => {
         let followings = state.followings;
 
         let updatedFollowings = followings.map((user) => {
-          console.log(user.userId);
-          console.log(action.payload);
           if (user.userId === action.payload.userId) {
             if (user.status === "following") {
               return { ...user, status: "unfollowing" };

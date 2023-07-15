@@ -12,7 +12,6 @@ const PopupButton = ({ type, token }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => {
-    dispatch(updateFollowings("1", token));
     setIsOpen(false);
   };
   const openModal = () => setIsOpen(true);
@@ -60,6 +59,8 @@ const PopupButton = ({ type, token }) => {
                       url={user.userPhotoUrl}
                       type={type}
                       status={user.status}
+                      token={token}
+                      myId="1"
                     />
                   </div>
                 );
