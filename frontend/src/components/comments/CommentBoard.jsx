@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addComment, addReply, fetchComments } from '../../redux/actions/commentActions';
+import { addComment, fetchComments } from '../../redux/actions/commentActions';
 import Comment from './Comment';
 import CommentInput from './CommentInput';
 import { useEffect } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
+import { useUserContext } from '../../auth/UserContext';
 
 const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
-
+    const { userInfo } = useUserContext();
     const { oktaAuth } = useOktaAuth();
     useEffect(() => {
         fetchComments(postId, oktaAuth.getAccessToken());
@@ -29,6 +30,7 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
                             timestamp={comment.timestamp}
                             text={comment.text}
                             likes={comment.likes}
+                            likedBy={comment.likedBy}
                             replies={comment.replies} // review
                         />
                     ))
@@ -37,7 +39,7 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
                 )
                 }
             </div>
-            <CommentInput addComment={(text) => addComment(postId, text, oktaAuth)} />
+            <CommentInput addComment={(text) => addComment(postId, userInfo.userId, text, oktaAuth)} />
         </div>
     );
 };
@@ -48,7 +50,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     addComment,
-    addReply,
     fetchComments,
 };
 

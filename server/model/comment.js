@@ -28,7 +28,12 @@ const replySchema = new mongoose.Schema({
   likes: {
     type: Number,
     default: 0
-  }
+  },
+  likedBy: [
+    {
+      type: String,
+    },
+  ],
 }, {
   timestamps: true, // Adds createdAt and updatedAt fields
 });
@@ -58,6 +63,11 @@ const commentSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  likedBy: [
+    {
+      type: String,
+    },
+  ],
   replies: [replySchema]
 }, {
   timestamps: true, // Adds createdAt and updatedAt fields

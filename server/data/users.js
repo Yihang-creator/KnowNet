@@ -1,7 +1,7 @@
 let users = [
   {
     userId: "1",
-    username: "Kunyi",
+    username: "Brady",
     userPhotoUrl:
       "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
     email: "chendong.luo88@gmail.com",
@@ -17,7 +17,7 @@ let users = [
   },
   {
     userId: "3",
-    username: "Norm",
+    username: "Bill",
     userPhotoUrl:
       "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1685&q=80",
     email: "yingquanwangubc@gmail.com",
@@ -25,7 +25,7 @@ let users = [
   },
   {
     userId: "4",
-    username: "Draven",
+    username: "Quinn",
     userPhotoUrl:
       "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1685&q=80",
     email: "kunyiwang252750@gmail.com",
@@ -33,7 +33,7 @@ let users = [
   },
   {
     userId: "5",
-    username: "Li",
+    username: "Yihang",
     userPhotoUrl:
       "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1685&q=80",
     email: "751718501@qq.com",
