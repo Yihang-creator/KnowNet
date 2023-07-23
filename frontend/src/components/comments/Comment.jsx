@@ -7,7 +7,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import IconButton from "@mui/material/IconButton";
-import SecondLevelReview from './Reply'
+import Reply from './Reply'
 import { useUserContext } from '../../auth/UserContext';
 import '../../Styles/Comment.css';
 
@@ -102,7 +102,7 @@ const Comment = ({ user, timestamp, text, likes, likedBy, replies, addSecLevelCo
                 </Box>
                 <Box sx={{ marginLeft: 4 }}>
                     {replies.map((review) => (
-                        <SecondLevelReview
+                        <Reply
                             review={review}
                             toggleReplies={toggleReplies}
                             commentId={commentId}

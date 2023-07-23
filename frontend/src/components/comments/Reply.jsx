@@ -24,7 +24,7 @@ const handleTimeStamp = (time) => {
     return formattedDate;
 }
 
-const SecondLevelReview = ({ review, toggleReplies, commentId, postId, fetchLikes }) => {
+const Reply = ({ review, toggleReplies, commentId, postId, fetchLikes }) => {
     const { id, user, timestamp, replyToUser, likes, text, likedBy, replyId } = review;
     const { userInfo } = useUserContext();
     const { oktaAuth } = useOktaAuth();
@@ -62,7 +62,7 @@ const SecondLevelReview = ({ review, toggleReplies, commentId, postId, fetchLike
                     <Box>
                         {/* should be userid, use username for now */}
                         <IconButton onClick={() => toggleReplies(user?.userId, user?.username, 'secLevelComment')} sx={{ fontSize: 'x-small' }}>
-                            <ReplyIcon />reply
+                            <ReplyIcon />
                         </IconButton>
                     </Box>
                     <Box sx={{ marginLeft: '30px' }}>
@@ -90,4 +90,4 @@ const mapDispatchToProps = {
     fetchLikes
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SecondLevelReview);
+export default connect(mapStateToProps, mapDispatchToProps)(Reply);
