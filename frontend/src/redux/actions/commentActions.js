@@ -1,31 +1,3 @@
-
-export const addReply = (parentId, replyText, accessToken) => async (dispatch) => {
-    const newReply = {
-        parentId,
-        userId: 1, // Replace with the appropriate user ID
-        text: replyText,
-        timestamp: Date.now(),
-        replies: [],
-    };
-
-    try {
-        const response = await fetch(`/api/comments/${parentId}/replies`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + accessToken
-            },
-            body: JSON.stringify(newReply)
-        });
-        const data = await response.json();
-
-        dispatch({ type: 'ADD_REPLY_SUCCESS', payload: data });
-    } catch (error) {
-        dispatch({ type: 'ADD_REPLY_FAILURE', error });
-    }
-};
-
-
 export const addLike = (postID) => {
     return {
         type: 'ADD_LIKE',
@@ -40,10 +12,10 @@ export const cancelLike = (postID) => {
     };
 };
 
-export const addComment = (postId, commentText, accessToken) => async (dispatch) => {
+export const addComment = (postId, userId, commentText, accessToken) => async (dispatch) => {
     const newComment = {
         postId,
-        userId: 1,
+        userId,
         text: commentText,
         timestamp: Date.now(),
         replies: [],
@@ -69,7 +41,7 @@ export const addComment = (postId, commentText, accessToken) => async (dispatch)
     }
 };
 
-export const addSecLevelComment = (postId, commentId, commentText, replyTo, isSecLevelComment, accessToken) => async (dispatch) => {
+export const addReply = (postId, userId, commentId, commentText, replyTo, isSecLevelComment, accessToken) => async (dispatch) => {
     const newComment = {
         text: commentText,
         timestamp: Date.now(),
@@ -78,7 +50,7 @@ export const addSecLevelComment = (postId, commentId, commentText, replyTo, isSe
 
     try {
         // use id 1 for now
-        const response = await fetch(`/api/comments/replies/${commentId}/3/${replyTo}`, {
+        const response = await fetch(`/api/comments/replies/${commentId}/${userId}/${replyTo}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -108,6 +80,36 @@ export const fetchComments = (postId, accessToken) => async (dispatch) => {
         dispatch({ type: 'FETCH_COMMENTS_SUCCESS', payload: data });
     } catch (error) {
         dispatch({ type: 'FETCH_COMMENTS_FAILURE', error });
+    }
+};
+
+export const fetchLikes = (postId, commentId, replyId, userId, accessToken) => async (dispatch) => {
+    const params = {
+        postId,
+        commentId,
+        replyId,
+        userId
+    }
+    try {
+        const response = await fetch(`/api/comments/updateLikes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + accessToken
+            },
+            body: JSON.stringify(params)
+        });
+        const data = await response.json();
+        dispatch({ type: 'FETCH_LIKES_SUCCESS', payload: {
+                ...data
+            } });
+        return data;
+    } catch (error) {
+        dispatch({ type: 'FETCH_LIKES_FAILURE', error });
+        return {
+            code: '1',
+            msg: 'updateLikes error!'
+        };
     }
 };
 

@@ -1,6 +1,5 @@
 const initialState = {
   comments: [
-
   ]
 };
 
@@ -36,6 +35,10 @@ export const commentReducer = (state = initialState, action) => {
     case "FETCH_COMMENTS_SUCCESS":
       return { ...state, comments: action.payload };
     case "FETCH_COMMENTS_FAILURE":
+      return { ...state, error: action.error };
+    case "FETCH_LIKES_SUCCESS":
+      return { ...state, comments: action.payload.data };
+    case "FETCH_LIKES_FAILURE":
       return { ...state, error: action.error };
     default:
       return state;

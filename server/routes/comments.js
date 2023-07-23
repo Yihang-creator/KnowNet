@@ -20,8 +20,6 @@ router.post('/', [
     const text = req.body.text;
     const {postId, userId} = req.body;
 
-    console.log('postId1:', postId)
-
     const newComment = new Comment({
         "commentId": uuidv4(),
         "postId": postId,
@@ -29,7 +27,8 @@ router.post('/', [
         "text": text,
         "timestamp": new Date().toISOString(),
         "replies": [],
-        "likes": 0
+        "likes": 0,
+        "likedBy": []
     });
 
     // Save the new comment to MongoDB
@@ -71,7 +70,8 @@ router.post('/replies/:commentId/:userId/:replyTo', async function(req, res, nex
         "text": reply,
         "timestamp": new Date().toISOString(),
         "isSecLevelComment": isSecLevelComment,
-        "likes": 0
+        "likes": 0,
+        "likedBy": []
     };
 
     try {
@@ -112,7 +112,6 @@ router.get('/', async function(req, res, next) {
 
 router.get('/getCommentDetail', async function(req, res, next) { // Note: the function is now async
     const postId = req.query.postId;
-    console.log('postId:', postId)
 
     try {
         const relatedComments = await Comment
@@ -128,7 +127,6 @@ router.get('/getCommentDetail', async function(req, res, next) { // Note: the fu
         }
 
         const newComments = relatedComments.map(comment => {
-            console.log('comment:', comment)
             const comment1 = comment.toObject()
             if (postId === comment1.postId) {
                 const newComment = {
@@ -143,16 +141,6 @@ router.get('/getCommentDetail', async function(req, res, next) { // Note: the fu
                 return newComment
             }
         }).filter(i => i);
-
-        // Populate each reply in each comment
-        // for (let comment of relatedComments) {
-        //     // comment.user = await promiseFunc;
-        //     for (let reply of comment.replies) {
-        //         reply.user = await User.findOne({ userId: reply.userId });
-        //         reply.replyToUser = reply.isSecLevelComment ? await User.findOne({ userId: reply.replyTo }) : {};
-        //     }
-        // }
-        // const a = await User.findOne({ userId: relatedComments[0].userId });
 
         return res.status(200).json(newComments);
     } catch (err) {
@@ -170,6 +158,73 @@ router.get('/all', async function(req, res, next) {
     }
 });
 
+router.post('/updateLikes', async function(req, res, next) {
+    const { commentId, replyId, userId, postId } = req.body;
+    try {
+        const comment = await Comment.findOne({ commentId });
+        const { likes, likedBy } = comment;
+        const status = likedBy.includes(userId) ? false : true;
+
+        let update = {
+            $inc: { likes: status ? 1 : -1 },
+            ...(status ? { $push: { likedBy: userId }} : { $pull: { likedBy: userId }})
+        };
+
+        if (replyId) {
+            // Determine if the user already liked the reply
+            const reply = comment.replies.find(reply => reply.replyId === replyId);
+            const secStatus = reply.likedBy.includes(userId) ? false : true;
+            // Prepare the update
+            const replyIndex = comment.replies.findIndex(reply => reply.replyId === replyId);
+            update = {
+                $inc: { [`replies.${replyIndex}.likes`]: secStatus ? 1 : -1 },
+                ...(secStatus
+                        ? { $push: { [`replies.${replyIndex}.likedBy`]: userId } }
+                        : { $pull: { [`replies.${replyIndex}.likedBy`]: userId } }
+                ),
+            };
+        }
+
+
+        const updatedComment = await Comment.findOneAndUpdate(
+            { commentId },
+            update,
+            { new: true, useFindAndModify: false } // Return the updated comment
+        );
+
+        if (!updatedComment) {
+            return res.status(404).json({ error: 'Comment not found' });
+        };
+        const allComments = await Comment
+            .find();
+
+        const allUsers = await User
+            .find();
+        const newComments = allComments.map(comment => {
+            const comment1 = comment.toObject()
+            if (postId === comment1.postId) {
+                const newComment = {
+                    ...comment1,
+                    user: allUsers.filter((user) => user.userId === comment1.userId)[0] || {},
+                    replies: (comment1.replies || []).map(reply => ({
+                        ...reply,
+                        user: allUsers.filter((user) => user.userId === reply.userId)[0] || {},
+                        replyToUser: reply.isSecLevelComment ? allUsers.filter((user) => user.userId === reply.replyTo)[0] || {} : {},
+                    }))
+                }
+                return newComment
+            }
+        }).filter(i => i);
+
+        return res.status(201).json({
+            code: '0',
+            msg: 'success',
+            data: newComments // update redux comments
+        });
+    } catch (err) {
+        return res.status(500).send(err);
+    }
+});
 
 module.exports = router;
 
