@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { Button } from '@mui/material';
+import Layout from './mainPage/Layout';
 
 export default function InteractiveVideo() {
   const [videoData, setVideoData] = useState(null);
@@ -29,25 +30,27 @@ export default function InteractiveVideo() {
   if (!videoData) return 'Loading...';
 
   return (
-    <div>
-      <ReactPlayer url={videoData.url} onEnded={handleEnded}
-      config={{
-        youtube: {
-          playerVars: {
-            autoplay: 1,
-            controls: 0,
-            showinfo: 0,
-            rel: 0,
-            disablekb: 1,
-            modestbranding: 1
+    <Layout>
+      <div>
+        <ReactPlayer url={videoData.url} onEnded={handleEnded}
+        config={{
+          youtube: {
+            playerVars: {
+              autoplay: 1,
+              controls: 1,
+              showinfo: 0,
+              rel: 0,
+              disablekb: 1,
+              modestbranding: 1
+            }
           }
-        }
-      }}/>
-      {showOptions && videoData.options.map(option => (
-        <Button key={option.nextVideoId} onClick={() => handleOptionClick(option.nextVideoId)}>
-          {option.label}
-        </Button>
-      ))}
-    </div>
+        }}/>
+        {showOptions && videoData.options.map(option => (
+          <Button key={option.nextVideoId} onClick={() => handleOptionClick(option.nextVideoId)}>
+            {option.label}
+          </Button>
+        ))}
+      </div>
+    </Layout>
   );
 }
