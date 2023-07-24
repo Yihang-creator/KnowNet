@@ -27,7 +27,6 @@ function JoinPage() {
         });
 
         backend.socket.on('room-state', (roomInfo) => {
-            console.log(roomInfo);
             setRoomId(roomInfo.roomId);
             setUrl(roomInfo.url);
             setRoomSet(true);
@@ -78,13 +77,15 @@ function JoinPage() {
                 label="Username"
                 variant="outlined"
                 onChange={(e) => setUsername(e.target.value)}
-                className="mb-4 w-1/2"
+                className="w-1/2"
+                style={{ marginTop: '8px', marginBottom: '8px' }}
             />
             <TextField
                 label="Video Address"
                 variant="outlined"
                 onChange={(e) => setUrl(e.target.value)}
-                className="mb-4 w-1/2"
+                className="w-1/2"
+                style={{ marginTop: '8px', marginBottom: '8px' }}
             />
             <Button variant="contained" color="primary" onClick={createRoom} className="mb-4 w-1/2">
                 Start Party
@@ -93,7 +94,8 @@ function JoinPage() {
                 label="Room ID"
                 variant="outlined"
                 onChange={(e) => setRoomId(e.target.value)}
-                className="mb-4 w-1/2 mt-2"
+                className="w-1/2"
+                style={{ marginTop: '8px', marginBottom: '8px' }}
             />
             <Button variant="contained" color="primary" onClick={joinRoom} className="w-1/2">
                 Join Party

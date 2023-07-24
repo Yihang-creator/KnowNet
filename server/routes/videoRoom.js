@@ -87,7 +87,7 @@ const attachSocketServer = (httpServer) => {
             if (rooms[roomId]) {
                 rooms[roomId].chats = rooms[roomId].chats || [];
                 message = {...message, user: socket.username}
-                rooms[roomId].chats.push();
+                rooms[roomId].chats.push(message);
                 socket.to(roomId).emit('chat-added', message);
                 socket.emit('chat-added', message);
                 console.log(`Chat added in room ${roomId}: ${message}`); // Log: Chat added in room [roomId]: [message]

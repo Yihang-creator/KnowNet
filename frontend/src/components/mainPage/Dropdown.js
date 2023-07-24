@@ -89,21 +89,22 @@ const Dropdown = () => {
                 onClose={() => setOpen(false)}
             >
                 {authState.isAuthenticated ? (
-                    <>
-                        <Link to="/">
+                    [
+                        <Link key="Home" to="/">
                             <DropdownItem img={user_image} text={"Home"} />
-                        </Link>
-                        <Link to="/profile">
+                        </Link>,
+                        <Link key="Profile" to="/profile">
                             <DropdownItem img={user_image} text={"Profile"} />
-                        </Link>
+                        </Link>,
                         <DropdownItem
+                            key="logout"
                             img={user_image}
                             text={"Log Out"}
                             onClick={logout}
-                        />
-                    </>
+                        />,
+                    ]
                 ) : (
-                    <DropdownItem img={user_image} text={"Log In"} onClick={login} />
+                    <DropdownItem key="login" img={user_image} text={"Log In"} onClick={login} />
                 )}
             </Menu>
         </Box>
@@ -114,7 +115,7 @@ function DropdownItem(props) {
     return (
         <MenuItem className="dropdownItem" onClick={props.onClick}>
             <img src={props.img} alt=""></img>
-            <a> {props.text} </a>
+            <span> {props.text} </span>
         </MenuItem>
     );
 }
