@@ -19,7 +19,7 @@ let users = [
     userId: "3",
     username: "Bill",
     userPhotoUrl:
-      "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1685&q=80",
+      "https://i.chzbgr.com/full/9742912256/h10FF2F57/animal",
     email: "yingquanwangubc@gmail.com",
     follow: ["1", "2"],
   },
@@ -27,7 +27,7 @@ let users = [
     userId: "4",
     username: "Quinn",
     userPhotoUrl:
-      "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1685&q=80",
+      "https://media.npr.org/assets/img/2017/09/12/macaca_nigra_self-portrait-3e0070aa19a7fe36e802253048411a38f14a79f8-s1600-c85.webp",
     email: "kunyiwang252750@gmail.com",
     follow: ["1", "2", "3"],
   },
