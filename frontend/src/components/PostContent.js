@@ -86,7 +86,7 @@ export const PostContent = () => {
   // mb-6 margin-bottom 1.5rem
 
   const content = (
-      <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div className="shadow-md rounded-lg p-6 mb-6">
         <div className="container mx-auto">
           <button onClick={() => nav(-1)}>
             <CloseIcon />
@@ -123,12 +123,10 @@ export const PostContent = () => {
                 <ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />
             )}
             <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
-            <div className="text-gray-700">
-              <Editor
-                editorState={enrichedText}
-                readOnly
-              />
-            </div>
+            <Editor
+              editorState={enrichedText}
+              readOnly
+            />
           </div>
           <div className="mt-4 flex justify-between">
             <div>

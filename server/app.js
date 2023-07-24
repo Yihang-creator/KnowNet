@@ -9,6 +9,7 @@ var postRouter = require("./routes/posts.js");
 var awsRouter = require("./routes/awsPresignedURL.js");
 var commentRouter = require("./routes/comments.js");
 var userRouter = require("./routes/users.js");
+var interactiveRouter = require("./routes/interactiveVideo.js");
 const { authenticationRequired } = require("./authMiddleware.js");
 const videoRoom = require("./routes/videoRoom.js");
 
@@ -38,6 +39,7 @@ app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/aws/upload", awsRouter);
 app.use("/api/users", userRouter);
+app.use("/api/interactiveVideo", interactiveRouter);
 const server = createServer(app);
 videoRoom.attachSocketServer(server);
 

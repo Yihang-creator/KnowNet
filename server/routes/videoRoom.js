@@ -87,7 +87,7 @@ const attachSocketServer = (httpServer) => {
             if (rooms[roomId]) {
                 rooms[roomId].chats = rooms[roomId].chats || [];
                 message = {...message, user: socket.username}
-                rooms[roomId].chats.push();
+                rooms[roomId].chats.push(message);
                 socket.to(roomId).emit('chat-added', message);
                 socket.emit('chat-added', message);
                 console.log(`Chat added in room ${roomId}: ${message}`); // Log: Chat added in room [roomId]: [message]
@@ -114,6 +114,24 @@ const attachSocketServer = (httpServer) => {
     
         socket.on('disconnect', () => {
             console.log('A user disconnected'); // Log: A user disconnected
+
+            for (let roomId in rooms) {
+                // Find the disconnected user in the room's user list
+                let userIndex = rooms[roomId].users.findIndex((user) => user.socketId === socket.id);
+                if (userIndex !== -1) {
+                    // Remove the user from the room's user list
+                    rooms[roomId].users.splice(userIndex, 1);
+        
+                    console.log(`User removed from room ${roomId}`); // Log: User removed from room [roomId]
+        
+                    // If the room is empty after user has been removed, delete the room
+                    if (rooms[roomId].users.length === 0) {
+                        delete rooms[roomId];
+        
+                        console.log(`Room ${roomId} deleted`); // Log: Room [roomId] deleted
+                    }
+                }
+            }
         });
     });
 }
