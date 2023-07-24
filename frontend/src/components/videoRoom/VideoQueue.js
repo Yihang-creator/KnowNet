@@ -1,58 +1,55 @@
-import { Container, List, ListItem, Typography } from '@mui/material';
-import React from 'react';
+import { ListItemButton, ListItemText, ListItemIcon, List, ListItem, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
-class VideoQueue extends React.Component {
-    constructor(props) {
-      super(props);
+const VideoQueue = (props) => {
+  const [queue, setQueue] = useState([]);
+  const [current, setCurrent] = useState(0);
+  const { changeVideo, is_join = false, backend } = props;
 
-      this.state = {
-        queue: [],
-        current: 0,
-        changeVideo: props.changeVideo,
-        is_join: props.is_join || false,
-        backend: props.backend,
-      };
-    }
+  useEffect(() => {
+    backend.socket.on('update-queue', (newQueue) => {
+      setQueue(newQueue);
+    });
 
-    componentDidMount() {
-        this.state.backend.socket.on('update-queue', (queue) => {
-            this.setState({ queue: queue });
-        });
-    }
-  
-    makeList = () => {
-        return this.state.queue.map((vid, idx) => {
-            let itemVariant = 'light';
-            if (this.state.current === idx) {
-                itemVariant = 'info';
-            }
+    return () => {
+      // Clean up the socket listener on component unmount
+      backend.socket.off('update-queue');
+    };
+  }, [backend.socket]);
 
-            return (
-                <ListItem
-                    key={idx}
-                    button
-                    variant={itemVariant}
-                    onClick={() => {
-                        if (!this.state.is_join) {
-                            this.setState({ current: idx });
-                            this.state.changeVideo(vid);
-                        }
-                    }}
-                >
-                    {vid.toString().substring(0, 50)}
-                </ListItem>
-            );
-        });
-    }
-  
-    render() {
+  const makeList = () => {
+    return queue.map((vid, idx) => {
       return (
-        <Container>
-          <Typography variant="h5" className="mb-3 items-center justify-center">Video List</Typography>
-          <List>{this.makeList()}</List>
-        </Container>
+        <ListItem 
+          key={idx}
+          onClick={() => {
+            if (!is_join) {
+              setCurrent(idx);
+              changeVideo(vid);
+            }
+          }}
+          disablePadding
+        >
+          <ListItemButton selected={current === idx} onClick={() => setCurrent(idx)}>
+            <ListItemIcon>
+              <YouTubeIcon />
+            </ListItemIcon>
+            <ListItemText primary={vid.toString().substring(0, 50)} />
+          </ListItemButton>
+        </ListItem>
       );
-    }
-  }
-  
-  export default VideoQueue;
+    });
+  };
+
+  return (
+    <>
+      <Typography variant="h5" fontWeight="bold" mt={2}>
+        Video Queue
+      </Typography>
+      <List>{makeList()}</List>
+    </>
+  );
+};
+
+export default VideoQueue;

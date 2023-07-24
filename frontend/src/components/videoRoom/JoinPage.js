@@ -1,105 +1,113 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, TextField, Typography } from '@mui/material';
 import Backend from "./Backend";
 import JoinVideoRoom from "./JoinVideoRoom";
 import Layout from "../mainPage/Layout";
 
-class JoinPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            backend: new Backend(),
-            roomId: '',
-            url: '',
-            username: 'Anonymous',
-            room_set: false,
-            is_join: false,
-            duration: 0,
-            playing: false,
-            chats: []
-        };
-    }
+function JoinPage() {
+    const [backend] = useState(() => new Backend());
+    const [roomId, setRoomId] = useState('');
+    const [url, setUrl] = useState('');
+    const [username, setUsername] = useState('Anonymous');
+    const [roomSet, setRoomSet] = useState(false);
+    const [isJoin, setIsJoin] = useState(false);
+    const [duration, setDuration] = useState(0);
+    const [playing, setPlaying] = useState(false);
+    const [chats, setChats] = useState([]);
 
-    componentDidMount() {
-        this.state.backend.socket.on('room-created', (roomId) => {
-            this.setState({ roomId: roomId, room_set: true, duration: 0, playing: false, is_join: false });
-            this.state.backend.setRoomId(roomId);
+    useEffect(() => {
+        backend.socket.on('room-created', (roomId) => {
+            setRoomId(roomId);
+            setRoomSet(true);
+            setDuration(0);
+            setPlaying(false);
+            setIsJoin(false);
+            backend.setRoomId(roomId);
             console.log(`room created with id ${roomId}`);
         });
 
-        this.state.backend.socket.on('room-state', (roomInfo) => {
-            this.setState({ roomId: roomInfo.roomId, name: roomInfo.name, url: roomInfo.url, room_set: true, duration: roomInfo.duration, playing: roomInfo.playing, is_join: true, chats: roomInfo.chats});
+        backend.socket.on('room-state', (roomInfo) => {
+            console.log(roomInfo);
+            setRoomId(roomInfo.roomId);
+            setUrl(roomInfo.url);
+            setRoomSet(true);
+            setDuration(roomInfo.duration);
+            setPlaying(roomInfo.playing);
+            setIsJoin(true);
+            setChats(roomInfo.chats);
         });
-    }
 
+        // this is to mimic componentWillUnmount lifecycle hook to clean up when the component unmounts
+        return () => {
+            backend.socket.off('room-created');
+            backend.socket.off('room-state');
+            backend.socket.disconnect();
+        }
+    }, [backend]);
 
-    createRoom = () => {
-        this.state.backend.socket.emit('username', this.state.username);
-        this.state.backend.createRoom(
+    const createRoom = () => {
+        backend.socket.emit('username', username);
+        backend.createRoom(
             {   
-                url: this.state.url,
+                url: url,
                 playing: false,
                 duration: 0,
-                name: this.state.name,
+                name: username,
                 chats: []
             });
-
     };
 
-    joinRoom = () => {
-        this.state.backend.socket.emit('username', this.state.username);
-        this.state.backend.joinRoom(this.state.roomId);
-        this.state.backend.setRoomId(this.state.roomId);
+    const joinRoom = () => {
+        backend.socket.emit('username', username);
+        backend.joinRoom(roomId);
+        backend.setRoomId(roomId);
     };
 
-    render() {
-
-        if (this.state.room_set) {
-            return (
-                <Layout>
-                    <JoinVideoRoom backend={this.state.backend} url={this.state.url} duration={this.state.duration} is_join={this.state.is_join} playing={this.state.playing} chats={this.state.chats} username={this.state.username}/>
-                </Layout>
-            );
-        }
-
-        const content = (
-            <div className="flex flex-col items-center">
-                <Typography variant="h5" className="mb-3 items-center justify-center">Watch Video Together</Typography>
-                <TextField
-                    label="Username"
-                    variant="outlined"
-                    onChange={(e) => this.setState({ username: e.target.value })}
-                    className="mb-4 w-1/2"
-                />
-                <TextField
-                    label="Video Address"
-                    variant="outlined"
-                    onChange={(e) => this.setState({ url: e.target.value })}
-                    className="mb-4 w-1/2"
-                />
-                <Button variant="contained" color="primary" onClick={this.createRoom} className="mb-4 w-1/2">
-                    Start Party
-                </Button>
-                <TextField
-                    label="Room ID"
-                    variant="outlined"
-                    onChange={(e) => this.setState({ roomId: e.target.value })}
-                    className="mb-4 w-1/2"
-                />
-                <Button variant="contained" color="primary" onClick={this.joinRoom} className="w-1/2">
-                    Join Party
-                </Button>
-            </div>
-        );
-
+    if (roomSet) {
         return (
-        <div>
             <Layout>
-                {content}
+                <JoinVideoRoom backend={backend} url={url} duration={duration} is_join={isJoin} playing={playing} chats={chats} username={username}/>
             </Layout>
-        </div>
-      )
+        );
     }
+
+    const content = (
+        <div className="flex flex-col items-center">
+            <Typography variant="h5" className="mb-3 items-center justify-center">Watch Video Together</Typography>
+            <TextField
+                label="Username"
+                variant="outlined"
+                onChange={(e) => setUsername(e.target.value)}
+                className="mb-4 w-1/2"
+            />
+            <TextField
+                label="Video Address"
+                variant="outlined"
+                onChange={(e) => setUrl(e.target.value)}
+                className="mb-4 w-1/2"
+            />
+            <Button variant="contained" color="primary" onClick={createRoom} className="mb-4 w-1/2">
+                Start Party
+            </Button>
+            <TextField
+                label="Room ID"
+                variant="outlined"
+                onChange={(e) => setRoomId(e.target.value)}
+                className="mb-4 w-1/2 mt-2"
+            />
+            <Button variant="contained" color="primary" onClick={joinRoom} className="w-1/2">
+                Join Party
+            </Button>
+        </div>
+    );
+
+    return (
+    <div>
+        <Layout>
+            {content}
+        </Layout>
+    </div>
+  )
 }
 
 export default JoinPage;

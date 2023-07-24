@@ -16,6 +16,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import { Link } from "react-router-dom";
 import CreatePostButton from './CreatePostButton';
 import { useTheme } from '@mui/material/styles';
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 
 const drawerWidth = 240;
 
@@ -56,6 +57,16 @@ function ResponsiveDrawer(props) {
               <ListItemText primary={'Chats'} sx={{ color: theme.palette.text.primary }}/>
           </ListItemButton>
           </ListItem>
+          <Link to={`/interactive`} className="group">
+              <ListItem key={'Interactive Video'} disablePadding>
+              <ListItemButton>
+                  <ListItemIcon sx={{ color: theme.palette.primary.main }}>
+                      <VideogameAssetIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Interactive Video'} sx={{ color: theme.palette.text.primary }}/>
+              </ListItemButton>
+              </ListItem>
+          </Link>
         </List>
       </div>
     );
