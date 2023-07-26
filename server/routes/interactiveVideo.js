@@ -6,7 +6,7 @@ let videoTree = {
     "1": {
       id: "1",
       url: "https://www.youtube.com/watch?v=52ZkFD-YlmY",
-      remain: 5,
+      LeadTimeField: 5,
       root: true,
       options: [
         {
@@ -22,14 +22,14 @@ let videoTree = {
     "2": {
       id: "2",
       url: "https://www.youtube.com/watch?v=CSyDiUbjtTE",
-      remain: 0,
+      LeadTimeField: 0,
       root: false,
       options: []
     },
     "3": {
       id: "3",
       url: "https://www.youtube.com/watch?v=VUj1PbvnHS4",
-      remain: 0,
+      LeadTimeField: 0,
       root: false,
       options: []
     }
@@ -50,7 +50,7 @@ router.get("/videoTree/:id", (req, res) => {
 router.post("/",[
         body('id').notEmpty().withMessage('ID is required'),
         body('attributes.url').isURL().withMessage('Invalid URL'),
-        body('attributes.remain').isInt({ gt: -1 }).withMessage('Remain must be a positive integer'),
+        body('attributes.LeadTimeField').isInt({ gt: -1 }).withMessage('LeadTimeField must be a positive integer'),
         body('children').isArray().withMessage('Children must be an array'),
     ], (req, res) => {
         const errors = validationResult(req);
@@ -62,7 +62,7 @@ router.post("/",[
         const rootNode = {
             id: data.id,
             url: data.attributes.url,
-            remain: data.attributes.remain,
+            LeadTimeField: data.attributes.LeadTimeField,
             root: true,
             options: data.children.map(child => ({ label: child.name, nextVideoId: child.id}))
         }
@@ -72,7 +72,7 @@ router.post("/",[
             videoTree[node.id] = {
                 id: node.id,
                 url: node.attributes.url,
-                remain: node.attributes.remain,
+                LeadTimeField: node.attributes.LeadTimeField,
                 root: false,
                 options: node.children.map(child => ({ label: child.name, nextVideoId: child.id }))
             };

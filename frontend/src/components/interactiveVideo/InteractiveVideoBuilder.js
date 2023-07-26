@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tree from 'react-d3-tree';
 import { Button, TextField, Box, Grid, Typography } from '@mui/material';
-import Layout from '../mainPage/Layout';
 import { v4 as uuidv4 } from 'uuid';
 import { useOktaAuth } from '@okta/okta-react';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 const textLayout = {
     title: {
@@ -22,7 +22,7 @@ const InteractiveVideoBuilder = () => {
     id: uuidv4(),
     attributes: {
       url: '',
-      remain: 0, // if remain is 5, options to the next video will be shown 5 seconds before the video ends 
+      LeadTimeField: 0, // this is the amount of time (in seconds) before the end of the video that the options should be displayed 
     },
     children: [],
   });
@@ -30,7 +30,7 @@ const InteractiveVideoBuilder = () => {
   const [inputs, setInputs] = useState({
     name: '',
     url: '',
-    remain: '',
+    LeadTimeField: '',
   });
 
   const [selectedNode, setSelectedNode] = useState(null);
@@ -43,7 +43,7 @@ const InteractiveVideoBuilder = () => {
     const handleResize = () => {
       if (treeContainerRef.current) {
         const dimensions = {
-          x: treeContainerRef.current.offsetWidth / 2 - 80, 
+          x: treeContainerRef.current.offsetWidth / 2, 
           y: treeContainerRef.current.offsetHeight / 2, 
         };
         setTranslate(dimensions);
@@ -64,7 +64,7 @@ const InteractiveVideoBuilder = () => {
     setInputs({
         name: nodeData.data.name,
         url: nodeData.data.attributes.url,
-        remain: nodeData.data.attributes.remain,
+        LeadTimeField: nodeData.data.attributes.LeadTimeField,
     });
   };
 
@@ -85,11 +85,11 @@ const InteractiveVideoBuilder = () => {
       const addChild = (node) => {
         if (node.id === selectedNode.data.id) {
           let newChild = {
-            name: 'New Child',
+            name: 'New Option',
             id: uuidv4(),
             attributes: {
               url: '',
-              remain: 0,
+              LeadTimeField: 0,
             },
             children: [],
           };
@@ -113,7 +113,7 @@ const InteractiveVideoBuilder = () => {
         if (node.id === selectedNode.data.id) {
           if (field === 'name') node.name = event.target.value;
           if (field === 'url') node.attributes.url = event.target.value;
-          if (field === 'remain') node.attributes.remain = parseInt(event.target.value, 10);
+          if (field === 'LeadTimeField') node.attributes.LeadTimeField = parseInt(event.target.value, 10);
         } else if (node.children.length) {
           node.children.forEach(updateNode);
         }
@@ -159,21 +159,29 @@ const InteractiveVideoBuilder = () => {
 
   const renderRectSvgNode = ({ nodeDatum, onNodeClick }) => (
     <>
-    <circle
-      r={20}
-      style={{
-        fill: selectedNode && nodeDatum.id === selectedNode.data.id ? "red" : "transparent"
-      }}
+    <foreignObject 
+      x={-10} // adjust these values
+      y={-27} // adjust these values
+      width={40} // adjust these values
+      height={40} // adjust these values
       onClick={evt => {
         // disable toggle node
         onNodeClick(evt);
       }}
-    ></circle>
+    >
+      <YouTubeIcon 
+        style={{ 
+          width: '100%', 
+          height: '100%',
+          color: selectedNode && nodeDatum.id === selectedNode.data.id ? "red" : "transparent",
+        }}
+      />
+    </foreignObject>
     <g className="rd3t-label">
       <text className="rd3t-label__title" {...textLayout.title}>
         {nodeDatum.name}
       </text>
-      {nodeDatum.id === selectedNode.data.id && (
+      {selectedNode &&  nodeDatum.id === selectedNode.data.id && (
         <text className="rd3t-label__attributes">
             {nodeDatum.attributes &&
             Object.entries(nodeDatum.attributes).map(([labelKey, labelValue], i) => (
@@ -188,8 +196,7 @@ const InteractiveVideoBuilder = () => {
   );
 
   return (
-    <Layout>
-    <Box display="flex" flexDirection='row' justifyContent="center" alignItems="center" height="80vh">
+    <Box display="flex" flexDirection='row' justifyContent="center" alignItems="center" height="80vh" maxHeight='100%'>
       <Box ref={treeContainerRef} width={'70%'} height={'100%'}  sx={{boxShadow:1}} flex={3}>
         <Tree data={data} orientation={direction} onNodeClick={handleNodeClick} translate={translate} renderCustomNodeElement={renderRectSvgNode} />
       </Box>
@@ -199,7 +206,7 @@ const InteractiveVideoBuilder = () => {
             <Typography variant="h6" fontWeight="bold"> Node editor: select node to edit </Typography>
             </Grid>
             <Grid item>
-            <TextField label="Choice label" value={inputs.name} onChange={(e) => handleInputChange(e, 'name')} />
+            <TextField label="Choice Label" value={inputs.name} onChange={(e) => handleInputChange(e, 'name')} />
             </Grid>
             <Grid item>
             <TextField label="URL" value={inputs.url} onChange={(e) => handleInputChange(e, 'url')} />
@@ -207,10 +214,20 @@ const InteractiveVideoBuilder = () => {
             <Grid item>
             <TextField
                 type="number"
-                label="when to show the options"
-                value={inputs.remain}
-                onChange={(e) => handleInputChange(e, 'remain')}
+                label="Lead Time for Option Display"
+                value={inputs.LeadTimeField}
+                onChange={(e) => handleInputChange(e, 'LeadTimeField')}
             />
+            </Grid>
+            <Grid item>
+            <Button variant="contained" color="primary" onClick={onHorizontal}>
+                Horizontal View
+            </Button>
+            </Grid>
+            <Grid item>
+            <Button variant="contained" color="primary" onClick={onVertical}>
+                Vertical View
+            </Button>
             </Grid>
             <Grid item>
                 <Button variant="contained" color="primary" onClick={handleAddChild}>
@@ -219,24 +236,12 @@ const InteractiveVideoBuilder = () => {
             </Grid>
             <Grid item>
             <Button variant="contained" color="primary" onClick={onSubmit}>
-                Submit
+                Upload Video
             </Button>
             </Grid>
-            <Grid item>
-            <Button variant="contained" color="primary" onClick={onHorizontal}>
-                Horizontal view
-            </Button>
-            </Grid>
-            <Grid item>
-            <Button variant="contained" color="primary" onClick={onVertical}>
-                Vertical view
-            </Button>
-            </Grid>
-            
         </Grid>
       </Box>
     </Box>
-    </Layout>
   );
 };
 

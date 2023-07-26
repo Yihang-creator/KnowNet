@@ -36,9 +36,6 @@ const AppRoutes = () => {
       <Route path="/interactive" element={<RequiredAuth />}>
         <Route path="" exact={true} element={<InteractiveVideo />} />
       </Route>
-      <Route path="/interactiveBuilder" element={<RequiredAuth />}>
-        <Route path="" exact={true} element={<InteractiveVideoBuilder />} />
-      </Route>
     </Routes>
   );
 };

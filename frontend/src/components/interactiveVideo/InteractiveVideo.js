@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ReactPlayer from 'react-player';
-import { Button, Box } from '@mui/material';
+import { Button, Box, ButtonGroup } from '@mui/material';
 import Layout from '../mainPage/Layout';
 import { useOktaAuth } from '@okta/okta-react';
 
@@ -23,12 +23,12 @@ export default function InteractiveVideo() {
 
   useEffect(() => {
     // Fetch the first video on initial render
-    fetchVideoData("73c02961-526f-4011-988d-640dadac4fd9");
+    fetchVideoData("1");
   }, [fetchVideoData]);
 
   const handleProgress = ({ playedSeconds }) => {
     // If there's less than 10 seconds left in the video, show the options
-    if (duration - playedSeconds <= videoData.remain) {
+    if (duration - playedSeconds <= videoData.LeadTimeField) {
       setShowOptions(true);
     } else {
       setMuted(false); // this is a workaround to start the video automatically
@@ -69,16 +69,15 @@ export default function InteractiveVideo() {
           }}
         />
         {showOptions && (
-          <Box flex={1} flexDirection='row'>
+          <ButtonGroup variant="outlined">
             {videoData.options.map(option => (
               <Button 
                 key={option.nextVideoId} 
-                variant="contained" 
                 onClick={() => handleOptionClick(option.nextVideoId)}>
                 {option.label}
               </Button>
             ))}
-          </Box>
+          </ButtonGroup>
         )}
       </Box>
     </Layout>
