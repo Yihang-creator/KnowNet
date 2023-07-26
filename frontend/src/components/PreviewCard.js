@@ -14,7 +14,7 @@ import "./PreviewCard.css";
 //   return (
 //     <div className="flex w-full flex-col justify-items-center rounded-lg border-2 border-cyan-200 bg-slate-50 shadow-xl dark:border-gray-700 dark:bg-gray-800">
 //       <div className="flex-container">
-//         <img className="css-shadow" src={props.userPhotoUrl} alt="Image Not Avaliable" />
+//         <img className="css-shadow" src={props.userPhotoUrl} alt="Image Not Available" />
 //         <h5>By: {props.username}</h5>
 //       </div>
 //       <span >
@@ -47,7 +47,7 @@ const PreviewCard = (props) => {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         {/*TODO: add preview text*/}
-                        {props.previewText || ''}
+                        {props.previewText || 'some intro....'}
                     </Typography>
                     <Typography variant="caption" className="text-gary flex items-center" sx={{ marginTop: '10px' }} >
                         <Avatar alt="" src={props.userPhotoUrl} className="mr-2" sx={{ width: '20px', height: '20px' }} />
