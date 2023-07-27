@@ -21,6 +21,7 @@ import { addLike, cancelLike } from "../redux/actions/commentActions";
 import { fetchPost } from "../redux/actions/PostActions";
 import { convertFromRaw, EditorState, Editor, ContentState } from 'draft-js';
 import Layout from "./mainPage/Layout";
+import ShowTags from "./ShowTags";
 
 export function createEditorStateFromText(text) {
   try {
@@ -181,6 +182,7 @@ export const PostContent = () => {
               </Dialog>
     </div>
           </div>
+          <ShowTags tags={post.tags}></ShowTags>
         </div>
         <CommentBoard postId={post.postId} />
       </div>

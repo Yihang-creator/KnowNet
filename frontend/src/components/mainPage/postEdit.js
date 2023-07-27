@@ -43,7 +43,7 @@ const PostEdit = (props) => {
     const [media, setMedia] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null); 
     const [mediaUrl, setMediaUrl] = useState(''); //url given by user
-    const [tags, setTags] = useState(null);
+    const [tags, setTags] = useState("");
 
     useEffect(() => {
         if (post) {
