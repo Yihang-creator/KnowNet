@@ -7,7 +7,7 @@ import { useUserContext } from "./UserContext";
 
 export const RequiredAuth = () => {
   const { oktaAuth, authState } = useOktaAuth();
-  const { userInfo, setUserInfo, userId, setUserId } =
+  const { userInfo, setUserInfo } =
     useUserContext();
 
   useEffect(() => {
@@ -35,7 +35,6 @@ export const RequiredAuth = () => {
             })
             .then((data) => {
               setUserInfo(data);
-              setUserId(data.userId);
             })
             .catch((error) => console.log(error));
           // 1. fetch userId based on email
@@ -44,7 +43,7 @@ export const RequiredAuth = () => {
         });
       }
     }
-  }, [oktaAuth, authState?.isAuthenticated, authState, userId, setUserInfo, setUserId, userInfo]);
+  }, [oktaAuth, authState?.isAuthenticated, authState, setUserInfo, userInfo]);
 
   if (!authState || !authState?.isAuthenticated || userInfo === null || userInfo === undefined) {
     return <Loading />;

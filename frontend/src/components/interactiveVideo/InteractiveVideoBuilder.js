@@ -39,7 +39,8 @@ const InteractiveVideoBuilder = (props) => {
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const treeContainerRef = useRef(null);
   const [direction ,setDirection] = useState('horizontal');
-  const { userId } = useUserContext();
+  const { userInfo } = useUserContext();
+  const { userId } = userInfo;
   const [errorSnackBarOpen, setErrorSnackBarOpen] = useState(false);
   const [errorSnackMessage, setErrorSnackMessage] = useState('');
 

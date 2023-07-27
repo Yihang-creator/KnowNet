@@ -47,7 +47,8 @@ const PostEdit = (props) => {
     const [previewUrl, setPreviewUrl] = useState(null); 
     const [mediaUrl, setMediaUrl] = useState(''); //url given by user
     const [selectedTab, setSelectedTab] = useState(0);
-    const { userId } = useUserContext();
+    const { userInfo } = useUserContext();
+    const { userId } = userInfo;
     const [ dialogTitle, setDialogTitle] = useState("New Post");
     const [ snackBarOpen, setSnackbarOpen] = useState(false);
     const [message, setMessage] = useState('');
