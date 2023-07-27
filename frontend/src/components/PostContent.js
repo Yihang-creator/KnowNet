@@ -78,6 +78,20 @@ export const PostContent = () => {
     setOpenDialog(false);
   };
 
+  const handleTimeStamp = (time) => {
+    let date = new Date(time);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    day = day <10 ?'0'+ day : day;
+    hour = hour < 10 ? '0'+ hour : hour;
+    minute = minute < 10 ?'0' + minute : minute;
+    let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
+    return formattedDate;
+  }
+
   const shareUrl = window.location.href;
 
   // bg-white background color
@@ -108,7 +122,7 @@ export const PostContent = () => {
                   <span className="font-bold">{post.name}</span>
                 </Link>
                 {/* date */}
-                <div className="text-gray-600">{post.timestamp}</div>
+                <div className="text-gray-600">{handleTimeStamp(post.timestamp)}</div>
               </div>
             </div>
             <MoreHorizIcon />
