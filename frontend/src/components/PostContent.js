@@ -26,6 +26,7 @@ import {
   Dialog,
   DialogActions,
 } from "@mui/material";
+import ShowTags from "./ShowTags";
 
 export function createEditorStateFromText(text) {
   try {
@@ -216,6 +217,7 @@ export const PostContent = () => {
               </Dialog>
     </div>
           </div>
+          <ShowTags tags={post.tags}></ShowTags>
         </div>
         <CommentBoard postId={post.postId} />
       </div>

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tree from 'react-d3-tree';
-import { Button, TextField, Box, Grid, Typography, Snackbar, Alert } from '@mui/material';
+import { Button, TextField, Box, Grid, Typography, Snackbar, Alert, Tooltip, IconButton } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { useOktaAuth } from '@okta/okta-react';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useUserContext } from '../../auth/UserContext';
+import { UsageGuide } from './UsageGuide';
 
 const textLayout = {
     title: {
@@ -254,6 +256,11 @@ const InteractiveVideoBuilder = (props) => {
         <Tree data={data} orientation={direction} onNodeClick={handleNodeClick} translate={translate} renderCustomNodeElement={renderRectSvgNode} />
       </Box>
       <Box ml={2} flex={1} width={'30%'}>
+        <Tooltip title={<UsageGuide />} placement="left">
+          <IconButton aria-label="help">
+            <HelpOutlineIcon />
+          </IconButton>
+        </Tooltip>
         <Grid container direction="column" alignItems="center" spacing={2}>
             <Grid item>
             <Typography variant="h6" fontWeight="bold"> Node editor: select node to edit </Typography>

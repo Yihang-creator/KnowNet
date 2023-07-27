@@ -93,17 +93,20 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { userId, mediaType, mediaUrl, title, text } = req.body;
+    const { userId, username, mediaType, mediaUrl, title, text, tags, userPhotoUrl} = req.body;
 
     const newPost = new Post({
       _id: uuidv4(), // generate a new ID
       userId,
+      username,
       mediaType,
       mediaUrl,
       title,
       text,
+      userPhotoUrl,
       like: [],
       comments: [],
+      tags: tags,
       timestamp: new Date().toISOString(),
     });
 
@@ -131,7 +134,7 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { userId, mediaType, mediaUrl, title, text } = req.body;
+    const { userId, username, mediaType, mediaUrl, title, text, userPhotoUrl} = req.body;
 
     try {
       const post = await Post.findById(req.params.postId); // find the post by ID

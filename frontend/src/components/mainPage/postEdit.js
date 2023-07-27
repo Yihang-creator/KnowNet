@@ -53,6 +53,9 @@ const PostEdit = (props) => {
     const [ snackBarOpen, setSnackbarOpen] = useState(false);
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('success');
+    const [tags, setTags] = useState("");
+
+    const user_image = userInfo == null ? null : userInfo.userPhotoUrl;
     useEffect(() => {
         if (post) {
           setTitle(post.title);
@@ -90,34 +93,41 @@ const PostEdit = (props) => {
     const handleCloseSnackbar = () => {
       setSnackbarOpen(false);
     }
-  
+
     // Add this function to handle URL changes
     const handleMediaUrlChange = (event) => {
       setMediaUrl(event.target.value);
       setPreviewUrl(event.target.value);
       setMedia(null);
     };
-  
-  
+
+    const handleTagsChange = (event) => {
+        setTags(event.target.value);
+    };
+
+    const turnTagListTotags = (tags) => {
+        return tags.split(" ");
+    }
+
     const handleSubmit = async (event) => {
       event.preventDefault();
-      
+
       if (!media && !mediaUrl) {
         alert('Please select a media file to upload or enter a URL.');
         return;
       }
-    
+
       let fileUrl;
-  
+
       if (media) {
         // Get the pre-signed URL from the backend
-        const response = await fetch('/api/aws/upload?fileType=' + encodeURIComponent(media.type), 
+        const response = await fetch('/api/aws/upload?fileType=' + encodeURIComponent(media.type),
         {
           headers: {
           Authorization: 'Bearer ' + oktaAuth.getAccessToken()
         },});
         const { url, key } = await response.json();
-  
+
         //upload the media file to the s3 bucket
         const uploadResponse = await fetch(url, {
           method: 'PUT',
@@ -126,11 +136,11 @@ const PostEdit = (props) => {
             'Content-Type': media.type
           }
         });
-  
+
         if (!uploadResponse.ok) {
           alert('Failed to upload file.');
           return;
-        }  
+        }
         fileUrl = url.split('?')[0];
       } else {
         if (validator.isURL(mediaUrl)) {
@@ -139,7 +149,7 @@ const PostEdit = (props) => {
           alert("invalidUrl");
         }
       }
-  
+
       let mediaType = '';
       if (media) {
         // user upload an image or video
@@ -149,7 +159,7 @@ const PostEdit = (props) => {
         mediaType = mediaUrl.match(/\.(jpeg|jpg|gif|png)$/) != null ? 'image' : 'video';
       }
       let postResponse;
-      
+
       if (!post) {
           // Send the URL and other post data to the backend
           postResponse = await fetch('/api/posts', {
@@ -163,7 +173,10 @@ const PostEdit = (props) => {
               text: JSON.stringify(convertToRaw(content.getCurrentContent())),
               mediaUrl: fileUrl,
               mediaType: mediaType,
-              userId: userId
+              tags: turnTagListTotags(tags),
+              userId: userId,
+              userPhotoUrl: user_image,
+              username: userInfo.username
               })
           });
           setMessage("Upload succeeded");
@@ -180,11 +193,14 @@ const PostEdit = (props) => {
               text: JSON.stringify(convertToRaw(content.getCurrentContent())),
               mediaUrl: fileUrl,
               mediaType: mediaType,
-              userId: userId
+              tags: turnTagListTotags(tags),
+              userId: userId,
+              userPhotoUrl: user_image,
+              username: userInfo.username
               })
          });
          setMessage("Update succeeded");
-      } 
+      }
       setSnackbarOpen(true);
       setSeverity("success");
       handleClose();
@@ -225,7 +241,7 @@ const PostEdit = (props) => {
                   }}
                   onEditorStateChange={setContent}
                   placeholder="What's on your mind?"
-                  editorStyle={{ height: '450px' }} 
+                  editorStyle={{ height: '320px' }}
               />
               <Divider />
               <TextField
@@ -236,6 +252,14 @@ const PostEdit = (props) => {
                   fullWidth
                   value={mediaUrl}
                   onChange={handleMediaUrlChange}
+              />
+              <TextField
+                  margin="dense"
+                  id="outlined-basic"
+                  label="Add tags, separate each tag by space."
+                  fullWidth
+                  value={tags}
+                  onChange={handleTagsChange}
               />
               <Button variant="contained" component="label">
                   Upload Image/Video
@@ -254,7 +278,7 @@ const PostEdit = (props) => {
               </DialogActions>
               </>
             }
-            {selectedTab === 1 && 
+            {selectedTab === 1 &&
               <DialogContent>
                 <InteractiveVideoBuilder handleClose={handleClose} postId={post?.postId} interactiveVideos={post?.interactiveVideos} setMessage={setMessage} setSnackbarOpen={setSnackbarOpen} setSeverity={setSeverity}/>
               </DialogContent>

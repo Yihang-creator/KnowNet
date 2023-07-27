@@ -19,14 +19,21 @@ export const calculateTimeAgo = (timestamp) => {
     } else if (elapsed < day) {
       const hoursAgo = Math.floor(elapsed / hour);
       return `Posted ${hoursAgo} ${hoursAgo === 1 ? 'hour' : 'hours'} ago`;
-    } else if (elapsed < month) {
-      const daysAgo = Math.floor(elapsed / day);
-      return `Posted ${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
-    } else if (elapsed < year) {
-      const monthsAgo = Math.floor(elapsed / month);
-      return `Posted ${monthsAgo} ${monthsAgo === 1 ? 'month' : 'months'} ago`;
     } else {
-      const yearsAgo = Math.floor(elapsed / year);
-      return `Posted ${yearsAgo} ${yearsAgo === 1 ? 'year' : 'years'} ago`;
+      return handleTimeStamp(timestamp);
     }
   };
+
+  const handleTimeStamp = (time) => {
+    let date = new Date(time);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    day = day <10 ?'0'+ day : day;
+    hour = hour < 10 ? '0'+ hour : hour;
+    minute = minute < 10 ?'0' + minute : minute;
+    let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
+    return formattedDate;
+  }
