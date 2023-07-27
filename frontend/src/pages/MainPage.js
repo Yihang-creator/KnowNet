@@ -8,6 +8,7 @@ const Home = () => {
     const { authState } = useOktaAuth();
     // const [userInfo, setUserInfo] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const [searchByTag, setSearchByTag] = useState(false);
     // const { userInfo } = useUserContext();
 
     // console.log(userInfo);
@@ -34,8 +35,8 @@ const Home = () => {
 
     return (
       <div>
-        <Layout setSearchTerm={setSearchTerm}>
-          <Contents searchTerm={searchTerm} />
+        <Layout setSearchTerm={setSearchTerm} setSearchByTag={setSearchByTag}>
+          <Contents searchTerm={searchTerm} searchByTag={searchByTag}/>
         </Layout>
       </div>
     );
