@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
 import validator from 'validator';
 import { createEditorStateFromText } from "../PostContent";
+import { useUserContext } from "../../auth/UserContext";
 
 
 const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', 
@@ -37,13 +38,16 @@ const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', 
 const PostEdit = (props) => {
 
     const { open, handleClose, post } = props;
-    const { oktaAuth } = useOktaAuth(); 
+    const { oktaAuth } = useOktaAuth();
     const [title, setTitle] = useState("")
     const [content, setContent] = useState(EditorState.createEmpty());
     const [media, setMedia] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null); 
     const [mediaUrl, setMediaUrl] = useState(''); //url given by user
     const [tags, setTags] = useState(null);
+
+    const { userInfo } = useUserContext();
+    const user_image = userInfo == null ? null : userInfo.userPhotoUrl;
 
     useEffect(() => {
         if (post) {
@@ -163,7 +167,9 @@ const PostEdit = (props) => {
                 mediaUrl: fileUrl,
                 mediaType: mediaType,
                 tags: turnTagListTotags(tags),
-                userId: 1 //TODO switch to true user id
+                userId: userInfo.userId,
+                userPhotoUrl: user_image,
+                username: userInfo.username
                 })
             });
         } else {
@@ -180,7 +186,9 @@ const PostEdit = (props) => {
                 mediaUrl: fileUrl,
                 mediaType: mediaType,
                 tags: turnTagListTotags(tags),
-                userId: 1 //TODO switch to true user id
+                userId: userInfo.userId,
+                userPhotoUrl: user_image,
+                username: userInfo.username
                 })
             });
         }
