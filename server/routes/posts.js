@@ -63,6 +63,23 @@ router.get("/:postId", async function (req, res, next) {
   }
 });
 
+router.get("/:postId/interactiveVideo/:videoId", async (req, res) => {
+  const postId = req.params.postId; // postId
+  const videoId = req.params.videoId; // nodeId
+
+  try {
+    const foundPost = await Post.findById(postId);
+    const foundInteractiveVideo = foundPost.interactiveVideos.find(item => item.id === videoId)
+    return res
+      .setHeader("Content-Type", "application/json")
+      .status(200)
+      .send(foundInteractiveVideo);
+  } catch (error) {
+    console.error(`Error retrieving post ${postId}:`, error);
+    return res.status(500).json({ error: "Failed to retrieve the post" });
+  }
+});
+
 router.post(
   "/",
   [

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import { Button, Box, ButtonGroup } from '@mui/material';
-import Layout from '../mainPage/Layout';
 import { useOktaAuth } from '@okta/okta-react';
 
-export default function InteractiveVideo() {
+export default function InteractiveVideo(props) {
+  const { postId, rootId } = props;
   const [videoData, setVideoData] = useState(null);
   const [showOptions, setShowOptions] = useState(false);
   const [duration, setDuration] = useState(0);
@@ -13,18 +13,18 @@ export default function InteractiveVideo() {
   const playerRef = useRef(null);
 
   const fetchVideoData = useCallback(async (id) => {
-    const response = await fetch(`/api/interactiveVideo/videoTree/${id}`, {
+    const response = await fetch(`/api/posts/${postId}/interactiveVideo/${id}`, {
       headers: {'Authorization': 'Bearer ' + oktaAuth.getAccessToken()}
     });
     const data = await response.json();
     setVideoData(data);
     setShowOptions(false);
-  }, [oktaAuth]);
+  }, [oktaAuth, postId]);
 
   useEffect(() => {
     // Fetch the first video on initial render
-    fetchVideoData("1");
-  }, [fetchVideoData]);
+    fetchVideoData(rootId);
+  }, [fetchVideoData, rootId]);
 
   const handleProgress = ({ playedSeconds }) => {
     // If there's less than 10 seconds left in the video, show the options
@@ -47,7 +47,6 @@ export default function InteractiveVideo() {
   if (!videoData) return 'Loading...';
 
   return (
-    <Layout>
       <Box className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
         <ReactPlayer 
           ref={playerRef}
@@ -80,6 +79,5 @@ export default function InteractiveVideo() {
           </ButtonGroup>
         )}
       </Box>
-    </Layout>
   );
 }

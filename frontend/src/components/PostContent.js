@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ReactPlayer from 'react-player/lazy';
 import { useOktaAuth } from '@okta/okta-react';
 import { useParams, Link } from "react-router-dom";
@@ -21,6 +21,7 @@ import { addLike, cancelLike } from "../redux/actions/commentActions";
 import { fetchPost } from "../redux/actions/PostActions";
 import { convertFromRaw, EditorState, Editor, ContentState } from 'draft-js';
 import Layout from "./mainPage/Layout";
+import InteractiveVideo from "./interactiveVideo/InteractiveVideo";
 
 export function createEditorStateFromText(text) {
   try {
@@ -29,6 +30,9 @@ export function createEditorStateFromText(text) {
     return EditorState.createWithContent(contentState);
   } catch (e) {
     // The text was not in JSON format, so treat it as plain text
+    if (!text) {
+      return EditorState.createEmpty();
+    }
     const contentState = ContentState.createFromText(text);
     return EditorState.createWithContent(contentState);
   }
@@ -50,6 +54,16 @@ export const PostContent = () => {
   }, [dispatch, postId, oktaAuth]);
 
   const [openDialog, setOpenDialog] = useState(false);
+
+  const rootId = useMemo(() => {
+    if (post?.interactiveVideos && post.interactiveVideos.length > 0) {
+      const rootVideo = post.interactiveVideos.find((item) => item.root === true);
+      if (rootVideo) {
+        return rootVideo.id;
+      }
+    }
+    return null;
+  }, [post])
 
   if (!post) {
     return <div> Post Loading ...</div>;
@@ -119,9 +133,11 @@ export const PostContent = () => {
                     alt={post.title}
                     className="max-w-screen-sm mx-auto"
                 />
-            ) : (
-                <ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />
-            )}
+            ) : post.interactiveVideos && post.interactiveVideos.length > 0 ? (
+              <InteractiveVideo postId={post.postId} rootId={rootId}/>
+            ) :
+                (<ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />)
+            }
             <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
             <Editor
               editorState={enrichedText}

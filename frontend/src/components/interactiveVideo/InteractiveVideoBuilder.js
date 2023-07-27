@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tree from 'react-d3-tree';
-import { Button, TextField, Box, Grid, Typography } from '@mui/material';
+import { Button, TextField, Box, Grid, Typography, Snackbar } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { useOktaAuth } from '@okta/okta-react';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import { useUserContext } from '../../auth/UserContext';
 
 const textLayout = {
     title: {
@@ -16,7 +17,8 @@ const textLayout = {
     },
   };
 
-const InteractiveVideoBuilder = () => {
+const InteractiveVideoBuilder = (props) => {
+  const { handleClose } = props;
   const [data, setData] = useState({ // tree storing all the data related to current interactive video
     name: 'Root',
     id: uuidv4(),
@@ -26,6 +28,8 @@ const InteractiveVideoBuilder = () => {
     },
     children: [],
   });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [inputs, setInputs] = useState({
     name: '',
@@ -38,6 +42,7 @@ const InteractiveVideoBuilder = () => {
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const treeContainerRef = useRef(null);
   const [direction ,setDirection] = useState('horizontal');
+  const { userId } = useUserContext();
 
   useEffect(() => {
     const handleResize = () => {
@@ -148,13 +153,33 @@ const InteractiveVideoBuilder = () => {
     fetch('/api/interactiveVideo/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + oktaAuth.getAccessToken()},
-      body: JSON.stringify(data),
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
+      body: JSON.stringify({
+        ...data,
+        userId: userId,
+        mediaType: 'video',
+        title: data.name,
+        mediaUrl: data.attributes.url,
+        text: null,
+        })})
+      .then(response => {
+        if (response.status === 201) {
+            // Request succeeded with 201 status code, close the dialog
+            handleClose();
+        } else {
+            setErrorMessage('An error occurred while submitting the form. Please try again later.');
+            setSnackbarOpen(true);
+        }
+       })
       .catch((error) => {
         console.error('Error:', error);
+        setErrorMessage('An error occurred while submitting the form. Please try again later.');
+        setSnackbarOpen(true);
       });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+    setErrorMessage('');
   };
 
   const renderRectSvgNode = ({ nodeDatum, onNodeClick }) => (
@@ -197,7 +222,7 @@ const InteractiveVideoBuilder = () => {
 
   return (
     <Box display="flex" flexDirection='row' justifyContent="center" alignItems="center" height="80vh" maxHeight='100%'>
-      <Box ref={treeContainerRef} width={'70%'} height={'100%'}  sx={{boxShadow:1}} flex={3}>
+      <Box ref={treeContainerRef} width={'70%'} height={'100%'}  sx={{boxShadow:2}} flex={3}>
         <Tree data={data} orientation={direction} onNodeClick={handleNodeClick} translate={translate} renderCustomNodeElement={renderRectSvgNode} />
       </Box>
       <Box ml={2} flex={1} width={'30%'}>
@@ -241,6 +266,12 @@ const InteractiveVideoBuilder = () => {
             </Grid>
         </Grid>
       </Box>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        message={errorMessage}
+      />
     </Box>
   );
 };

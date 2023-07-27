@@ -8,8 +8,6 @@ import Profile from "../pages/Profile";
 import { PostContent } from "../components/PostContent";
 import CommentPage from "../components/comments/CommentBoard";
 import JoinPage from "../components/videoRoom/JoinPage";
-import InteractiveVideo from "../components/interactiveVideo/InteractiveVideo";
-import InteractiveVideoBuilder from "../components/interactiveVideo/InteractiveVideoBuilder";
 
 const AppRoutes = () => {
   return (
@@ -32,9 +30,6 @@ const AppRoutes = () => {
       </Route>
       <Route path="/joinVideoRoom" element={<RequiredAuth />}>
         <Route path="" exact={true} element={<JoinPage />} />
-      </Route>
-      <Route path="/interactive" element={<RequiredAuth />}>
-        <Route path="" exact={true} element={<InteractiveVideo />} />
       </Route>
     </Routes>
   );

@@ -8,7 +8,9 @@ import { useOktaAuth } from '@okta/okta-react';
 import validator from 'validator';
 import { createEditorStateFromText } from "../PostContent";
 import InteractiveVideoBuilder from "../interactiveVideo/InteractiveVideoBuilder";
-
+import { useUserContext } from "../../auth/UserContext";
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 
 const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', 
 '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '🤪', '😝', '🤑', 
@@ -45,6 +47,7 @@ const PostEdit = (props) => {
     const [previewUrl, setPreviewUrl] = useState(null); 
     const [mediaUrl, setMediaUrl] = useState(''); //url given by user
     const [selectedTab, setSelectedTab] = useState(0);
+    const { userId } = useUserContext();
 
     useEffect(() => {
         if (post) {
@@ -54,6 +57,11 @@ const PostEdit = (props) => {
           setContent(enrichedText);
           setMediaUrl(post.mediaUrl);
           setPreviewUrl(post.mediaUrl);
+          if (!!post.interactiveVideo) {
+            if (window.confirm("Edit is not allowed on interactive videos. Click OK to close.")) {
+              handleClose();
+            }
+          }
         } else {
           // reset state variables to initial values when post becomes null or undefined
           setTitle("");
@@ -61,7 +69,7 @@ const PostEdit = (props) => {
           setMediaUrl("");
           setPreviewUrl(null);
         }
-      }, [post]);
+      }, [post, handleClose]);
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -154,7 +162,7 @@ const PostEdit = (props) => {
               text: JSON.stringify(convertToRaw(content.getCurrentContent())),
               mediaUrl: fileUrl,
               mediaType: mediaType,
-              userId: 1 //TODO switch to true user id
+              userId: userId
               })
           });
       } else {
@@ -170,7 +178,7 @@ const PostEdit = (props) => {
               text: JSON.stringify(convertToRaw(content.getCurrentContent())),
               mediaUrl: fileUrl,
               mediaType: mediaType,
-              userId: 1 //TODO switch to true user id
+              userId: userId
               })
           });
       }
@@ -185,11 +193,11 @@ const PostEdit = (props) => {
     };
 
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth maxWidth='xl'>
+        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth maxWidth='lg'>
             <DialogTitle id="form-dialog-title">New Post </DialogTitle>
             <Tabs value={selectedTab} onChange={handleTabChange}>
-              <Tab label="Post" />
-              <Tab label="Interactive Video" />
+              <Tab label="Post" icon={<PostAddIcon/>} />
+              <Tab label="Interactive Video" icon={<VideogameAssetIcon />} />
             </Tabs>
             {selectedTab === 0 &&
              <>
@@ -214,7 +222,7 @@ const PostEdit = (props) => {
                   }}
                   onEditorStateChange={setContent}
                   placeholder="What's on your mind?"
-                  editorStyle={{ height: '300px' }} 
+                  editorStyle={{ height: '450px' }} 
               />
               <Divider />
               <TextField
@@ -245,7 +253,7 @@ const PostEdit = (props) => {
             }
             {selectedTab === 1 && 
               <DialogContent>
-                <InteractiveVideoBuilder/>
+                <InteractiveVideoBuilder handleClose={handleClose}/>
               </DialogContent>
             }
         </Dialog>
