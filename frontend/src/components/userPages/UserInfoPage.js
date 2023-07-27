@@ -102,12 +102,12 @@ const UserInfoPage = ({ name, email }) => {
 
   return (
       <Box sx={{ display: 'flex' }}>
-        <Box sx={{ display: 'flex', overflow: 'auto'}}>
-          <ResponsiveDrawer />
-          <Box sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, maxWidth: '100%', overflowX: 'hidden' }}>
-            <Toolbar />
-          </Box>
-        </Box>
+        {/*<Box sx={{ display: 'flex', overflow: 'auto'}}>*/}
+        {/*  <ResponsiveDrawer />*/}
+        {/*  <Box sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, maxWidth: '100%', overflowX: 'hidden' }}>*/}
+        {/*    <Toolbar />*/}
+        {/*  </Box>*/}
+        {/*</Box>*/}
         <Box sx={{ flexGrow: 1 }}>
           <div className="flex flex-col gap-4 p-2">
             <SearchBar setSearchTerm={setSearchTerm}/>
