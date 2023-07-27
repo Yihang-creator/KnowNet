@@ -39,6 +39,14 @@ let users = [
     email: "751718501@qq.com",
     follow: ["1", "2", "3"],
   },
+  {
+    userId: "10",
+    username: "Alex",
+    userPhotoUrl:
+        "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1685&q=80",
+    email: "wfq15367818393@163.com",
+    follow: [],
+  },
 ];
 
 module.exports.users = users;
