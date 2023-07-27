@@ -43,6 +43,7 @@ const PostEdit = (props) => {
     const [media, setMedia] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null); 
     const [mediaUrl, setMediaUrl] = useState(''); //url given by user
+    const [tags, setTags] = useState(null);
 
     useEffect(() => {
         if (post) {
@@ -77,10 +78,19 @@ const PostEdit = (props) => {
     
       // Add this function to handle URL changes
       const handleMediaUrlChange = (event) => {
+        console.log(event.target.value);
         setMediaUrl(event.target.value);
         setPreviewUrl(event.target.value);
         setMedia(null);
       };
+
+      const handleTagsChange = (event) => {
+        setTags(event.target.value);
+      };
+
+      const turnTagListTotags = (tags) => {
+        return tags.split(" ");
+      }
     
     
       const handleSubmit = async (event) => {
@@ -152,6 +162,7 @@ const PostEdit = (props) => {
                 text: JSON.stringify(convertToRaw(content.getCurrentContent())),
                 mediaUrl: fileUrl,
                 mediaType: mediaType,
+                tags: turnTagListTotags(tags),
                 userId: 1 //TODO switch to true user id
                 })
             });
@@ -168,13 +179,14 @@ const PostEdit = (props) => {
                 text: JSON.stringify(convertToRaw(content.getCurrentContent())),
                 mediaUrl: fileUrl,
                 mediaType: mediaType,
+                tags: turnTagListTotags(tags),
                 userId: 1 //TODO switch to true user id
                 })
             });
         }
-    
-        console.log('Post created:', postResponse.json())
-    
+
+        const response = postResponse.json();
+        console.log('Post created:', response)
         handleClose();
       };
 
@@ -213,6 +225,14 @@ const PostEdit = (props) => {
                 fullWidth
                 value={mediaUrl}
                 onChange={handleMediaUrlChange}
+            />
+            <TextField
+                margin="dense"
+                id="outlined-basic"
+                label="Add tags, separate each tag by space."
+                fullWidth
+                value={tags}
+                onChange={handleTagsChange}
             />
             <Button variant="contained" component="label">
                 Upload Image/Video
