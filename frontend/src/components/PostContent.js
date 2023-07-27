@@ -62,6 +62,7 @@ export const PostContent = () => {
   var likes = post.like.length;
   var enrichedText = typeof post.text === 'undefined' ? EditorState.createEmpty() : createEditorStateFromText(post.text);
 
+
   const changeLiked = (liked) => {
     setLiked(!liked);
     !liked
@@ -107,7 +108,7 @@ export const PostContent = () => {
                   <span className="font-bold">{post.name}</span>
                 </Link>
                 {/* date */}
-                <div className="text-gray-600">Posted 1 min ago</div>
+                <div className="text-gray-600">{post.timestamp}</div>
               </div>
             </div>
             <MoreHorizIcon />
