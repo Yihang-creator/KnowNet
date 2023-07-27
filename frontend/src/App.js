@@ -10,6 +10,7 @@ import config from "./auth/oktaConfig";
 import Routes from "./auth/Routes";
 import store from "./store";
 import { UserProvider } from "./auth/UserContext";
+import { SearchProvider } from "./components/mainPage/searchContext";
 
 const oktaAuth = new OktaAuth(config.oidc);
 
@@ -36,9 +37,11 @@ const App = () => {
       <UserProvider>
         <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
           <ThemeProvider theme={theme}>
-            <main>
-              <Routes />
-            </main>
+            <SearchProvider>
+              <main>
+                <Routes />
+              </main>
+            </SearchProvider>
           </ThemeProvider>
         </Security>
       </UserProvider>

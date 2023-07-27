@@ -1,5 +1,5 @@
 import { useOktaAuth } from "@okta/okta-react";
-import React, { useState } from "react";
+import React from "react";
 import Contents from "../components/mainPage/Contents";
 // import { useUserContext } from "../auth/UserContext";
 import Layout from "../components/mainPage/Layout";
@@ -7,8 +7,6 @@ import Layout from "../components/mainPage/Layout";
 const Home = () => {
     const { authState } = useOktaAuth();
     // const [userInfo, setUserInfo] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchByTag, setSearchByTag] = useState(false);
     // const { userInfo } = useUserContext();
 
     // console.log(userInfo);
@@ -35,8 +33,8 @@ const Home = () => {
 
     return (
       <div>
-        <Layout setSearchTerm={setSearchTerm} setSearchByTag={setSearchByTag}>
-          <Contents searchTerm={searchTerm} searchByTag={searchByTag}/>
+        <Layout>
+          <Contents/>
         </Layout>
       </div>
     );

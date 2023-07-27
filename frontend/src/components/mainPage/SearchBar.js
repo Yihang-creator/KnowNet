@@ -7,9 +7,9 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton } from "@mui/material";
 import Dropdown from "./Dropdown";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { makeStyles } from "@material-ui/core/styles";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { useSearchContext } from "./searchContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -52,31 +52,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const useStyles = makeStyles({
-  root: {
-    color: "white",
-    "& .MuiSvgIcon-root": {
-      backgroundColor: "grey",
-      borderRadius: '50%'
-    },
-    "&$checked": {
-      color: "yellow",
-    },
-    marginLeft: '30px'
-  }
-});
-
-
 const handleSearch = (searchTerm, setSearchTerm, checked, setSearchByTag) => {
   setSearchTerm(searchTerm);
   setSearchByTag(checked);
 };
 
-export default function SearchBar({ setSearchTerm, setSearchByTag }) {
+export default function SearchBar() {
   const [localSearchTerm, setLocalSearchTerm] = React.useState("");
   const [checked, setChecked] = React.useState(false);
-
-  const checkBoxStyle = useStyles();
+  const { setSearchTerm, setSearchByTag } = useSearchContext();
 
   const handleTagChange = (event) => {
     setChecked(event.target.checked);
@@ -106,7 +90,7 @@ export default function SearchBar({ setSearchTerm, setSearchByTag }) {
               size="large"
               aria-label="search"
               color="inherit"
-              onClick={() => handleSearch(localSearchTerm, setSearchTerm)}
+              onClick={() => handleSearch(localSearchTerm, setSearchTerm, checked, setSearchByTag)}
               style={{ cursor: "pointer" }}
             >
               <SearchIconWrapper>
@@ -124,11 +108,19 @@ export default function SearchBar({ setSearchTerm, setSearchByTag }) {
           <FormControlLabel
             control={
               <Checkbox
-                classes={{
-                  root: checkBoxStyle.root,
-                }}
                 checked={checked}
                 onChange={handleTagChange}
+                sx={{
+                  color: 'white',
+                  '& .MuiSvgIcon-root': {
+                    backgroundColor: 'grey',
+                    borderRadius: '50%'
+                  },
+                  '&.Mui-checked': {
+                    color: 'yellow',
+                  },
+                  marginLeft: '30px'
+                }}
               />
             }
             label="Search By Tag"

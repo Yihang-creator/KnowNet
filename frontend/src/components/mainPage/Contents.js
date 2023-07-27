@@ -6,12 +6,12 @@ import { useOktaAuth } from "@okta/okta-react";
 import { fetchAllPost } from "../../redux/actions/PostActions";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "../../auth/Loading";
-import CardMedia from "@mui/material/CardMedia";
-import Carousel from "react-material-ui-carousel";
+import { useSearchContext } from "./searchContext";
 
-const Contents = ({ searchTerm, searchByTag}) => {
+const Contents = () => {
   const { oktaAuth } = useOktaAuth();
   const dispatch = useDispatch();
+  const { searchTerm, searchByTag } = useSearchContext();
   const posts = useSelector((state) => state.posts);
 
   useEffect(() => {
