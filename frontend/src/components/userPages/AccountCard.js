@@ -10,7 +10,7 @@ import {
     ListItemButton
 } from '@mui/material';
 import { useDispatch } from "react-redux";
-import { follow } from "../redux/actions/userActions";
+import { follow } from "../../redux/actions/userActions";
 
 const AccountCard = ({
                          name,

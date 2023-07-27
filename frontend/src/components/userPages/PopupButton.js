@@ -5,7 +5,7 @@ import {
   Grid,
   List,
 } from '@mui/material';
-import AccountCard from "../AccountCard";
+import AccountCard from "./AccountCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import {

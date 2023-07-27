@@ -8,7 +8,7 @@ import {
     Avatar
 } from '@mui/material';
 import Resource from "./Resource";
-import "./PreviewCard.css";
+import "../../Styles/PreviewCard.css";
 
 const PreviewCard = (props) => {
     return (

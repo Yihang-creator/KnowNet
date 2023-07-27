@@ -4,14 +4,14 @@ import { Face } from '@mui/icons-material'
 import { useTheme } from '@mui/material/styles';
 import PopupButton from "./PopupButton";
 import { Link } from "react-router-dom";
-import ProfileCard from "../ProfileCard";
+import ProfileCard from "./ProfileCard";
 import Dropdown from "../mainPage/Dropdown";
 import { useOktaAuth } from "@okta/okta-react";
 import { useUserContext } from "../../auth/UserContext";
 import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from "@mui/icons-material/Edit";
 import PostEdit from "../mainPage/postEdit";
-
+import SearchBar from '../mainPage/SearchBar';
 const UserInfoPage = ({ name, email }) => {
   const { userInfo } = useUserContext();
   const theme = useTheme();
@@ -22,6 +22,7 @@ const UserInfoPage = ({ name, email }) => {
   const [open, setOpen] = useState(false);
   const [editPost, setEditPost] = useState(false);
   const [editStatus, setEditStatus] = useState(false); // Whether to enter editing mode
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch(`/api/posts`, {
@@ -99,21 +100,22 @@ const UserInfoPage = ({ name, email }) => {
 
   return (
       <div className="flex flex-col gap-4 p-2">
+        <SearchBar setSearchTerm={setSearchTerm}/>
         <Box
             sx={{
               background: 'linear-gradient(#041a2d, #515f72)',
               borderRadius: '5px'
             }}
         >
-          <div className="float-right mr-2 mt-2">
-            <Dropdown />
-          </div>
+          {/*<div className="float-right mr-2 mt-2">*/}
+          {/*  <Dropdown />*/}
+          {/*</div>*/}
           <Grid className="flex p-5 pt-7">
-            <div className="relative h-36 w-36 justify-center rounded-full bg-white">
-              <div className="absolute bottom-0 right-4 z-10">
+            <div className="relative h-36 w-36 justify-center mt-4 rounded-full bg-white">
+            <div className="absolute bottom-0 right-4 z-10">
                 <label
                     htmlFor="profileUpload"
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-yellow-500 font-bold text-black shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-yellow-500 font-bold text-black shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   +
                 </label>
@@ -138,7 +140,7 @@ const UserInfoPage = ({ name, email }) => {
               <CardContent sx={{ flex: '1 0 auto' }}>
                 <Typography component="div" variant="h4" color="#fff" sx={{ marginBottom: '12px' }}>
                   {name}
-                  <Chip sx={{ color: '#bfbdbd', marginLeft: '20px' }} icon={<Face color="#bfbdbd" sx={{ fontSize: '20px', color: '#bfbdbd' }} />} label="23" />
+                  {/*<Chip sx={{ color: '#bfbdbd', marginLeft: '20px' }} icon={<Face color="#bfbdbd" sx={{ fontSize: '20px', color: '#bfbdbd' }} />} label="23" />*/}
                 </Typography>
                 <Typography variant="subtitle1" component="div" color="#bfbdbd">
                   @{email}

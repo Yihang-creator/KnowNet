@@ -10,16 +10,16 @@ import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import CommentBoard from "./comments/CommentBoard";
+import CommentBoard from "../comments/CommentBoard";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addLike, cancelLike } from "../redux/actions/commentActions";
-import { fetchPost } from "../redux/actions/PostActions";
+import { addLike, cancelLike } from "../../redux/actions/commentActions";
+import { fetchPost } from "../../redux/actions/PostActions";
 import { convertFromRaw, EditorState, Editor, ContentState } from 'draft-js';
-import Layout from "./mainPage/Layout";
-import InteractiveVideo from "./interactiveVideo/InteractiveVideo";
-import { calculateTimeAgo } from "./utils/calculateTimeAgo";
+import Layout from "./Layout";
+import InteractiveVideo from "../interactiveVideo/InteractiveVideo";
+import { calculateTimeAgo } from "../utils/calculateTimeAgo";
 import {
   Typography,
   IconButton,

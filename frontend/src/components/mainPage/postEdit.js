@@ -6,7 +6,7 @@ import { EditorState, convertToRaw } from 'draft-js';
 import React, { useState } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
 import validator from 'validator';
-import { createEditorStateFromText } from "../PostContent";
+import { createEditorStateFromText } from "./PostContent";
 import InteractiveVideoBuilder from "../interactiveVideo/InteractiveVideoBuilder";
 import { useUserContext } from "../../auth/UserContext";
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';

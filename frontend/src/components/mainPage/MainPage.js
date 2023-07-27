@@ -1,8 +1,8 @@
 import { useOktaAuth } from "@okta/okta-react";
 import React, { useState } from "react";
-import Contents from "../mainPage/Contents";
+import Contents from "./Contents";
 // import { useUserContext } from "../auth/UserContext";
-import Layout from "../mainPage/Layout";
+import Layout from "./Layout";
 
 const Home = () => {
     const { authState } = useOktaAuth();
