@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Divider, Tab, Tabs } from "@mui/material";
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Divider, Tab, Tabs, Snackbar, Alert } from "@mui/material";
 import { useEffect } from "react";
 import ReactPlayer from 'react-player/lazy'
 import { Editor } from 'react-draft-wysiwyg';
@@ -48,7 +48,10 @@ const PostEdit = (props) => {
     const [mediaUrl, setMediaUrl] = useState(''); //url given by user
     const [selectedTab, setSelectedTab] = useState(0);
     const { userId } = useUserContext();
-
+    const [ dialogTitle, setDialogTitle] = useState("New Post");
+    const [ snackBarOpen, setSnackbarOpen] = useState(false);
+    const [message, setMessage] = useState('');
+    const [severity, setSeverity] = useState('success');
     useEffect(() => {
         if (post) {
           setTitle(post.title);
@@ -56,11 +59,10 @@ const PostEdit = (props) => {
           setContent(enrichedText);
           setMediaUrl(post.mediaUrl);
           setPreviewUrl(post.mediaUrl);
-          if (!!post.interactiveVideo) {
-            if (window.confirm("Edit is not allowed on interactive videos. Click OK to close.")) {
-              handleClose();
-            }
+          if (post?.interactiveVideos && post.interactiveVideos.length > 0) {
+            setSelectedTab(1);
           }
+          setDialogTitle("Edit Post");
         } else {
           // reset state variables to initial values when post becomes null or undefined
           setTitle("");
@@ -83,6 +85,10 @@ const PostEdit = (props) => {
       setPreviewUrl(URL.createObjectURL(event.target.files[0]));
       setMediaUrl('');
     };
+
+    const handleCloseSnackbar = () => {
+      setSnackbarOpen(false);
+    }
   
     // Add this function to handle URL changes
     const handleMediaUrlChange = (event) => {
@@ -159,6 +165,7 @@ const PostEdit = (props) => {
               userId: userId
               })
           });
+          setMessage("Upload succeeded");
       } else {
           // Send the URL and other post data to the backend
           postResponse = await fetch(`/api/posts/${post.postId}`, {
@@ -174,8 +181,11 @@ const PostEdit = (props) => {
               mediaType: mediaType,
               userId: userId
               })
-          });
-      }  
+         });
+         setMessage("Update succeeded");
+      } 
+      setSnackbarOpen(true);
+      setSeverity("success");
       handleClose();
     };
 
@@ -184,8 +194,9 @@ const PostEdit = (props) => {
     };
 
     return (
+      <>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth maxWidth='lg'>
-            <DialogTitle id="form-dialog-title">New Post </DialogTitle>
+            <DialogTitle id="form-dialog-title">{dialogTitle} </DialogTitle>
             <Tabs value={selectedTab} onChange={handleTabChange}>
               <Tab label="Post" icon={<PostAddIcon/>} />
               <Tab label="Interactive Video" icon={<VideogameAssetIcon />} />
@@ -244,10 +255,16 @@ const PostEdit = (props) => {
             }
             {selectedTab === 1 && 
               <DialogContent>
-                <InteractiveVideoBuilder handleClose={handleClose}/>
+                <InteractiveVideoBuilder handleClose={handleClose} postId={post?.postId} interactiveVideos={post?.interactiveVideos} setMessage={setMessage} setSnackbarOpen={setSnackbarOpen} setSeverity={setSeverity}/>
               </DialogContent>
             }
         </Dialog>
+        <Snackbar open={snackBarOpen} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+          <Alert onClose={handleCloseSnackbar} severity={severity}>
+            {message}
+          </Alert>
+        </Snackbar>
+      </>
     );
 }
 

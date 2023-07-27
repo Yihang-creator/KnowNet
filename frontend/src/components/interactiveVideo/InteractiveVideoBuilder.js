@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Tree from 'react-d3-tree';
-import { Button, TextField, Box, Grid, Typography, Snackbar } from '@mui/material';
+import { Button, TextField, Box, Grid, Typography, Snackbar, Alert } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 import { useOktaAuth } from '@okta/okta-react';
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -18,7 +18,7 @@ const textLayout = {
   };
 
 const InteractiveVideoBuilder = (props) => {
-  const { handleClose } = props;
+  const { handleClose, postId, setMessage, setSnackbarOpen, setSeverity } = props;
   const [data, setData] = useState({ // tree storing all the data related to current interactive video
     name: 'Root',
     id: uuidv4(),
@@ -28,9 +28,6 @@ const InteractiveVideoBuilder = (props) => {
     },
     children: [],
   });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
   const [inputs, setInputs] = useState({
     name: '',
     url: '',
@@ -43,6 +40,8 @@ const InteractiveVideoBuilder = (props) => {
   const treeContainerRef = useRef(null);
   const [direction ,setDirection] = useState('horizontal');
   const { userId } = useUserContext();
+  const [errorSnackBarOpen, setErrorSnackBarOpen] = useState(false);
+  const [errorSnackMessage, setErrorSnackMessage] = useState('');
 
   useEffect(() => {
     const handleResize = () => {
@@ -145,40 +144,69 @@ const InteractiveVideoBuilder = (props) => {
       };
     
       if (!validateUrls(data)) {
-        alert('One or more nodes have an invalid URL. Please check your data and try again.');
+        setErrorSnackBarOpen(true);
+        setErrorSnackMessage('invalid urls!')
         return; // Don't proceed if any URLs are invalid
       }
-
-    fetch('/api/interactiveVideo/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + oktaAuth.getAccessToken()},
-      body: JSON.stringify({
-        ...data,
-        userId: userId,
-        mediaType: 'video',
-        title: data.name,
-        mediaUrl: data.attributes.url,
-        text: null,
-        })})
-      .then(response => {
-        if (response.status === 201) {
-            // Request succeeded with 201 status code, close the dialog
-            handleClose();
-        } else {
-            setErrorMessage('An error occurred while submitting the form. Please try again later.');
-            setSnackbarOpen(true);
-        }
-       })
-      .catch((error) => {
-        console.error('Error:', error);
-        setErrorMessage('An error occurred while submitting the form. Please try again later.');
-        setSnackbarOpen(true);
-      });
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-    setErrorMessage('');
+      if (postId !== undefined && postId !== null) {
+          fetch(`/api/interactiveVideo/${postId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + oktaAuth.getAccessToken()},
+              body: JSON.stringify({
+              ...data,
+              userId: userId,
+              mediaType: 'video',
+              title: data.name,
+              mediaUrl: data.attributes.url,
+              })})
+              .then(response => {
+              if (response.status === 200) {
+                  // Request succeeded with 201 status code, close the dialog
+                  setMessage('Upload succeeded!');
+                  setSnackbarOpen(true);
+                  setSeverity('success');
+                  handleClose();
+              } else {
+                setErrorSnackBarOpen(true);
+                setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
+              }
+              })
+              .catch((error) => {
+              console.error('Error:', error);
+               setErrorSnackBarOpen(true);
+               setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
+              });
+      } else {
+          fetch('/api/interactiveVideo/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + oktaAuth.getAccessToken()},
+              body: JSON.stringify({
+              ...data,
+              userId: userId,
+              mediaType: 'video',
+              title: data.name,
+              mediaUrl: data.attributes.url,
+              text: null,
+              })})
+              .then(response => {
+              if (response.status === 201) {
+                  // Request succeeded with 201 status code, close the dialog
+                  setMessage('Update succeeded!');
+                  setSnackbarOpen(true);
+                  setSeverity('success');
+                  handleClose();
+              } else {
+                  setErrorSnackBarOpen(true);
+                  setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
+              }
+              })
+              .catch((error) => {
+              console.error('Error:', error);
+              setErrorSnackBarOpen(true);
+              setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
+              });
+      }
+    
   };
 
   const renderRectSvgNode = ({ nodeDatum, onNodeClick }) => (
@@ -266,11 +294,17 @@ const InteractiveVideoBuilder = (props) => {
         </Grid>
       </Box>
       <Snackbar
-        open={snackbarOpen}
+        open={errorSnackBarOpen}
         autoHideDuration={5000}
-        onClose={handleCloseSnackbar}
-        message={errorMessage}
-      />
+      >
+        <Alert         
+          onClose={() => {
+            setErrorSnackBarOpen(false)
+          }} 
+          severity={'error'}>
+         {errorSnackMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

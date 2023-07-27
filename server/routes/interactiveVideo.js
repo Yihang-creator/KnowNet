@@ -99,4 +99,66 @@ router.post("/",[
         }
 })
 
+router.put("/:postId",[
+    body('id').notEmpty().withMessage('ID is required'),
+    body('attributes.url').isURL().withMessage('Invalid URL'),
+    body('attributes.LeadTimeField').isInt({ gt: -1 }).withMessage('LeadTimeField must be a positive integer'),
+    body('children').isArray().withMessage('Children must be an array'),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+    }
+    const data = req.body;
+
+    console.log(data);
+
+    const updatePost = await Post.findById(req.params.postId);
+
+    if (!updatePost) {
+        return res.status(404).json({ error: "Post not found" });
+    }
+
+    let interactiveVideos = [];
+
+    const rootNode = {
+        id: data.id,
+        url: data.attributes.url,
+        LeadTimeField: data.attributes.LeadTimeField,
+        root: true,
+        options: data.children.map(child => ({ label: child.name, nextVideoId: child.id}))
+    }
+    interactiveVideos.push(rootNode);
+
+    const formatNode = (node) => {
+        interactiveVideos.push({
+            id: node.id,
+            url: node.attributes.url,
+            LeadTimeField: node.attributes.LeadTimeField,
+            root: false,
+            options: node.children.map(child => ({ label: child.name, nextVideoId: child.id }))
+        });
+        node.children.forEach(formatNode);
+    };
+
+    data.children.forEach(formatNode);
+
+
+    updatePost.interactiveVideos = interactiveVideos;
+    updatePost.timestamp =  new Date().toISOString();
+    updatePost.userId = data.userId;
+    updatePost.mediaUrl = data.mediaUrl;
+    updatePost.text = data.text;
+    updatePost.title =  data.title;
+    
+    try {
+        const updatedPost = await updatePost.save();
+        console.log("post updated:", updatePost);
+        return res.status(200).json(updatedPost);
+      } catch (error) {
+        console.error("Error updating post:", error);
+        return res.status(500).json({ error: "Failed to update post" });
+    }
+})
+
 module.exports = router;
