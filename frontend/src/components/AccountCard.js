@@ -1,48 +1,74 @@
-import { Avatar } from "@mui/material";
-import ToggleButton from "@mui/material/ToggleButton";
 import React from "react";
+import ToggleButton from "@mui/material/ToggleButton";
+import {
+    Typography,
+    Avatar,
+    ListItemAvatar,
+    ListItem,
+    ListItemText,
+    Divider,
+    ListItemButton
+} from '@mui/material';
 import { useDispatch } from "react-redux";
 import { follow } from "../redux/actions/userActions";
 
 const AccountCard = ({
-  name,
-  url,
-  description,
-  userId,
-  type,
-  status,
-  token,
-  myId,
-}) => {
-  const [selected, setSelected] = React.useState(status);
+                         name,
+                         url,
+                         description,
+                         userId,
+                         type,
+                         status,
+                         token,
+                         myId,
+                     }) => {
+    const [selected, setSelected] = React.useState(status);
 
-  const dispatch = useDispatch();
-  return (
-    <div className="flex flex-row justify-between text-white">
-      <div className="flex flex-row gap-4">
-        <Avatar alt={name} src={url} sx={{ width: 64, height: 64 }} />
-
-        <div className="flex flex-col border-2">
-          <span> {name} </span>
-          <span> {description}</span>
-        </div>
-      </div>
-
-      <div className="self-center border-2">
-        <ToggleButton
-          selected={selected === "following"}
-          onChange={() => {
-            let operation = selected === "following" ? "unfollow" : "follow";
-            dispatch(follow(myId, userId, operation, type, token));
-            setSelected(selected === "following" ? "unfollowing" : "following");
-          }}
-          sx={{ width: 96, height: 48 }}
-        >
-          <span>{selected === "following" ? "Following" : "Follow"}</span>
-        </ToggleButton>
-      </div>
-    </div>
-  );
+    const dispatch = useDispatch();
+    return (
+        <React.Fragment>
+            <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                    <Avatar alt={name} src={url}/>
+                </ListItemAvatar>
+                <ListItemText
+                    primary={name}
+                    sx={{
+                        width: '60%',
+                        overflow: 'hidden',
+                    }}
+                    secondary={
+                        <React.Fragment>
+                            <Typography
+                                sx={{ display: 'inline' }}
+                                component="span"
+                                variant="body2"
+                                color="text.primary"
+                            >
+                                {description}
+                            </Typography>
+                        </React.Fragment>
+                    }
+                />
+                <ListItemButton
+                    sx={{ justifyContent: 'center' }}
+                >
+                    <ToggleButton
+                        selected={selected === "following"}
+                        onChange={() => {
+                            let operation = selected === "following" ? "unfollow" : "follow";
+                            dispatch(follow(myId, userId, operation, type, token));
+                            setSelected(selected === "following" ? "unfollowing" : "following");
+                        }}
+                        sx={{ width: 96, height: 48 }}
+                    >
+                        <span>{selected === "following" ? "Following" : "Follow"}</span>
+                    </ToggleButton>
+                </ListItemButton>
+            </ListItem>
+            <Divider variant="inset" component="li" />
+        </React.Fragment>
+    );
 };
 
 export default AccountCard;
