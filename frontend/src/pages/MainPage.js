@@ -1,16 +1,16 @@
 import { useOktaAuth } from "@okta/okta-react";
 import React, { useState } from "react";
 import Contents from "../components/mainPage/Contents";
-import { useUserContext } from "../auth/UserContext";
+// import { useUserContext } from "../auth/UserContext";
 import Layout from "../components/mainPage/Layout";
 
 const Home = () => {
     const { authState } = useOktaAuth();
     // const [userInfo, setUserInfo] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const { userInfo } = useUserContext();
+    // const { userInfo } = useUserContext();
 
-    console.log(userInfo);
+    // console.log(userInfo);
 
     // const login = useCallback(async () => {
     //   await oktaAuth.signInWithRedirect();

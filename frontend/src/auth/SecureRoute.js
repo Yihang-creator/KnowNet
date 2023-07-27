@@ -7,7 +7,7 @@ import { useUserContext } from "./UserContext";
 
 export const RequiredAuth = () => {
   const { oktaAuth, authState } = useOktaAuth();
-  const { userInfo, setUserInfo, userEmail, setUserEmail, userId, setUserId } =
+  const { userInfo, setUserInfo } =
     useUserContext();
 
   useEffect(() => {
@@ -23,27 +23,29 @@ export const RequiredAuth = () => {
       oktaAuth.setOriginalUri(originalUri);
       oktaAuth.signInWithRedirect();
     } else {
-      oktaAuth.getUser().then((info) => {
-        fetch(`/api/users/${info.email}`, {
-          headers: {
-            Authorization: "Bearer " + oktaAuth.getAccessToken(),
-          },
-        })
-          .then((response) => {
-            return response.json();
+      if (userInfo === null || userInfo === undefined ) {
+        oktaAuth.getUser().then((info) => {
+          fetch(`/api/users/${info.email}`, {
+            headers: {
+              Authorization: "Bearer " + oktaAuth.getAccessToken(),
+            },
           })
-          .then((data) => {
-            setUserInfo(data);
-          })
-          .catch((error) => console.log(error));
-        // 1. fetch userId based on email
-        // 2. use setUserInfo to set current user info
-        // 3. use useUserContext hook anywhere in the app
-      });
+            .then((response) => {
+              return response.json();
+            })
+            .then((data) => {
+              setUserInfo(data);
+            })
+            .catch((error) => console.log(error));
+          // 1. fetch userId based on email
+          // 2. use setUserInfo to set current user info
+          // 3. use useUserContext hook anywhere in the app
+        });
+      }
     }
-  }, [oktaAuth, !!authState, authState?.isAuthenticated]);
+  }, [oktaAuth, authState?.isAuthenticated, authState, setUserInfo, userInfo]);
 
-  if (!authState || !authState?.isAuthenticated) {
+  if (!authState || !authState?.isAuthenticated || userInfo === null || userInfo === undefined) {
     return <Loading />;
   }
 

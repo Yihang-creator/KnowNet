@@ -23,7 +23,6 @@ function JoinPage() {
             setPlaying(false);
             setIsJoin(false);
             backend.setRoomId(roomId);
-            console.log(`room created with id ${roomId}`);
         });
 
         backend.socket.on('room-state', (roomInfo) => {
