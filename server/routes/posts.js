@@ -52,7 +52,7 @@ router.get("/:postId", async function (req, res, next) {
   try {
     const foundPost = await Post.findById(req.params.postId);
     console.log(`Get Post request ${req.params.postId}`);
-    console.log(foundPost);
+    // console.log(foundPost);
     return res
       .setHeader("Content-Type", "application/json")
       .status(200)
