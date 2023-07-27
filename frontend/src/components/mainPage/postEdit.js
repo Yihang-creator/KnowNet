@@ -241,7 +241,7 @@ const PostEdit = (props) => {
                   }}
                   onEditorStateChange={setContent}
                   placeholder="What's on your mind?"
-                  editorStyle={{ height: '450px' }}
+                  editorStyle={{ height: '320px' }}
               />
               <Divider />
               <TextField
