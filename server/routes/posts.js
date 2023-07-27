@@ -76,7 +76,7 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { userId, mediaType, mediaUrl, title, text } = req.body;
+    const { userId, mediaType, mediaUrl, title, text, tags} = req.body;
 
     const newPost = new Post({
       _id: uuidv4(), // generate a new ID
@@ -87,6 +87,7 @@ router.post(
       text,
       like: [],
       comments: [],
+      tags: tags,
       timestamp: new Date().toISOString(),
     });
 
