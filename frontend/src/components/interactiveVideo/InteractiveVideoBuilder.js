@@ -134,7 +134,6 @@ const InteractiveVideoBuilder = (props) => {
           try {
             new URL(node.attributes.url);
           } catch (_) {
-            console.log(`Invalid URL at node with id: ${node.id}`);
             return false; // Invalid URL found
           }
         }

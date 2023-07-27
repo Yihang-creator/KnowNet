@@ -47,7 +47,7 @@ const Comment = ({ user, timestamp, text, likes, likedBy, replies, addSecLevelCo
     useEffect(() => {
         const isUserLike = likedBy?.includes(currentUserId)
         setLikeStatus(isUserLike)
-    }, userInfo)
+    }, [currentUserId, likedBy])
 
     const handleLike = () => {
         setLikeStatus(!likeStatus)
@@ -68,7 +68,7 @@ const Comment = ({ user, timestamp, text, likes, likedBy, replies, addSecLevelCo
                 setReply('')
                 setShowReplies(!showReplies)
             })
-    }, [oktaAuth, reply, replyUserInfo, isSecLevelComment])
+    }, [addSecLevelComment, postId, userInfo.userId, commentId, reply, replyUserInfo.userId, isSecLevelComment, oktaAuth, showReplies])
 
     const { userId, username = "", userPhotoUrl = "" } = user || {};
 

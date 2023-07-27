@@ -51,7 +51,6 @@ const PostEdit = (props) => {
 
     useEffect(() => {
         if (post) {
-          console.log(post);
           setTitle(post.title);
           var enrichedText = typeof post.text === 'undefined' ? EditorState.createEmpty() : createEditorStateFromText(post.text);
           setContent(enrichedText);
@@ -112,8 +111,6 @@ const PostEdit = (props) => {
         },});
         const { url, key } = await response.json();
   
-        console.log(url);
-  
         //upload the media file to the s3 bucket
         const uploadResponse = await fetch(url, {
           method: 'PUT',
@@ -126,10 +123,7 @@ const PostEdit = (props) => {
         if (!uploadResponse.ok) {
           alert('Failed to upload file.');
           return;
-        }
-  
-        console.log('File uploaded:', key);
-  
+        }  
         fileUrl = url.split('?')[0];
       } else {
         if (validator.isURL(mediaUrl)) {
@@ -181,10 +175,7 @@ const PostEdit = (props) => {
               userId: userId
               })
           });
-      }
-  
-      console.log('Post created:', postResponse.json())
-  
+      }  
       handleClose();
     };
 
@@ -210,7 +201,7 @@ const PostEdit = (props) => {
                   type="text"
                   fullWidth
                   onChange={handleTitleChange}
-                  text
+                  text="true"
                   value={title}
               />
               <Editor
