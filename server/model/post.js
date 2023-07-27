@@ -1,5 +1,18 @@
 const mongoose = require('mongoose');
 
+const InteractiveVideoOptionSchema = new mongoose.Schema({
+  label: String,
+  nextVideoId: String
+});
+
+const InteractiveVideoSchema = new mongoose.Schema({
+  id: String,
+  url: String,
+  LeadTimeField: Number,
+  root: Boolean,
+  options: [InteractiveVideoOptionSchema]
+});
+
 const postSchema = new mongoose.Schema({
   _id: String,
   userId: String,
@@ -13,6 +26,11 @@ const postSchema = new mongoose.Schema({
   comments: [String],
   tags: [String],
   timestamp: Date,
+  interactiveVideos: {
+    type: [InteractiveVideoSchema],
+    minItems: 0,
+    required: false,
+  }
 },
 {
     collection: 'Post',

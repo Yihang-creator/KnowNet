@@ -142,11 +142,7 @@ const JoinVideoRoom = (props) => {
       setDuration(seconds);
       props.backend.setSeek(seconds);
     };
-  
-    const onBuffer = () => {
-      console.log('User is buffering...');
-    };
-  
+    
     const onReady = () => {
       if (isJoin) {
         ref.current.seekTo(duration, 'seconds');
@@ -205,7 +201,6 @@ const JoinVideoRoom = (props) => {
                 light={false}
                 onPlay={onPlay}
                 onPause={onPause}
-                onBuffer={onBuffer}
                 onProgress={onProgress}
                 playing={playing}
                 onSeek={onSeek}
