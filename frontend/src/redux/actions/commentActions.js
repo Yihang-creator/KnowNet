@@ -1,15 +1,48 @@
-export const addLike = (postID) => {
+export const addLike = (postInfo) => {
     return {
         type: 'ADD_LIKE',
-        payload: postID,
+        payload: postInfo,
     };
 };
 
-export const cancelLike = (postID) => {
+export const cancelLike = (postInfo) => {
     return {
         type: 'CANCEL_LIKE',
-        payload: postID,
+        payload: postInfo,
     };
+};
+
+export const changeLike = (post, isCancel, userID, accessToken) => async (dispatch) => {
+    console.log(post)
+    console.log(isCancel)
+    if (!isCancel) {
+        post.like.push(userID)
+    } else {
+        post.like = post.like.filter(userId => userId !== userID);
+    }
+    
+    try {
+        const response = await fetch(`/api/posts/${post.postId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + accessToken
+            },
+            body: JSON.stringify(post)
+        });
+        const data = await response.json();
+
+        const postId = data.postId
+
+        if (!isCancel) {
+            dispatch(addLike({postId, userID}));
+        } else {
+            dispatch(cancelLike({postId, userID}));
+        }
+        
+    } catch (error) {
+       console.log(error);
+    }
 };
 
 export const addComment = (postId, userId, commentText, accessToken) => async (dispatch) => {

@@ -27,6 +27,9 @@ import {
   DialogActions,
 } from "@mui/material";
 import ShowTags from "./ShowTags";
+import { useUserContext } from "../../auth/UserContext";
+import { connect } from 'react-redux';
+import { changeLike } from '../../redux/actions/commentActions';
 
 export function createEditorStateFromText(text) {
   try {
@@ -52,6 +55,9 @@ export const PostContent = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
   const [timeAgo, setTimeAgo] = useState('');
+  const { userInfo } = useUserContext();
+  const userID = userInfo == null ? 99 : userInfo.userId;
+
 
   const post = useSelector((state) => state.posts.find(post => post.postId === postId));
 
@@ -94,11 +100,11 @@ export const PostContent = () => {
   var likes = post.like.length;
   var enrichedText = typeof post.text === 'undefined' ? EditorState.createEmpty() : createEditorStateFromText(post.text);
 
-  const changeLiked = (liked) => {
+  const likechanged = (liked) => {
     setLiked(!liked);
     !liked
-        ? dispatch(addLike(postId))
-        : dispatch(cancelLike(postId));
+        ? changeLike(post, false, userID, oktaAuth)
+        : changeLike(post, true, userID, oktaAuth);
   };
 
   const handleShareClick = () => {
@@ -168,7 +174,7 @@ export const PostContent = () => {
             <div>
               <div
                   style={{ display: "inline" }}
-                  onClick={() => changeLiked(liked)}
+                  onClick={() => likechanged(liked)}
               >
                 {liked ? (
                     <FavoriteOutlinedIcon sx={{ color: red[500] }} />
@@ -222,6 +228,18 @@ export const PostContent = () => {
         <CommentBoard postId={post.postId} />
       </div>
   );
+
+  const mapStateToProps = (state) => ({
+    posts: state.posts
+});
+
+const mapDispatchToProps = {
+    changeLike
+};
+
+connect(mapStateToProps, mapDispatchToProps)(PostContent);
+
+
 
   return (
     <Layout>
