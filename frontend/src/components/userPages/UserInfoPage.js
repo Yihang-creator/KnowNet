@@ -184,7 +184,7 @@ const UserInfoPage = ({ name, email }) => {
               </Grid>
 
               <Grid className="rounded-md bg-white p-2 md:columns-2 lg:columns-4">
-                {posts.map((post, index) => (
+                {posts.filter(post => post.userId === userInfo.userId).map((post, index) => (
                     <div key={index} className="inline-block w-full p-2 relative">
                       <Link to={`/post/${post.postId}`}>
                         <ProfileCard
