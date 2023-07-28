@@ -10,6 +10,7 @@ import { useOktaAuth } from "@okta/okta-react";
 import { useUserContext } from "../../auth/UserContext";
 import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import PostEdit from "../mainPage/postEdit";
 import SearchBar from '../mainPage/SearchBar';
 import ResponsiveDrawer from '../mainPage/ResponsiveDrawer';
@@ -71,6 +72,16 @@ const UserInfoPage = ({ name, email }) => {
           setOpen(true);
         })
         .catch((error) => console.error("Error", error));
+  };
+
+  const handleDelete = (post) => {
+    console.log('post:', post)
+    fetch(`/api/posts/${post.postId}`, { // assuming your API endpoint follows this pattern and post objects have 'id' field
+      method: 'DELETE',
+      headers: {
+        Authorization: "Bearer " + oktaAuth.getAccessToken(),
+      },
+    })
   };
 
   const handleClose = () => {
@@ -198,6 +209,23 @@ const UserInfoPage = ({ name, email }) => {
                             onClick={() => handleClickOpen(post)}
                         >
                           <EditIcon />
+                        </Fab> : ''
+                      }
+                      {
+                        editStatus ? <Fab
+                            variant="extended"
+                            sx={{
+                              position: 'absolute',
+                              right: '80px',
+                              top: '20px',
+                              width: '20px',
+                              opacity: '0.5',
+                              zIndex: '10'
+                            }}
+                            aria-label="edit"
+                            onClick={() => handleDelete(post)}
+                        >
+                          <DeleteIcon />
                         </Fab> : ''
                       }
                     </div>

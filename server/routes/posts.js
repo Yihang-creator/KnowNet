@@ -160,4 +160,25 @@ router.put(
   }
 );
 
+router.delete(
+    "/:postId",
+    async function (req, res, next) {
+      try {
+        const post = await Post.findById(req.params.postId); // find the post by ID
+
+        if (!post) {
+          return res.status(404).json({ error: "Post not found" });
+        }
+
+        await Post.findByIdAndRemove(req.params.postId); // remove the post
+
+        console.log("Post deleted");
+        return res.status(200).json({message: "Post deleted successfully"});
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        return res.status(500).json({ error: "Failed to delete post" });
+      }
+    }
+);
+
 module.exports = router;
