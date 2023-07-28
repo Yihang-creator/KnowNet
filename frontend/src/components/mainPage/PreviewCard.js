@@ -22,7 +22,6 @@ const PreviewCard = (props) => {
                         {props.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {/*TODO: add preview text*/}
                         {props.previewText || ''}
                     </Typography>
                     <Typography variant="caption" className="text-gary flex items-center" sx={{ marginTop: '10px' }} >
