@@ -140,6 +140,9 @@ export const PostContent = () => {
                 </Link>
                 {/* date */}
                 <Typography variant="body2" color="textSecondary">
+                  {post.username}
+                </Typography>
+                <Typography variant="body2" color="textSecondary">
                   {timeAgo}
                 </Typography>
               </div>
