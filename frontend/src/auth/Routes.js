@@ -8,6 +8,7 @@ import Profile from "../components/userPages/Profile";
 import { PostContent } from "../components/mainPage/PostContent";
 import CommentPage from "../components/comments/CommentBoard";
 import JoinPage from "../components/videoRoom/JoinPage";
+import Chat from "../components/Chat";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,9 @@ const AppRoutes = () => {
       </Route>
       <Route path="/profile" element={<RequiredAuth />}>
         <Route path="" element={<Profile />} />
+      </Route>
+      <Route path="/chat" element={<RequiredAuth />}>
+        <Route path="" element={<Chat />} />
       </Route>
       <Route path="/post/:id" element={<RequiredAuth />}>
         <Route path="" element={<PostContent />} />

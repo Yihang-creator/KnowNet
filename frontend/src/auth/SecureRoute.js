@@ -7,8 +7,7 @@ import { useUserContext } from "./UserContext";
 
 export const RequiredAuth = () => {
   const { oktaAuth, authState } = useOktaAuth();
-  const { userInfo, setUserInfo } =
-    useUserContext();
+  const { userInfo, setUserInfo } = useUserContext();
 
   useEffect(() => {
     if (!authState) {
@@ -23,7 +22,7 @@ export const RequiredAuth = () => {
       oktaAuth.setOriginalUri(originalUri);
       oktaAuth.signInWithRedirect();
     } else {
-      if (userInfo === null || userInfo === undefined ) {
+      if (!userInfo) {
         oktaAuth.getUser().then((info) => {
           fetch(`/api/users/${info.email}`, {
             headers: {
@@ -45,7 +44,7 @@ export const RequiredAuth = () => {
     }
   }, [oktaAuth, authState?.isAuthenticated, authState, setUserInfo, userInfo]);
 
-  if (!authState || !authState?.isAuthenticated || userInfo === null || userInfo === undefined) {
+  if (!authState || !authState?.isAuthenticated || !userInfo) {
     return <Loading />;
   }
 
