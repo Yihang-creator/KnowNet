@@ -1,5 +1,5 @@
 import { useOktaAuth } from "@okta/okta-react";
-import React, { useState } from "react";
+import React from "react";
 import Contents from "./Contents";
 // import { useUserContext } from "../auth/UserContext";
 import Layout from "./Layout";
@@ -7,7 +7,6 @@ import Layout from "./Layout";
 const Home = () => {
     const { authState } = useOktaAuth();
     // const [userInfo, setUserInfo] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
     // const { userInfo } = useUserContext();
 
     // console.log(userInfo);
@@ -33,11 +32,11 @@ const Home = () => {
     }
 
     return (
-      <div>
-        <Layout setSearchTerm={setSearchTerm}>
-          <Contents searchTerm={searchTerm} />
-        </Layout>
-      </div>
+        <div>
+            <Layout>
+                <Contents/>
+            </Layout>
+        </div>
     );
 };
 export default Home;
