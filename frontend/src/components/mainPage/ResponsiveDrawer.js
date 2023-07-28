@@ -16,7 +16,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { Link } from "react-router-dom";
 import CreatePostButton from "./CreatePostButton";
 import { useTheme } from "@mui/material/styles";
-import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const drawerWidth = 240;
 
@@ -55,28 +55,25 @@ function ResponsiveDrawer(props) {
             </ListItemButton>
           </ListItem>
         </Link>
-        <Link to={"/chat"}>
-          <ListItem key={"Chats"} disablePadding>
+        <ListItem key={"Chats"} disablePadding>
+          <ListItemButton>
+            <ListItemIcon sx={{ color: theme.palette.primary.main }}>
+              <ChatIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={"Chats"}
+              sx={{ color: theme.palette.text.primary }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <Link to={`/profile`} className="group">
+          <ListItem key={"Profile"} disablePadding>
             <ListItemButton>
               <ListItemIcon sx={{ color: theme.palette.primary.main }}>
-                <ChatIcon />
+                <AccountCircleIcon />
               </ListItemIcon>
               <ListItemText
-                primary={"Chats"}
-                sx={{ color: theme.palette.text.primary }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-
-        <Link to={`/interactive`} className="group">
-          <ListItem key={"Interactive Video"} disablePadding>
-            <ListItemButton>
-              <ListItemIcon sx={{ color: theme.palette.primary.main }}>
-                <VideogameAssetIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary={"Interactive Video"}
+                primary={"Profile"}
                 sx={{ color: theme.palette.text.primary }}
               />
             </ListItemButton>

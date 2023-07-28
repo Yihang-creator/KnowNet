@@ -1,12 +1,9 @@
 # Project README
 
-## Project Description
+## Project High-level Description
 
-Our project is a social platform targeted towards students who want to connect with peers, share experiences, engage in discussions, and expand their networks. This platform will facilitate essential human activities of socializing and information exchange by providing features such as posting, editing, deleting, and viewing content, as well as enabling comments, and supporting user reactions.
+Our project is a social meida platform targeted towards students who want to connect with peers, share experiences, engage in discussions, and expand their networks. This platform offers essential socializing activities, including posting, editing, deleting, and viewing posts with images/videos, along with features like comments and likes. Users can access their uploaded posts, curated collections, follow others and engage in private chat. To enhance user engagement both within the platform and among users, we introduce innovative features such as interactive videos resembling Netflix's Black Mirror: Bandersnatch. Additionally, our video room featire allows multiple users to watch video together, furthen strengthening interactions within the community. 
 
-The platform will store various types of data, including posts containing text, images, and videos, comments on these posts, and user profile information. Users can interact with this data in several ways - they can create, edit, and delete their posts, leave likes on others' posts, and send direct messages to other users. 
-
-Additional features such as various channels (post groups) and user groups, a marketplace, shared video-viewing rooms, interactive videos can be integrated into the platform given sufficient time and resources. 
 
 ## Project Task Requirements:
 
@@ -24,7 +21,7 @@ Additional features such as various channels (post groups) and user groups, a ma
 2. Users are able to attach videos to their posts.
 3. Share a user profile or some contents to other social media.
 4. Users can block contents based on tags.
-5. Users can create channels and select which channels a post belongs to. These channels will act as unique spaces for users to share and discuss content related to specific topics.
+5. Users are able to upload interactive videos, watch them, and interact with videos by choosing customized options.
 
 ### Stretch Requirements
 
@@ -52,6 +49,7 @@ Additional features such as various channels (post groups) and user groups, a ma
 ### Rough sketch Prototypes
 
 1. Sign-in Page:
-![sign-in Page](https://user-images.githubusercontent.com/64096168/241092367-9db8356e-07c3-48fb-b1f7-ca670925b26a.jpg)
+![sign-in Page](https://user-images.githubusercontent.com/64096168/256692418-657ae486-cf5e-4843-a376-0608035b276c.png)
 2. Post-viewing page
-![Post-viewing page](https://user-images.githubusercontent.com/64096168/241092377-d16af624-4b44-4e6f-8ab1-879e9da6b707.jpg)
+![Post-viewing page](https://user-images.githubusercontent.com/64096168/256692462-bedb3e2f-348e-4dd8-9a9b-484db69defac.png)
+

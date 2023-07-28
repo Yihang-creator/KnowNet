@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Avatar, Box, Typography, Button } from '@mui/material';
 import { connect } from 'react-redux';
 import { addReply, fetchLikes } from '../../redux/actions/commentActions';
@@ -30,7 +30,12 @@ const Reply = ({ review, toggleReplies, commentId, postId, fetchLikes }) => {
     const { oktaAuth } = useOktaAuth();
     const { userPhotoUrl: currentUserPhotoUrl, username: currentUsername, userId: currentUserId } = userInfo || {}; // 当前用户信息
     const [currentLikes, setLikes] = useState(likes)
-    const [secondLikeStatus, setSecondLikeStatus] = useState(likedBy?.includes(currentUserId))
+    const [secondLikeStatus, setSecondLikeStatus] = useState(false)
+
+    useEffect(() => {
+        const isUserLike = likedBy?.includes(currentUserId)
+        setSecondLikeStatus(isUserLike)
+    }, userInfo)
 
     const handleSetLikesStatus = () => {
         setSecondLikeStatus(!secondLikeStatus)

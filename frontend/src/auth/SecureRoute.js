@@ -7,8 +7,7 @@ import { useUserContext } from "./UserContext";
 
 export const RequiredAuth = () => {
   const { oktaAuth, authState } = useOktaAuth();
-  const { userInfo, setUserInfo, userEmail, setUserEmail, userId, setUserId } =
-    useUserContext();
+  const { userInfo, setUserInfo } = useUserContext();
 
   useEffect(() => {
     if (!authState) {
@@ -43,7 +42,7 @@ export const RequiredAuth = () => {
         });
       }
     }
-  }, [oktaAuth, !!authState, authState?.isAuthenticated]);
+  }, [oktaAuth, authState?.isAuthenticated, authState, setUserInfo, userInfo]);
 
   if (!authState || !authState?.isAuthenticated || !userInfo) {
     return <Loading />;

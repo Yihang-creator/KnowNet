@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ReactPlayer from 'react-player/lazy';
 import { useOktaAuth } from '@okta/okta-react';
 import { useParams, Link } from "react-router-dom";
@@ -8,19 +8,25 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import { red } from "@mui/material/colors";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import IconButton from '@mui/material/IconButton';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import CommentBoard from "./comments/CommentBoard";
+import CommentBoard from "../comments/CommentBoard";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addLike, cancelLike } from "../redux/actions/commentActions";
-import { fetchPost } from "../redux/actions/PostActions";
+import { addLike, cancelLike } from "../../redux/actions/commentActions";
+import { fetchPost } from "../../redux/actions/PostActions";
 import { convertFromRaw, EditorState, Editor, ContentState } from 'draft-js';
-import Layout from "./mainPage/Layout";
+import Layout from "./Layout";
+import InteractiveVideo from "../interactiveVideo/InteractiveVideo";
+import { calculateTimeAgo } from "../utils/calculateTimeAgo";
+import {
+  Typography,
+  IconButton,
+  Dialog,
+  DialogActions,
+} from "@mui/material";
+import ShowTags from "./ShowTags";
 
 export function createEditorStateFromText(text) {
   try {
@@ -29,6 +35,9 @@ export function createEditorStateFromText(text) {
     return EditorState.createWithContent(contentState);
   } catch (e) {
     // The text was not in JSON format, so treat it as plain text
+    if (!text) {
+      return EditorState.createEmpty();
+    }
     const contentState = ContentState.createFromText(text);
     return EditorState.createWithContent(contentState);
   }
@@ -42,6 +51,7 @@ export const PostContent = () => {
   const { id: postId } = useParams();
   const nav = useNavigate();
   const dispatch = useDispatch();
+  const [timeAgo, setTimeAgo] = useState('');
 
   const post = useSelector((state) => state.posts.find(post => post.postId === postId));
 
@@ -49,7 +59,29 @@ export const PostContent = () => {
     dispatch(fetchPost(postId, oktaAuth.getAccessToken()));
   }, [dispatch, postId, oktaAuth]);
 
+  useEffect(() => {
+    if (timeAgo === '') {
+      setTimeAgo(calculateTimeAgo(post?.timestamp));
+    }
+    const interval = setInterval(() => {
+      setTimeAgo(calculateTimeAgo(post?.timestamp));
+    }, 60000); // Update the time every minute (60000 milliseconds)
+
+    return () => clearInterval(interval);
+  }, [post?.timestamp, timeAgo]);
+
+
   const [openDialog, setOpenDialog] = useState(false);
+
+  const rootId = useMemo(() => {
+    if (post?.interactiveVideos && post.interactiveVideos.length > 0) {
+      const rootVideo = post.interactiveVideos.find((item) => item.root === true);
+      if (rootVideo) {
+        return rootVideo.id;
+      }
+    }
+    return null;
+  }, [post])
 
   if (!post) {
     return <div> Post Loading ...</div>;
@@ -107,7 +139,9 @@ export const PostContent = () => {
                   <span className="font-bold">{post.name}</span>
                 </Link>
                 {/* date */}
-                <div className="text-gray-600">Posted 1 min ago</div>
+                <Typography variant="body2" color="textSecondary">
+                  {timeAgo}
+                </Typography>
               </div>
             </div>
             <MoreHorizIcon />
@@ -119,9 +153,11 @@ export const PostContent = () => {
                     alt={post.title}
                     className="max-w-screen-sm mx-auto"
                 />
-            ) : (
-                <ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />
-            )}
+            ) : post.interactiveVideos && post.interactiveVideos.length > 0 ? (
+              <InteractiveVideo postId={post.postId} rootId={rootId}/>
+            ) :
+                (<ReactPlayer className="max-w-screen-sm mx-auto" url={post.mediaUrl} controls={true} />)
+            }
             <h1 className="font-bold text-2xl mt-2">{post.title}</h1>
             <Editor
               editorState={enrichedText}
@@ -181,6 +217,7 @@ export const PostContent = () => {
               </Dialog>
     </div>
           </div>
+          <ShowTags tags={post.tags}></ShowTags>
         </div>
         <CommentBoard postId={post.postId} />
       </div>

@@ -31,13 +31,13 @@ router.get("/", async function (req, res, next) {
       postsPreview = await Post.find()
         .skip(startIndex)
         .limit(limit)
-        .select("_id userId username userPhotoUrl mediaType mediaUrl title");
+        .select("_id userId username userPhotoUrl mediaType mediaUrl title tags");
 
       return res
         .setHeader("Content-Type", "application/json")
         .send(postsPreview);
     } else {
-      postsPreview = await Post.find().select("_id userId username userPhotoUrl mediaType mediaUrl title");
+      postsPreview = await Post.find().select("_id userId username userPhotoUrl mediaType mediaUrl title tags");
       return res
         .setHeader("Content-Type", "application/json")
         .send(postsPreview);
@@ -52,13 +52,30 @@ router.get("/:postId", async function (req, res, next) {
   try {
     const foundPost = await Post.findById(req.params.postId);
     console.log(`Get Post request ${req.params.postId}`);
-    console.log(foundPost);
+    // console.log(foundPost);
     return res
       .setHeader("Content-Type", "application/json")
       .status(200)
       .send(foundPost);
   } catch (error) {
     console.error(`Error retrieving post ${req.params.postId}:`, error);
+    return res.status(500).json({ error: "Failed to retrieve the post" });
+  }
+});
+
+router.get("/:postId/interactiveVideo/:videoId", async (req, res) => {
+  const postId = req.params.postId; // postId
+  const videoId = req.params.videoId; // nodeId
+
+  try {
+    const foundPost = await Post.findById(postId);
+    const foundInteractiveVideo = foundPost.interactiveVideos.find(item => item.id === videoId)
+    return res
+      .setHeader("Content-Type", "application/json")
+      .status(200)
+      .send(foundInteractiveVideo);
+  } catch (error) {
+    console.error(`Error retrieving post ${postId}:`, error);
     return res.status(500).json({ error: "Failed to retrieve the post" });
   }
 });
@@ -76,17 +93,20 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { userId, mediaType, mediaUrl, title, text } = req.body;
+    const { userId, username, mediaType, mediaUrl, title, text, tags, userPhotoUrl} = req.body;
 
     const newPost = new Post({
       _id: uuidv4(), // generate a new ID
       userId,
+      username,
       mediaType,
       mediaUrl,
       title,
       text,
+      userPhotoUrl,
       like: [],
       comments: [],
+      tags: tags,
       timestamp: new Date().toISOString(),
     });
 
@@ -114,7 +134,7 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { userId, mediaType, mediaUrl, title, text } = req.body;
+    const { userId, username, mediaType, mediaUrl, title, text, userPhotoUrl} = req.body;
 
     try {
       const post = await Post.findById(req.params.postId); // find the post by ID
