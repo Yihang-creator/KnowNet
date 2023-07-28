@@ -12,6 +12,7 @@ export const updateFollowingAndFollowers = (data) => {
   };
 };
 
+
 export const fetchFollowingsAndFollowers = (userId, accessToken) => {
   return (dispatch) => {
     fetch(`/api/users/${userId}/faf`, {
@@ -44,6 +45,43 @@ export const follow = (myId, userId, operation, type, accessToken) => {
     })
       .then((response) => response.json())
       .then(dispatch(toggleFollowingAndFollowers(userId, type)))
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+};
+
+// export const addBlockTags = (myId, tags, accessToken) => {
+//   return (dispatch) => {
+//     fetch(`/api/users/${myId}/block`, {
+//       method: "PATCH",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: "Bearer " + accessToken,
+//       },
+//       body: JSON.stringify({ userId: userId, blockedTags : tags}),
+//     })
+//       .then((response) => response.json())
+//       .then(dispatch(toggleFollowingAndFollowers(userId, type)))
+//       .catch((error) => {
+//         console.error("Error:", error);
+//       });
+//   };
+
+// };
+
+export const getBlockTags = (myId, accessToken) => {
+  return (dispatch) => {
+    fetch(`/api/users/${myId}/block`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      },
+      body: JSON.stringify({ userId: userId}),
+    })
+      .then((response) => response.json())
+      .then(dispatch(showBlockTags(response.blockedTags)))
       .catch((error) => {
         console.error("Error:", error);
       });

@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    blockedTags: [
+      {
+        type: String,
+      },
+    ],
     follow: [
       {
         type: String,
