@@ -14,7 +14,6 @@ import CommentBoard from "../comments/CommentBoard";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { addLike, cancelLike } from "../../redux/actions/commentActions";
 import { fetchPost } from "../../redux/actions/PostActions";
 import { convertFromRaw, EditorState, Editor, ContentState } from 'draft-js';
 import Layout from "./Layout";
@@ -27,6 +26,8 @@ import {
   DialogActions,
 } from "@mui/material";
 import ShowTags from "./ShowTags";
+import { useUserContext } from "../../auth/UserContext";
+import { changeLike } from '../../redux/actions/commentActions';
 
 export function createEditorStateFromText(text) {
   try {
@@ -46,15 +47,16 @@ export function createEditorStateFromText(text) {
 export const PostContent = () => {
 
   const { oktaAuth } = useOktaAuth();
-  const [liked, setLiked] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
   const { id: postId } = useParams();
   const nav = useNavigate();
   const dispatch = useDispatch();
   const [timeAgo, setTimeAgo] = useState('');
+  const { userInfo } = useUserContext();
+  const userID = userInfo == null ? 99 : userInfo.userId;
+ 
 
   const post = useSelector((state) => state.posts.find(post => post.postId === postId));
-
   useEffect(() => {
     dispatch(fetchPost(postId, oktaAuth.getAccessToken()));
   }, [dispatch, postId, oktaAuth]);
@@ -69,6 +71,14 @@ export const PostContent = () => {
 
     return () => clearInterval(interval);
   }, [post?.timestamp, timeAgo]);
+
+
+  const [liked, setLiked] = useState(false);
+  
+  useEffect(() => {
+    const alreadyLiked = post?.like?.includes(userID) || false;
+    setLiked(alreadyLiked);
+  }, [post, userID]);
 
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -94,11 +104,16 @@ export const PostContent = () => {
   var likes = post.like.length;
   var enrichedText = typeof post.text === 'undefined' ? EditorState.createEmpty() : createEditorStateFromText(post.text);
 
-  const changeLiked = (liked) => {
+  const likechanged = async (liked) => {
     setLiked(!liked);
-    !liked
-        ? dispatch(addLike(postId))
-        : dispatch(cancelLike(postId));
+    let returnedFunction;
+    if (!liked) {
+      returnedFunction = changeLike(post, false, userID, oktaAuth)
+    } else {
+      returnedFunction = changeLike(post, true, userID, oktaAuth)
+    }
+    await returnedFunction(dispatch)
+
   };
 
   const handleShareClick = () => {
@@ -171,7 +186,7 @@ export const PostContent = () => {
             <div>
               <div
                   style={{ display: "inline" }}
-                  onClick={() => changeLiked(liked)}
+                  onClick={() => likechanged(liked)}
               >
                 {liked ? (
                     <FavoriteOutlinedIcon sx={{ color: red[500] }} />
@@ -225,6 +240,18 @@ export const PostContent = () => {
         <CommentBoard postId={post.postId} />
       </div>
   );
+
+//   const mapStateToProps = (state) => ({
+//     posts: state.posts
+// });
+
+// const mapDispatchToProps = {
+//     changeLike
+// };
+
+// connect(mapStateToProps, mapDispatchToProps)(PostContent);
+
+
 
   return (
     <Layout>

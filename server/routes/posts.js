@@ -134,7 +134,7 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { userId, username, mediaType, mediaUrl, title, text, userPhotoUrl} = req.body;
+    const { userId, username, mediaType, mediaUrl, title, like, text, userPhotoUrl} = req.body;
 
     try {
       const post = await Post.findById(req.params.postId); // find the post by ID
@@ -148,6 +148,7 @@ router.put(
       post.mediaUrl = mediaUrl;
       post.title = title;
       post.text = text;
+      post.like = like;
 
       const updatedPost = await post.save(); // save the updated post
 

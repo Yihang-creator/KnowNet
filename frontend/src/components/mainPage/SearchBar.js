@@ -120,7 +120,7 @@ export default function SearchBar() {
                     borderRadius: '50%'
                   },
                   '&.Mui-checked': {
-                    color: 'yellow',
+                    color: 'orange',
                   },
                   marginLeft: '30px'
                 }}
