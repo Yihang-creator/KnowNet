@@ -8,7 +8,6 @@ import Profile from "../components/userPages/Profile";
 import { PostContent } from "../components/mainPage/PostContent";
 import CommentPage from "../components/comments/CommentBoard";
 import JoinPage from "../components/videoRoom/JoinPage";
-import InteractiveVideo from "../components/InteractiveVideo";
 import Chat from "../components/Chat";
 
 const AppRoutes = () => {

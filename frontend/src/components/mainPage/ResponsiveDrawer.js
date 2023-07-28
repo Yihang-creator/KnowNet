@@ -55,17 +55,20 @@ function ResponsiveDrawer(props) {
             </ListItemButton>
           </ListItem>
         </Link>
-        <ListItem key={"Chats"} disablePadding>
-          <ListItemButton>
-            <ListItemIcon sx={{ color: theme.palette.primary.main }}>
-              <ChatIcon />
-            </ListItemIcon>
-            <ListItemText
-              primary={"Chats"}
-              sx={{ color: theme.palette.text.primary }}
-            />
-          </ListItemButton>
-        </ListItem>
+        <Link to={`/chat`} className="chats">
+          <ListItem key={"Chats"} disablePadding>
+            <ListItemButton>
+              <ListItemIcon sx={{ color: theme.palette.primary.main }}>
+                <ChatIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Chats"}
+                sx={{ color: theme.palette.text.primary }}
+              />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
         <Link to={`/profile`} className="group">
           <ListItem key={"Profile"} disablePadding>
             <ListItemButton>
