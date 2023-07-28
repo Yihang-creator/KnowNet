@@ -13,13 +13,14 @@ export const cancelLike = (postInfo) => {
 };
 
 export const changeLike = (post, isCancel, userID, accessToken) => async (dispatch) => {
-    console.log(post)
-    console.log(isCancel)
+    let changedPost = JSON.parse(JSON.stringify(post));
     if (!isCancel) {
-        post.like.push(userID)
+        changedPost.like.push(userID)
     } else {
-        post.like = post.like.filter(userId => userId !== userID);
+        changedPost.like = post.like.filter(userId => userId !== userID);
     }
+
+    console.log(post.postId);
     
     try {
         const response = await fetch(`/api/posts/${post.postId}`, {
@@ -28,9 +29,10 @@ export const changeLike = (post, isCancel, userID, accessToken) => async (dispat
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + accessToken
             },
-            body: JSON.stringify(post)
+            body: JSON.stringify(changedPost)
         });
         const data = await response.json();
+        console.log(data);
 
         const postId = data.postId
 
