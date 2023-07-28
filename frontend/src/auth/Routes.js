@@ -2,10 +2,10 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { LoginCallback } from "@okta/okta-react";
 import { RequiredAuth } from "./SecureRoute";
-import Home from "../pages/MainPage";
+import Home from "../components/mainPage/MainPage";
 import Loading from "./Loading";
-import Profile from "../pages/Profile";
-import { PostContent } from "../components/PostContent";
+import Profile from "../components/userPages/Profile";
+import { PostContent } from "../components/mainPage/PostContent";
 import CommentPage from "../components/comments/CommentBoard";
 import JoinPage from "../components/videoRoom/JoinPage";
 

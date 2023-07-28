@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
-import PreviewCard from "../PreviewCard";
+import PreviewCard from "./PreviewCard";
 import { Link } from "react-router-dom";
 import { useOktaAuth } from "@okta/okta-react";
 import { fetchAllPost } from "../../redux/actions/PostActions";

@@ -10,7 +10,7 @@ import {
     Box,
 } from '@mui/material';
 import { useUserContext } from "../../auth/UserContext";
-import "./Dropdown.css";
+import "../../Styles/Dropdown.css";
 
 const Dropdown = () => {
     const { authState, oktaAuth } = useOktaAuth();
