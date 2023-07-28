@@ -91,14 +91,14 @@ const Dropdown = () => {
                 {authState.isAuthenticated ? (
                     [
                         <Link key="Home" to="/">
-                            <DropdownItem img={user_image} text={"Home"} />
+                            <DropdownItem img={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLKy76cSh3Cu_SzL-P8aA_U8Uw0th_7cgnHA&usqp=CAU"} text={"Home"} />
                         </Link>,
                         <Link key="Profile" to="/profile">
-                            <DropdownItem img={user_image} text={"Profile"} />
+                            <DropdownItem img={"https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg"} text={"Profile"} />
                         </Link>,
                         <DropdownItem
                             key="logout"
-                            img={user_image}
+                            img={"https://static.vecteezy.com/system/resources/previews/000/575/503/original/vector-logout-sign-icon.jpg"}
                             text={"Log Out"}
                             onClick={logout}
                         />,
