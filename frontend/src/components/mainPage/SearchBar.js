@@ -10,6 +10,7 @@ import Dropdown from "./Dropdown";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useSearchContext } from "./searchContext";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,6 +62,7 @@ export default function SearchBar() {
   const [localSearchTerm, setLocalSearchTerm] = React.useState("");
   const [checked, setChecked] = React.useState(false);
   const { setSearchTerm, setSearchByTag } = useSearchContext();
+  const navigate = useNavigate();
 
   const handleTagChange = (event) => {
     setChecked(event.target.checked);
@@ -69,6 +71,7 @@ export default function SearchBar() {
   const onKeyup = (e) => {
     if (e.keyCode === 13) {
       handleSearch(localSearchTerm, setSearchTerm, checked, setSearchByTag);
+      navigate('/');
     }
   };
   return (
