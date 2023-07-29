@@ -7,6 +7,8 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useUserContext } from '../../auth/UserContext';
 import { UsageGuide } from './UsageGuide';
+import { useDispatch } from 'react-redux';
+import { fetchAllPost } from '../../redux/actions/PostActions';
 
 const textLayout = {
     title: {
@@ -45,6 +47,8 @@ const InteractiveVideoBuilder = (props) => {
   const { userId } = userInfo;
   const [errorSnackBarOpen, setErrorSnackBarOpen] = useState(false);
   const [errorSnackMessage, setErrorSnackMessage] = useState('');
+  const [uploadDisabled, setUploadDisabled] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleResize = () => {
@@ -131,6 +135,7 @@ const InteractiveVideoBuilder = (props) => {
   };
 
   const onSubmit = () => {
+    setUploadDisabled(true);
     const validateUrls = (node) => {
         if (node.attributes.url !== '') {
           try {
@@ -170,12 +175,14 @@ const InteractiveVideoBuilder = (props) => {
                   setSeverity('success');
                   handleClose();
               } else {
+                setUploadDisabled(false);
                 setErrorSnackBarOpen(true);
                 setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
               }
               })
               .catch((error) => {
-              console.error('Error:', error);
+              //  console.error('Error:', error);
+               setUploadDisabled(false);
                setErrorSnackBarOpen(true);
                setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
               });
@@ -199,16 +206,19 @@ const InteractiveVideoBuilder = (props) => {
                   setSeverity('success');
                   handleClose();
               } else {
+                  setUploadDisabled(false);
                   setErrorSnackBarOpen(true);
                   setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
               }
               })
               .catch((error) => {
               console.error('Error:', error);
+              setUploadDisabled(false);
               setErrorSnackBarOpen(true);
               setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
               });
       }
+      dispatch(fetchAllPost(oktaAuth.getAccessToken()));
     
   };
 
@@ -295,7 +305,7 @@ const InteractiveVideoBuilder = (props) => {
                 </Button>
             </Grid>
             <Grid item>
-            <Button variant="contained" color="primary" onClick={onSubmit}>
+            <Button variant="contained" color="primary" onClick={onSubmit} disabled={uploadDisabled}>
                 Upload Video
             </Button>
             </Grid>

@@ -11,6 +11,8 @@ import InteractiveVideoBuilder from "../interactiveVideo/InteractiveVideoBuilder
 import { useUserContext } from "../../auth/UserContext";
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import { fetchAllPost } from "../../redux/actions/PostActions";
+import { useDispatch } from "react-redux";
 
 const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', 
 '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '🤪', '😝', '🤑', 
@@ -54,6 +56,8 @@ const PostEdit = (props) => {
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('success');
     const [tags, setTags] = useState("");
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const dispatch = useDispatch();
 
     const user_image = userInfo == null ? null : userInfo.userPhotoUrl;
     useEffect(() => {
@@ -75,6 +79,10 @@ const PostEdit = (props) => {
           setPreviewUrl(null);
         }
       }, [post, handleClose]);
+
+    useEffect(() => {
+      setSubmitButtonDisabled(!media && !mediaUrl);
+    }, [media, mediaUrl])
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -111,6 +119,7 @@ const PostEdit = (props) => {
 
     const handleSubmit = async (event) => {
       event.preventDefault();
+      setSubmitButtonDisabled(true);
 
       if (!media && !mediaUrl) {
         alert('Please select a media file to upload or enter a URL.');
@@ -126,7 +135,7 @@ const PostEdit = (props) => {
           headers: {
           Authorization: 'Bearer ' + oktaAuth.getAccessToken()
         },});
-        const { url, key } = await response.json();
+        const { url } = await response.json();
 
         //upload the media file to the s3 bucket
         const uploadResponse = await fetch(url, {
@@ -179,6 +188,7 @@ const PostEdit = (props) => {
               username: userInfo.username
               })
           });
+          dispatch(fetchAllPost(oktaAuth.getAccessToken()));
           setMessage("Upload succeeded");
       } else {
           // Send the URL and other post data to the backend
@@ -199,6 +209,7 @@ const PostEdit = (props) => {
               username: userInfo.username
               })
          });
+         dispatch(fetchAllPost(oktaAuth.getAccessToken()));
          setMessage("Update succeeded");
       }
       setSnackbarOpen(true);
@@ -272,7 +283,7 @@ const PostEdit = (props) => {
               <Button onClick={handleClose} color="primary">
                   Cancel
               </Button>
-              <Button onClick={handleSubmit} disabled={!media && !mediaUrl} color="primary">
+              <Button onClick={handleSubmit} disabled={submitButtonDisabled} color="primary">
                   Post
               </Button>
               </DialogActions>

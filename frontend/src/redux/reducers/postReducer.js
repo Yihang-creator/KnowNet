@@ -13,6 +13,8 @@ const postReducer = (state = [], action) => {
       return addLike(state, action.payload.postId, action.payload.userID);
     case "CANCEL_LIKE":
       return cancelLike(state, action.payload.postId, action.payload.userID);
+    case "DELETE_POST":
+      return deletePost(state, action.payload);
     default:
       return state;
   }
@@ -52,6 +54,17 @@ const cancelLike = (state, postID, userID) => {
       deep[postIndex].like = deep[postIndex].like.filter(userId => userId !== userID);
     } 
     return deep;
+};
+
+const deletePost = (state, postID) => {
+  let deep = _.cloneDeep(state);
+  const postIndex = deep.findIndex(post => post.postId === postID);
+  if (postIndex !== -1) {
+    deep.splice(postIndex, 1);
+  }
+  console.log("here");
+  console.log(deep);
+  return deep;
 };
 
 export default postReducer;
