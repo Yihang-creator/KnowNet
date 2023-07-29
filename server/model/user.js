@@ -37,16 +37,16 @@ const userSchema = new mongoose.Schema(
 
 const User = mongoose.model("User", userSchema);
 
-User.deleteMany({})
-  .then(() => console.log("All users deleted."))
-  .then(() => {
-    return User.create(data.users);
-  })
-  .then(() => {
-    console.log("Data preloaded successfully");
-  })
-  .catch((err) => {
-    console.error("Error: ", err);
-  });
+// User.deleteMany({})
+//   .then(() => console.log("All users deleted."))
+//   .then(() => {
+//     return User.create(data.users);
+//   })
+//   .then(() => {
+//     console.log("Data preloaded successfully");
+//   })
+//   .catch((err) => {
+//     console.error("Error: ", err);
+//   });
 
 module.exports = User;

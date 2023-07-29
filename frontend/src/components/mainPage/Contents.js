@@ -7,48 +7,53 @@ import { fetchAllPost } from "../../redux/actions/PostActions";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "../../auth/Loading";
 import { useSearchContext } from "./searchContext";
+import { getBlockTags } from "../../redux/actions/userActions"
+import { useUserContext } from '../../auth/UserContext';
 
 const Contents = () => {
   const { oktaAuth } = useOktaAuth();
   const dispatch = useDispatch();
   const { searchTerm, searchByTag } = useSearchContext();
+  const { userInfo } = useUserContext();
   const posts = useSelector((state) => state.posts);
+  const blockedTags = useSelector((state) => state.userReducer.blockedTags);
 
   useEffect(() => {
     dispatch(fetchAllPost(oktaAuth.getAccessToken()));
   }, [dispatch, oktaAuth]);
 
-  if (!posts) {
+  useEffect(() => {
+      dispatch(getBlockTags(userInfo.userId, oktaAuth.getAccessToken()));
+  }, [dispatch, oktaAuth]);
+
+  if (!posts || !blockedTags) {
     return <Loading />;
   }
 
-  const filteredByTag = function (posts, searchTerm) {
-    const filtered = [];
-    for (const post of posts) {
-      if (post.tags.map(string => string.toLowerCase()).includes(searchTerm.toLowerCase())) {
-        filtered.push(post)
-      }
-    }
-    return filtered;
+
+  const titleHasSearchTerm = function(searchTerm, post) {
+    return post.title.toLowerCase().includes(searchTerm.toLowerCase())
   }
 
-  const getFilteredPost = function (searchTerm, searchByTag) {
-    // const searchByTag = false;
-    if (!searchTerm) return posts;
-    if (!searchByTag) {
-      return posts.filter((post) =>
-        post.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-    return filteredByTag(posts, searchTerm);
-  };
+  const titleHasTag = function(searchTerm, post) {
+   return post.tags.map(string => string.toLowerCase()).includes(searchTerm.toLowerCase())
+  }
+
+  const postNotBlocked = function(blockedTags, post) {
+    const lowerCaseTags = blockedTags.map(string => string.toLowerCase())
+    return !post.tags.map(string => string.toLowerCase()).some(tag => lowerCaseTags.includes(tag))
+  }
 
   
+  const getFilteredPost = function (searchTerm, searchByTag, blockedTags) {
+    if (searchByTag) {
+      return posts.filter((post) => titleHasTag(searchTerm, post) && postNotBlocked(blockedTags, post))
+    } else {
+      return posts.filter((post) => titleHasSearchTerm(searchTerm, post) && postNotBlocked(blockedTags, post))
+    }
+  };
 
-  const filteredPosts = getFilteredPost(searchTerm, searchByTag);
-
-
-  // const firstFivePosts = filteredPosts.filter(post => post.mediaType === 'image').slice(0, 5);
+  const filteredPosts = getFilteredPost(searchTerm, searchByTag, blockedTags);
 
   return (
     <div className="mt-10 flex justify-center">

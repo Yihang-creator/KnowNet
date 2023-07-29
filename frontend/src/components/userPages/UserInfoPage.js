@@ -12,6 +12,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from "@mui/icons-material/Edit";
 import PostEdit from "../mainPage/postEdit";
 import SearchBar from '../mainPage/SearchBar';
+import BlockedTags from "./BlockedTags";
 import ResponsiveDrawer from '../mainPage/ResponsiveDrawer';
 
 const UserInfoPage = ({ name, email }) => {
@@ -162,6 +163,7 @@ const UserInfoPage = ({ name, email }) => {
                 <Grid className="flex gap-2">
                   <PopupButton type="followings" token={oktaAuth.getAccessToken()} />
                   <PopupButton type="followers" token={oktaAuth.getAccessToken()} />
+                  <BlockedTags type="followings" token={oktaAuth.getAccessToken()}/>
                 </Grid>
               </Grid>
             </Box>
