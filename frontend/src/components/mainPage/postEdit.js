@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Divider, Tab, Tabs, Snackbar, Alert } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ReactPlayer from 'react-player/lazy'
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
@@ -54,6 +54,7 @@ const PostEdit = (props) => {
     const [message, setMessage] = useState('');
     const [severity, setSeverity] = useState('success');
     const [tags, setTags] = useState("");
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
 
     const user_image = userInfo == null ? null : userInfo.userPhotoUrl;
     useEffect(() => {
@@ -75,6 +76,10 @@ const PostEdit = (props) => {
           setPreviewUrl(null);
         }
       }, [post, handleClose]);
+
+    useEffect(() => {
+      setSubmitButtonDisabled(!media && !mediaUrl);
+    }, [media, mediaUrl])
 
     const handleTitleChange = (event) => {
         setTitle(event.target.value);
@@ -111,6 +116,7 @@ const PostEdit = (props) => {
 
     const handleSubmit = async (event) => {
       event.preventDefault();
+      setSubmitButtonDisabled(true);
 
       if (!media && !mediaUrl) {
         alert('Please select a media file to upload or enter a URL.');
@@ -272,7 +278,7 @@ const PostEdit = (props) => {
               <Button onClick={handleClose} color="primary">
                   Cancel
               </Button>
-              <Button onClick={handleSubmit} disabled={!media && !mediaUrl} color="primary">
+              <Button onClick={handleSubmit} disabled={submitButtonDisabled} color="primary">
                   Post
               </Button>
               </DialogActions>
