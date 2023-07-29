@@ -55,7 +55,7 @@ router.get("/:id/faf", async function (req, res, next) {
 
     res.json({ followers, followings });
   } catch (error) {
-    next(error); // Pass errors to your error handler
+    next(error); // Pass errors to the error handler
   }
 });
 
@@ -97,7 +97,7 @@ router.patch("/:id/follow", async function (req, res, next) {
 
     return res.status(200).json({ message: "Followed successfully" });
   } catch (error) {
-    next(error); // Pass errors to your error handler
+    next(error); // Pass errors to the error handler
   }
 });
 module.exports = router;
