@@ -93,8 +93,8 @@ const Contents = () => {
                   src={post.mediaUrl}
                   title={post.title}
                   previewText={post.text}
-                  username={userInfo.username}
-                  userPhotoUrl={userInfo.userPhotoUrl}
+                  username={post.username}
+                  userPhotoUrl={post.userPhotoUrl}
                 />
               </Link>
             </li>
