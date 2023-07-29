@@ -31,13 +31,13 @@ router.get("/", async function (req, res, next) {
       postsPreview = await Post.find()
         .skip(startIndex)
         .limit(limit)
-        .select("_id userId username userPhotoUrl mediaType mediaUrl title tags");
+        .select("_id userId username userPhotoUrl mediaType mediaUrl title like tags");
 
       return res
         .setHeader("Content-Type", "application/json")
         .send(postsPreview);
     } else {
-      postsPreview = await Post.find().select("_id userId username userPhotoUrl mediaType mediaUrl title tags");
+      postsPreview = await Post.find().select("_id userId username userPhotoUrl mediaType mediaUrl title like tags");
       return res
         .setHeader("Content-Type", "application/json")
         .send(postsPreview);
@@ -134,7 +134,7 @@ router.put(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { userId, username, mediaType, mediaUrl, title, text, userPhotoUrl} = req.body;
+    const { userId, username, mediaType, mediaUrl, title, like, text, userPhotoUrl} = req.body;
 
     try {
       const post = await Post.findById(req.params.postId); // find the post by ID
@@ -148,6 +148,7 @@ router.put(
       post.mediaUrl = mediaUrl;
       post.title = title;
       post.text = text;
+      post.like = like;
 
       const updatedPost = await post.save(); // save the updated post
 
@@ -158,6 +159,27 @@ router.put(
       return res.status(500).json({ error: "Failed to update post" });
     }
   }
+);
+
+router.delete(
+    "/:postId",
+    async function (req, res, next) {
+      try {
+        const post = await Post.findById(req.params.postId); // find the post by ID
+
+        if (!post) {
+          return res.status(404).json({ error: "Post not found" });
+        }
+
+        await Post.findByIdAndRemove(req.params.postId); // remove the post
+
+        console.log("Post deleted");
+        return res.status(200).json({message: "Post deleted successfully"});
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        return res.status(500).json({ error: "Failed to delete post" });
+      }
+    }
 );
 
 module.exports = router;

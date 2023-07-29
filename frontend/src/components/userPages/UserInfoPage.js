@@ -10,40 +10,50 @@ import { useOktaAuth } from "@okta/okta-react";
 import { useUserContext } from "../../auth/UserContext";
 import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import PostEdit from "../mainPage/postEdit";
 import SearchBar from '../mainPage/SearchBar';
 import BlockedTags from "./BlockedTags";
 import ResponsiveDrawer from '../mainPage/ResponsiveDrawer';
+import { useDispatch, useSelector } from "react-redux";
+import { deletePost, fetchAllPost } from "../../redux/actions/PostActions";
 
 const UserInfoPage = ({ name, email }) => {
   const { userInfo } = useUserContext();
   const theme = useTheme();
   const avatar = userInfo == null ? null : userInfo.userPhotoUrl;
   const [selectedImage, setSelectedImage] = useState(avatar);
-  const [posts, setPosts] = useState(null);
+  const posts = useSelector((state) => state.posts);
   const { oktaAuth } = useOktaAuth();
   const [open, setOpen] = useState(false);
   const [editPost, setEditPost] = useState(false);
   const [editStatus, setEditStatus] = useState(false); // Whether to enter editing mode
-  const [searchTerm, setSearchTerm] = useState("");
+  const [setSearchTerm] = useState("");
+  const [showPosts, setShowPosts] = useState(true);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
-    fetch(`/api/posts`, {
-      headers: {
-        Authorization: "Bearer " + oktaAuth.getAccessToken(),
-      },
-    })
-        .then((response) => {
-          if (!response.ok) throw new Error("API call failed");
-          return response.json();
-        })
-        .then((data) => setPosts(data))
-        .catch((error) => console.error("Error", error));
-  }, [oktaAuth]);
+    dispatch(fetchAllPost(oktaAuth.getAccessToken()));
+  }, [dispatch, oktaAuth]);
 
   if (!posts) {
     return <div> Post Loading ...</div>;
   }
+
+  const filterPosts = () => {
+    if (showPosts) {
+      return posts.filter(post => post.userId === userInfo.userId);
+    } else {
+      return posts.filter(post => {
+        // console.log('post.like:', post.like);
+        // console.log('userInfo.userId:', userInfo.userId);
+        const includes = post.like && post.like.includes(userInfo.userId.toString());
+        // console.log('includes:', includes);
+        return includes;
+      });
+    }
+  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -58,7 +68,7 @@ const UserInfoPage = ({ name, email }) => {
 
   const handleClickOpen = (post) => {
     console.log('post:', post)
-    fetch(`/api/posts/${post.postId}`, { // assuming your API endpoint follows this pattern and post objects have 'id' field
+    fetch(`/api/posts/${post.postId}`, {
       headers: {
         Authorization: "Bearer " + oktaAuth.getAccessToken(),
       },
@@ -72,6 +82,10 @@ const UserInfoPage = ({ name, email }) => {
           setOpen(true);
         })
         .catch((error) => console.error("Error", error));
+  };
+
+  const handleDelete = (post) => {
+    dispatch(deletePost(post.postId, oktaAuth.getAccessToken()));
   };
 
   const handleClose = () => {
@@ -104,7 +118,7 @@ const UserInfoPage = ({ name, email }) => {
   return (
       <Box sx={{ display: 'flex' }}>
         {/*<Box sx={{ display: 'flex', overflow: 'auto'}}>*/}
-        {/*  <ResponsiveDrawer />*/}
+          <ResponsiveDrawer />
         {/*  <Box sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, maxWidth: '100%', overflowX: 'hidden' }}>*/}
         {/*    <Toolbar />*/}
         {/*  </Box>*/}
@@ -170,12 +184,22 @@ const UserInfoPage = ({ name, email }) => {
 
             <Grid sx={{ flexDirection: 'column' }} className="flex rounded-md border-2 bg-gray-400 p-2 text-white">
               <Grid className="flex justify-center gap-4 rounded-md p-2">
-                <button className="rounded-md border-2 p-2">Posts</button>
-                <button className="rounded-md border-2 p-2">Liked</button>
+                <button
+                    className={`rounded-md border-2 p-2 ${showPosts ? 'active-button-class' : ''}`}
+                    onClick={() => setShowPosts(true)}
+                >
+                  Posts
+                </button>
+                <button
+                    className={`rounded-md border-2 p-2 ${!showPosts ? 'active-button-class' : ''}`}
+                    onClick={() => setShowPosts(false)}
+                >
+                  Liked
+                </button>
               </Grid>
 
               <Grid className="rounded-md bg-white p-2 md:columns-2 lg:columns-4">
-                {posts.map((post, index) => (
+                {filterPosts().map((post, index) => (
                     <div key={index} className="inline-block w-full p-2 relative">
                       <Link to={`/post/${post.postId}`}>
                         <ProfileCard
@@ -200,6 +224,23 @@ const UserInfoPage = ({ name, email }) => {
                             onClick={() => handleClickOpen(post)}
                         >
                           <EditIcon />
+                        </Fab> : ''
+                      }
+                      {
+                        editStatus ? <Fab
+                            variant="extended"
+                            sx={{
+                              position: 'absolute',
+                              right: '20px',
+                              top: '20px',
+                              width: '20px',
+                              opacity: '0.5',
+                              zIndex: '10'
+                            }}
+                            aria-label="edit"
+                            onClick={() => handleDelete(post)}
+                        >
+                          <DeleteIcon />
                         </Fab> : ''
                       }
                     </div>

@@ -116,7 +116,7 @@ router.get('/getCommentDetail', async function(req, res, next) { // Note: the fu
     try {
         const relatedComments = await Comment
             .find({ postId: postId })
-            .populate('userId', 'username') // assuming the user model has a username field
+            .populate('userId', 'username')
             .exec();
 
         const allUsers = await User

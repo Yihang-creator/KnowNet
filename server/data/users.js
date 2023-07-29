@@ -20,8 +20,7 @@ let users = [
   {
     userId: "3",
     username: "Bill",
-    userPhotoUrl:
-      "https://i.chzbgr.com/full/9742912256/h10FF2F57/animal",
+    userPhotoUrl: "https://i.chzbgr.com/full/9742912256/h10FF2F57/animal",
     email: "yingquanwangubc@gmail.com",
     blockedTags: ["summer"],
     follow: ["1", "2"],
@@ -45,10 +44,10 @@ let users = [
     follow: ["1", "2", "3"],
   },
   {
-    userId: "10",
+    userId: "6",
     username: "Alex",
     userPhotoUrl:
-        "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1685&q=80",
+      "https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1685&q=80",
     email: "wfq15367818393@163.com",
     blockedTags: [],
     follow: [],

@@ -1,9 +1,7 @@
 var express = require("express");
 var router = express.Router();
-var { users } = require("../data/users.js");
-
 const User = require("../model/user");
-const { default: mongoose } = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
 
 router.get("/", async function (req, res, next) {
   try {
@@ -18,15 +16,27 @@ router.get("/:email", async function (req, res, next) {
   const { email } = req.params;
 
   try {
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      const _id = uuidv4();
+
+      const userData = {
+        userId: _id,
+        username: email,
+        userPhotoUrl:
+          "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg",
+        email: email,
+        follow: [],
+      };
+
+      await User.create(userData);
+      user = await User.findOne({ email });
     }
 
     res.json(user);
   } catch (error) {
-    next(error); // Pass errors to your error handler
+    res.status(500).send("Error getting user");
   }
 });
 
@@ -45,7 +55,7 @@ router.get("/:id/faf", async function (req, res, next) {
 
     res.json({ followers, followings });
   } catch (error) {
-    next(error); // Pass errors to your error handler
+    next(error); // Pass errors to the error handler
   }
 });
 
@@ -87,7 +97,7 @@ router.patch("/:id/follow", async function (req, res, next) {
 
     return res.status(200).json({ message: "Followed successfully" });
   } catch (error) {
-    next(error); // Pass errors to your error handler
+    next(error); // Pass errors to the error handler
   }
 });
 
