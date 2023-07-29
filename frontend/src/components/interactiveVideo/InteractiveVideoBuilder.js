@@ -7,6 +7,8 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useUserContext } from '../../auth/UserContext';
 import { UsageGuide } from './UsageGuide';
+import { useDispatch } from 'react-redux';
+import { fetchAllPost } from '../../redux/actions/PostActions';
 
 const textLayout = {
     title: {
@@ -46,6 +48,7 @@ const InteractiveVideoBuilder = (props) => {
   const [errorSnackBarOpen, setErrorSnackBarOpen] = useState(false);
   const [errorSnackMessage, setErrorSnackMessage] = useState('');
   const [uploadDisabled, setUploadDisabled] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleResize = () => {
@@ -215,6 +218,7 @@ const InteractiveVideoBuilder = (props) => {
               setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
               });
       }
+      dispatch(fetchAllPost(oktaAuth.getAccessToken()));
     
   };
 

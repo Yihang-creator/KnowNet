@@ -14,36 +14,27 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PostEdit from "../mainPage/postEdit";
 import SearchBar from '../mainPage/SearchBar';
 import ResponsiveDrawer from '../mainPage/ResponsiveDrawer';
-import userInfoPage from "./UserInfoPage";
-import {useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deletePost, fetchAllPost } from "../../redux/actions/PostActions";
 
 const UserInfoPage = ({ name, email }) => {
   const { userInfo } = useUserContext();
   const theme = useTheme();
   const avatar = userInfo == null ? null : userInfo.userPhotoUrl;
   const [selectedImage, setSelectedImage] = useState(avatar);
-  const [posts, setPosts] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Indicates whether the posts are still loading
+  const posts = useSelector((state) => state.posts);
   const { oktaAuth } = useOktaAuth();
   const [open, setOpen] = useState(false);
   const [editPost, setEditPost] = useState(false);
   const [editStatus, setEditStatus] = useState(false); // Whether to enter editing mode
-  const [searchTerm, setSearchTerm] = useState("");
+  const [setSearchTerm] = useState("");
   const [showPosts, setShowPosts] = useState(true);
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
-    fetch(`/api/posts`, {
-      headers: {
-        Authorization: "Bearer " + oktaAuth.getAccessToken(),
-      },
-    })
-        .then((response) => {
-          if (!response.ok) throw new Error("API call failed");
-          return response.json();
-        })
-        .then((data) => setPosts(data))
-        .catch((error) => console.error("Error", error));
-  }, [oktaAuth]);
+    dispatch(fetchAllPost(oktaAuth.getAccessToken()));
+  }, [dispatch, oktaAuth]);
 
   if (!posts) {
     return <div> Post Loading ...</div>;
@@ -76,7 +67,7 @@ const UserInfoPage = ({ name, email }) => {
 
   const handleClickOpen = (post) => {
     console.log('post:', post)
-    fetch(`/api/posts/${post.postId}`, { // assuming your API endpoint follows this pattern and post objects have 'id' field
+    fetch(`/api/posts/${post.postId}`, {
       headers: {
         Authorization: "Bearer " + oktaAuth.getAccessToken(),
       },
@@ -93,13 +84,7 @@ const UserInfoPage = ({ name, email }) => {
   };
 
   const handleDelete = (post) => {
-    console.log('post:', post)
-    fetch(`/api/posts/${post.postId}`, { // assuming your API endpoint follows this pattern and post objects have 'id' field
-      method: 'DELETE',
-      headers: {
-        Authorization: "Bearer " + oktaAuth.getAccessToken(),
-      },
-    })
+    dispatch(deletePost(post.postId, oktaAuth.getAccessToken()));
   };
 
   const handleClose = () => {

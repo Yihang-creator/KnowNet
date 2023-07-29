@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Divider, Tab, Tabs, Snackbar, Alert } from "@mui/material";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import ReactPlayer from 'react-player/lazy'
 import { Editor } from 'react-draft-wysiwyg';
 import { EditorState, convertToRaw } from 'draft-js';
@@ -11,6 +11,8 @@ import InteractiveVideoBuilder from "../interactiveVideo/InteractiveVideoBuilder
 import { useUserContext } from "../../auth/UserContext";
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import { fetchAllPost } from "../../redux/actions/PostActions";
+import { useDispatch } from "react-redux";
 
 const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', 
 '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😜', '🤪', '😝', '🤑', 
@@ -55,6 +57,7 @@ const PostEdit = (props) => {
     const [severity, setSeverity] = useState('success');
     const [tags, setTags] = useState("");
     const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+    const dispatch = useDispatch();
 
     const user_image = userInfo == null ? null : userInfo.userPhotoUrl;
     useEffect(() => {
@@ -132,7 +135,7 @@ const PostEdit = (props) => {
           headers: {
           Authorization: 'Bearer ' + oktaAuth.getAccessToken()
         },});
-        const { url, key } = await response.json();
+        const { url } = await response.json();
 
         //upload the media file to the s3 bucket
         const uploadResponse = await fetch(url, {
@@ -185,6 +188,7 @@ const PostEdit = (props) => {
               username: userInfo.username
               })
           });
+          dispatch(fetchAllPost(oktaAuth.getAccessToken()));
           setMessage("Upload succeeded");
       } else {
           // Send the URL and other post data to the backend
@@ -205,6 +209,7 @@ const PostEdit = (props) => {
               username: userInfo.username
               })
          });
+         dispatch(fetchAllPost(oktaAuth.getAccessToken()));
          setMessage("Update succeeded");
       }
       setSnackbarOpen(true);
