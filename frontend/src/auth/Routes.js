@@ -4,11 +4,11 @@ import { LoginCallback } from "@okta/okta-react";
 import { RequiredAuth } from "./SecureRoute";
 import Home from "../components/mainPage/MainPage";
 import Loading from "./Loading";
-import Profile from "../components/userPages/Profile";
 import { PostContent } from "../components/mainPage/PostContent";
 import CommentPage from "../components/comments/CommentBoard";
 import JoinPage from "../components/videoRoom/JoinPage";
 import Chat from "../components/Chat";
+import UserInfoPage from "../components/userPages/UserInfoPage";
 
 const AppRoutes = () => {
   return (
@@ -24,7 +24,7 @@ const AppRoutes = () => {
         <Route path="" element={<CommentPage />} />
       </Route>
       <Route path="/profile" element={<RequiredAuth />}>
-        <Route path="" element={<Profile />} />
+        <Route path="" element={<UserInfoPage />} />
       </Route>
       <Route path="/chat" element={<RequiredAuth />}>
         <Route path="" element={<Chat />} />

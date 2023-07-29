@@ -18,7 +18,7 @@ router.get("/:userId1/:userId2", async (req, res) => {
       return chat.users.find((user) => user !== userId1);
     });
 
-    const people = await User.find({ userId: { $in: otherUserIds } });
+    const people = await User.find({ userId: { $ne: userId1 } });
 
     let chat = await Chat.findOne({
       users: { $all: [userId1, userId2] },

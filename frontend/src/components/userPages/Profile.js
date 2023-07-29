@@ -70,12 +70,7 @@ const Profile = () => {
         </Table>
       </div>
 
-      {
-        <UserInfoPage
-          name={Object.entries(userInfo)[1][1].toString()}
-          email={Object.entries(userInfo)[2][1].toString()}
-        />
-      }
+      {<UserInfoPage />}
     </div>
   );
 };

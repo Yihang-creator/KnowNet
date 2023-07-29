@@ -1,57 +1,30 @@
 import React, { useState } from "react";
 import { Box, Modal } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getBlockTags } from "../../redux/actions/userActions";
 import { useUserContext } from "../../auth/UserContext";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-const BlockedTags = ({ token }) => {
-  const dispatch = useDispatch();
+const EditForm = ({ token }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { userInfo } = useUserContext();
   const { userId } = userInfo;
-  const [textFieldValue, setTextFieldValue] = useState("");
-
-  const convertTagsToString = function (tags) {
-    let string = "";
-    if (!tags || tags.length === 0) return string;
-    for (let tag of tags) {
-      string = string + " " + tag;
-    }
-    return string;
-  };
+  const [textFieldValue1, setTextFieldValue1] = useState("");
+  const [textFieldValue2, setTextFieldValue2] = useState("");
 
   const closeModal = () => {
     setIsOpen(false);
   };
   const openModal = () => setIsOpen(true);
 
-  useEffect(() => {
-    if (!isOpen) {
-      dispatch(getBlockTags(userId, token));
-    }
-  }, [isOpen]);
-
-  const tags = useSelector((state) => state.userReducer.blockedTags);
-
-  useEffect(() => {
-    setTextFieldValue(convertTagsToString(tags));
-  }, [tags]);
-
-  if (!tags) {
-    return <div> Loading ...</div>;
-  }
-
-  const addBlockTags = function (userId, tags, token) {
-    fetch(`/api/users/${userId}/block`, {
+  const edit = function (userId, newName, newImage, token) {
+    fetch(`/api/users/${userId}/edit`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      body: JSON.stringify({ userId: userId, blockedTags: tags }),
+      body: JSON.stringify({ name: newName, image: newImage }),
     })
       .then((response) => response.json())
       .catch((error) => {
@@ -60,7 +33,7 @@ const BlockedTags = ({ token }) => {
   };
 
   function handleSubmit(e) {
-    addBlockTags(userId, textFieldValue.trim().split(" "), token);
+    edit(userId, textFieldValue1, textFieldValue2, token);
     closeModal();
     e.preventDefault();
   }
@@ -85,7 +58,7 @@ const BlockedTags = ({ token }) => {
         className="flex flex-col items-center p-2 text-white"
         onClick={openModal}
       >
-        <span className="rounded-md border-2 p-2">Blocked Tags</span>
+        <span className="rounded-md border-2 p-2">Edit</span>
       </button>
 
       <Modal
@@ -100,17 +73,27 @@ const BlockedTags = ({ token }) => {
               color: "orange",
             }}
           >
-            Enter the tags you want to block and separate them by space.
+            Edit your account information below
           </h2>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Enter Text"
+            label="New Name"
             type="text"
             fullWidth
-            value={textFieldValue}
-            onChange={(e) => setTextFieldValue(e.target.value)}
+            value={textFieldValue1}
+            onChange={(e) => setTextFieldValue1(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="New Avatar"
+            type="text"
+            fullWidth
+            value={textFieldValue2}
+            onChange={(e) => setTextFieldValue2(e.target.value)}
           />
           <Button variant="contained" onClick={handleSubmit}>
             Confirm
@@ -121,4 +104,4 @@ const BlockedTags = ({ token }) => {
   );
 };
 
-export default BlockedTags;
+export default EditForm;

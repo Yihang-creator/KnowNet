@@ -7,8 +7,8 @@ import { fetchAllPost } from "../../redux/actions/PostActions";
 import { useSelector, useDispatch } from "react-redux";
 import Loading from "../../auth/Loading";
 import { useSearchContext } from "./searchContext";
-import { getBlockTags } from "../../redux/actions/userActions"
-import { useUserContext } from '../../auth/UserContext';
+import { getBlockTags } from "../../redux/actions/userActions";
+import { useUserContext } from "../../auth/UserContext";
 
 const Contents = () => {
   const { oktaAuth } = useOktaAuth();
@@ -23,33 +23,42 @@ const Contents = () => {
   }, [dispatch, oktaAuth]);
 
   useEffect(() => {
-      dispatch(getBlockTags(userInfo.userId, oktaAuth.getAccessToken()));
+    dispatch(getBlockTags(userInfo.userId, oktaAuth.getAccessToken()));
   }, [dispatch, oktaAuth]);
 
   if (!posts || !blockedTags) {
     return <Loading />;
   }
 
+  const titleHasSearchTerm = function (searchTerm, post) {
+    return post.title.toLowerCase().includes(searchTerm.toLowerCase());
+  };
 
-  const titleHasSearchTerm = function(searchTerm, post) {
-    return post.title.toLowerCase().includes(searchTerm.toLowerCase())
-  }
+  const titleHasTag = function (searchTerm, post) {
+    return post.tags
+      .map((string) => string.toLowerCase())
+      .includes(searchTerm.toLowerCase());
+  };
 
-  const titleHasTag = function(searchTerm, post) {
-   return post.tags.map(string => string.toLowerCase()).includes(searchTerm.toLowerCase())
-  }
+  const postNotBlocked = function (blockedTags, post) {
+    const lowerCaseTags = blockedTags.map((string) => string.toLowerCase());
+    return !post.tags
+      .map((string) => string.toLowerCase())
+      .some((tag) => lowerCaseTags.includes(tag));
+  };
 
-  const postNotBlocked = function(blockedTags, post) {
-    const lowerCaseTags = blockedTags.map(string => string.toLowerCase())
-    return !post.tags.map(string => string.toLowerCase()).some(tag => lowerCaseTags.includes(tag))
-  }
-
-  
   const getFilteredPost = function (searchTerm, searchByTag, blockedTags) {
     if (searchByTag) {
-      return posts.filter((post) => titleHasTag(searchTerm, post) && postNotBlocked(blockedTags, post))
+      return posts.filter(
+        (post) =>
+          titleHasTag(searchTerm, post) && postNotBlocked(blockedTags, post)
+      );
     } else {
-      return posts.filter((post) => titleHasSearchTerm(searchTerm, post) && postNotBlocked(blockedTags, post))
+      return posts.filter(
+        (post) =>
+          titleHasSearchTerm(searchTerm, post) &&
+          postNotBlocked(blockedTags, post)
+      );
     }
   };
 
@@ -84,8 +93,8 @@ const Contents = () => {
                   src={post.mediaUrl}
                   title={post.title}
                   previewText={post.text}
-                  username={post.username}
-                  userPhotoUrl={post.userPhotoUrl}
+                  username={userInfo.username}
+                  userPhotoUrl={userInfo.userPhotoUrl}
                 />
               </Link>
             </li>
