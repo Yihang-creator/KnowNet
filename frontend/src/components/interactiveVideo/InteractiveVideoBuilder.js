@@ -173,6 +173,7 @@ const InteractiveVideoBuilder = (props) => {
                   setMessage('Upload succeeded!');
                   setSnackbarOpen(true);
                   setSeverity('success');
+                  dispatch(fetchAllPost(oktaAuth.getAccessToken()));
                   handleClose();
               } else {
                 setUploadDisabled(false);
@@ -204,6 +205,7 @@ const InteractiveVideoBuilder = (props) => {
                   setMessage('Update succeeded!');
                   setSnackbarOpen(true);
                   setSeverity('success');
+                  dispatch(fetchAllPost(oktaAuth.getAccessToken()));
                   handleClose();
               } else {
                   setUploadDisabled(false);
@@ -218,8 +220,6 @@ const InteractiveVideoBuilder = (props) => {
               setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
               });
       }
-      dispatch(fetchAllPost(oktaAuth.getAccessToken()));
-    
   };
 
   const renderRectSvgNode = ({ nodeDatum, onNodeClick }) => (
