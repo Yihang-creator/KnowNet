@@ -166,6 +166,8 @@ const InteractiveVideoBuilder = (props) => {
                     mediaType: 'video',
                     title: data.name,
                     mediaUrl: data.attributes.url,
+                    userPhotoUrl: userInfo?.userPhotoUrl,
+                    username: userInfo?.username,
                 })})
                 .then(response => {
                     if (response.status === 200) {
@@ -198,6 +200,8 @@ const InteractiveVideoBuilder = (props) => {
                     title: data.name,
                     mediaUrl: data.attributes.url,
                     text: null,
+                    userPhotoUrl: userInfo?.userPhotoUrl,
+                    username: userInfo?.username,
                 })})
                 .then(response => {
                     if (response.status === 201) {
