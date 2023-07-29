@@ -2,10 +2,10 @@ import Stack from "@mui/material/Stack";
 import { Button } from "@mui/material";
 
 const ShowTags = (props) => {
+  const goodTags = props.tags.filter((tag) => tag !== " ");
   return (<>
-    {/* <h2 style={{ display: 'inline'}}>Tags: </h2> */}
     <Stack style={{ display: 'inline'}} direction="row" spacing={2}>
-      {props.tags.map((tag) => (
+      {goodTags.map((tag) => (
         <Button variant="text">#{tag}</Button>
       ))}
     </Stack>

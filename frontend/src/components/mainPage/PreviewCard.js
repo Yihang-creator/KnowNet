@@ -22,7 +22,8 @@ const PreviewCard = (props) => {
                         {props.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {props.previewText || ''}
+                        {/*TODO: add preview text*/}
+                        {/* {props.previewText || 'intro...'} */}
                     </Typography>
                     <Typography variant="caption" className="text-gary flex items-center" sx={{ marginTop: '10px' }} >
                         <Avatar alt="" src={props.userPhotoUrl} className="mr-2" sx={{ width: '20px', height: '20px' }} />
