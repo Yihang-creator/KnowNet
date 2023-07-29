@@ -54,10 +54,10 @@ const UserInfoPage = ({ name, email }) => {
       return posts.filter(post => post.userId === userInfo.userId);
     } else {
       return posts.filter(post => {
-        console.log('post.like:', post.like);
-        console.log('userInfo.userId:', userInfo.userId);
+        // console.log('post.like:', post.like);
+        // console.log('userInfo.userId:', userInfo.userId);
         const includes = post.like && post.like.includes(userInfo.userId.toString());
-        console.log('includes:', includes);
+        // console.log('includes:', includes);
         return includes;
       });
     }
