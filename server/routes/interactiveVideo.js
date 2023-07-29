@@ -86,6 +86,8 @@ router.post("/",[
             text: data.text,
             title: data.title,
             like: [],
+            username: data?.username,
+            userPhotoUrl: data?.userPhotoUrl,
             comments: [],
             timestamp: new Date().toISOString(),
             interactiveVideos: interactiveVideos,
