@@ -18,6 +18,7 @@ import {
   PersonAddAlt1,
   PersonOff,
 } from "@mui/icons-material";
+import EditForm from "./EditForm";
 import { styled, useTheme } from "@mui/material/styles";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -56,7 +57,6 @@ const UserInfoPage = ({ name, email }) => {
       });
   }, []);
   const { userInfo: currentUserInfo } = useUserContext();
-  // let { userInfo } = useUserContext();
   if (userInfo.userId) {
     name = userInfo.username;
     email = userInfo.email;
@@ -222,7 +222,7 @@ const UserInfoPage = ({ name, email }) => {
             <Grid className="flex justify-between p-5 pt-7">
               <Grid className="flex">
                 <div className="relative mt-4 h-36 w-36 justify-center rounded-full bg-white">
-                  {isSelf ? (
+                  {/* {isSelf ? (
                     <div className="absolute bottom-0 right-4 z-10">
                       <label
                         htmlFor="profileUpload"
@@ -239,7 +239,7 @@ const UserInfoPage = ({ name, email }) => {
                     </div>
                   ) : (
                     ""
-                  )}
+                  )} */}
                   <div className="absolute inset-0 overflow-hidden rounded-full">
                     {selectedImage && (
                       <img
@@ -321,9 +321,11 @@ const UserInfoPage = ({ name, email }) => {
                     userInfo={userInfo}
                     selected={selected}
                   />
+
                   {/*// if isSelf, show blocked tags*/}
 
                   {isSelf ? <BlockedTags /> : ""}
+                  {isSelf ? <EditForm /> : ""}
                 </Grid>
                 <Grid>
                   {isSelf ? (
