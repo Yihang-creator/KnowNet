@@ -14,6 +14,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import PostEdit from "../mainPage/postEdit";
 import SearchBar from '../mainPage/SearchBar';
 import ResponsiveDrawer from '../mainPage/ResponsiveDrawer';
+import userInfoPage from "./UserInfoPage";
+import {useSelector} from "react-redux";
 
 const UserInfoPage = ({ name, email }) => {
   const { userInfo } = useUserContext();
@@ -21,11 +23,13 @@ const UserInfoPage = ({ name, email }) => {
   const avatar = userInfo == null ? null : userInfo.userPhotoUrl;
   const [selectedImage, setSelectedImage] = useState(avatar);
   const [posts, setPosts] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Indicates whether the posts are still loading
   const { oktaAuth } = useOktaAuth();
   const [open, setOpen] = useState(false);
   const [editPost, setEditPost] = useState(false);
   const [editStatus, setEditStatus] = useState(false); // Whether to enter editing mode
   const [searchTerm, setSearchTerm] = useState("");
+  const [showPosts, setShowPosts] = useState(true);
 
   useEffect(() => {
     fetch(`/api/posts`, {
@@ -44,6 +48,20 @@ const UserInfoPage = ({ name, email }) => {
   if (!posts) {
     return <div> Post Loading ...</div>;
   }
+
+  const filterPosts = () => {
+    if (showPosts) {
+      return posts.filter(post => post.userId === userInfo.userId);
+    } else {
+      return posts.filter(post => {
+        // console.log('post.like:', post.like);
+        // console.log('userInfo.userId:', userInfo.userId);
+        const includes = post.like && post.like.includes(userInfo.userId.toString());
+        // console.log('includes:', includes);
+        return includes;
+      });
+    }
+  };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -179,12 +197,22 @@ const UserInfoPage = ({ name, email }) => {
 
             <Grid sx={{ flexDirection: 'column' }} className="flex rounded-md border-2 bg-gray-400 p-2 text-white">
               <Grid className="flex justify-center gap-4 rounded-md p-2">
-                <button className="rounded-md border-2 p-2">Posts</button>
-                <button className="rounded-md border-2 p-2">Liked</button>
+                <button
+                    className={`rounded-md border-2 p-2 ${showPosts ? 'active-button-class' : ''}`}
+                    onClick={() => setShowPosts(true)}
+                >
+                  Posts
+                </button>
+                <button
+                    className={`rounded-md border-2 p-2 ${!showPosts ? 'active-button-class' : ''}`}
+                    onClick={() => setShowPosts(false)}
+                >
+                  Liked
+                </button>
               </Grid>
 
               <Grid className="rounded-md bg-white p-2 md:columns-2 lg:columns-4">
-                {posts.filter(post => post.userId === userInfo.userId).map((post, index) => (
+                {filterPosts().map((post, index) => (
                     <div key={index} className="inline-block w-full p-2 relative">
                       <Link to={`/post/${post.postId}`}>
                         <ProfileCard
