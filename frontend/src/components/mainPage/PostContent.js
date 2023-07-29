@@ -141,13 +141,13 @@ export const PostContent = () => {
           >
             <div className="flex items-center">
               <img
-                src={userInfo.userPhotoUrl}
+                src={post.userPhotoUrl}
                 alt=""
                 className="mr-4 h-12 w-12 rounded-full"
               />
               <div className="text-sm">
                 <Typography variant="body2" color="textSecondary">
-                  {userInfo.username}
+                  {post.username}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   {timeAgo}
