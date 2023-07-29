@@ -1,14 +1,15 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Avatar, Box, Typography, Button, TextField} from '@mui/material';
-import { connect } from 'react-redux';
-import { addReply, fetchLikes } from '../../redux/actions/commentActions';
-import { useOktaAuth } from '@okta/okta-react';
+import {useNavigate} from "react-router-dom";
+import {Avatar, Box, Button, TextField, Typography} from '@mui/material';
+import {connect} from 'react-redux';
+import {addReply, fetchLikes} from '../../redux/actions/commentActions';
+import {useOktaAuth} from '@okta/okta-react';
 import ReplyIcon from '@mui/icons-material/Reply';
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import IconButton from "@mui/material/IconButton";
 import Reply from './Reply'
-import { useUserContext } from '../../auth/UserContext';
+import {useUserContext} from '../../auth/UserContext';
 import '../../Styles/Comment.css';
 
 const currentDateTime = () => {
@@ -26,21 +27,33 @@ const handleTimeStamp = (time) => {
     let day = date.getDate();
     let hour = date.getHours();
     let minute = date.getMinutes();
-    day = day <10 ?'0'+ day : day;
-    hour = hour < 10 ? '0'+ hour : hour;
-    minute = minute < 10 ?'0' + minute : minute;
+    day = day < 10 ? '0' + day : day;
+    hour = hour < 10 ? '0' + hour : hour;
+    minute = minute < 10 ? '0' + minute : minute;
     let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
     return formattedDate;
 }
 
-const Comment = ({ user, timestamp, text, likes, likedBy, replies, addSecLevelComment, fetchLikes,commentId, postId }) => {
+const Comment = ({
+                     user,
+                     timestamp,
+                     text,
+                     likes,
+                     likedBy,
+                     replies,
+                     addSecLevelComment,
+                     fetchLikes,
+                     commentId,
+                     postId
+                 }) => {
+    const navigate = useNavigate()
     const [showReplies, setShowReplies] = useState(false);
     const [reply, setReply] = useState('');
     const [isSecLevelComment, setSecLevelComment] = useState(false) // if it is a second level comment
     const [replyUserInfo, setReplyUserInfo] = useState({}) // should be userId, use username for now
-    const { oktaAuth } = useOktaAuth();
-    const { userInfo } = useUserContext();
-    const { userPhotoUrl: currentUserPhotoUrl, username: currentUsername, userId: currentUserId } = userInfo || {}; // 当前用户信息
+    const {oktaAuth} = useOktaAuth();
+    const {userInfo} = useUserContext();
+    const {userPhotoUrl: currentUserPhotoUrl, username: currentUsername, userId: currentUserId} = userInfo || {}; // 当前用户信息
     const [currentLikes, setLikes] = useState(likes)
     const [likeStatus, setLikeStatus] = useState(false);
 
@@ -70,11 +83,21 @@ const Comment = ({ user, timestamp, text, likes, likedBy, replies, addSecLevelCo
             })
     }, [addSecLevelComment, postId, userInfo.userId, commentId, reply, replyUserInfo.userId, isSecLevelComment, oktaAuth, showReplies])
 
-    const { userId, username = "", userPhotoUrl = "" } = user || {};
+    const {userId, username = "", userPhotoUrl = ""} = user || {};
+
+    const showUserInfo = (userInfo) => {
+        navigate(`/profile/${userInfo.userId}`)
+    }
 
     return (
-        <Box display="flex" alignItems="flex-start" marginBottom={2} sx={{ padding: 6, borderRadius: 4, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }}>
-            <Avatar src={userPhotoUrl} alt={username} />
+        <Box display="flex" alignItems="flex-start" marginBottom={2}
+             sx={{padding: 6, borderRadius: 4, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}}>
+            <Avatar
+                src={userPhotoUrl}
+                alt={username}
+                sx={{cursor: 'pointer'}}
+                onClick={() => showUserInfo(user)}
+            />
             <Box marginLeft={2} flexGrow={1}>
                 <Typography variant="subtitle1">{username}</Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -85,28 +108,29 @@ const Comment = ({ user, timestamp, text, likes, likedBy, replies, addSecLevelCo
                 </Typography>
                 <Box display="flex" alignItems="center">
                     <Box>
-                        <IconButton onClick={() => toggleReplies(userId, username)} sx={{ fontSize: 'x-small' }}>
-                            <ReplyIcon />reply
+                        <IconButton onClick={() => toggleReplies(userId, username)} sx={{fontSize: 'x-small'}}>
+                            <ReplyIcon/>reply
                         </IconButton>
                     </Box>
-                    <Box sx={{ marginLeft: '30px' }}>
+                    <Box sx={{marginLeft: '30px'}}>
                         <Button
                             variant="text"
                             color="primary"
-                            startIcon={likeStatus ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+                            startIcon={likeStatus ? <FavoriteOutlinedIcon/> : <FavoriteBorderOutlinedIcon/>}
                             onClick={handleLike}
                         >
                             {currentLikes}
                         </Button>
                     </Box>
                 </Box>
-                <Box sx={{ marginLeft: 4 }}>
+                <Box sx={{marginLeft: 4}}>
                     {replies.map((review) => (
                         <Reply
                             review={review}
                             toggleReplies={toggleReplies}
                             commentId={commentId}
                             postId={postId}
+                            showUserInfo={showUserInfo}
                         />
                     ))}
                     {showReplies && (
@@ -120,14 +144,15 @@ const Comment = ({ user, timestamp, text, likes, likedBy, replies, addSecLevelCo
                             }}
                         >
                             {/* commenting */}
-                            <Avatar src={currentUserPhotoUrl} alt={currentUsername} />
+                            <Avatar src={currentUserPhotoUrl} alt={currentUsername}/>
                             <Box marginLeft={2} flexGrow={1}>
                                 <Typography variant="subtitle2">{currentUsername}</Typography>
                                 <Box display="flex" alignItems="center">
                                     <Typography variant="body2" color="text.secondary">
                                         {currentDateTime()}
                                         {
-                                            isSecLevelComment && replyUserInfo.username ? <span>   Reply To {replyUserInfo.username}</span> : null
+                                            isSecLevelComment && replyUserInfo.username ?
+                                                <span>   Reply To {replyUserInfo.username}</span> : null
                                         }
                                     </Typography>
                                 </Box>
@@ -140,9 +165,9 @@ const Comment = ({ user, timestamp, text, likes, likedBy, replies, addSecLevelCo
                                     multiline
                                     rows={2}
                                     fullWidth
-                                    sx={{ marginTop: 1 }}
+                                    sx={{marginTop: 1}}
                                 />
-                                <Button variant="contained" color="primary" onClick={handleSubmit} sx={{ marginTop: 1 }}>
+                                <Button variant="contained" color="primary" onClick={handleSubmit} sx={{marginTop: 1}}>
                                     Submit
                                 </Button>
                             </Box>

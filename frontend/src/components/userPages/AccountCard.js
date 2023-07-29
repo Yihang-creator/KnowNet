@@ -21,6 +21,7 @@ const AccountCard = ({
                          status,
                          token,
                          myId,
+                         isSelf
                      }) => {
     const [selected, setSelected] = React.useState(status);
 
@@ -50,21 +51,23 @@ const AccountCard = ({
                         </React.Fragment>
                     }
                 />
-                <ListItemButton
-                    sx={{ justifyContent: 'center' }}
-                >
-                    <ToggleButton
-                        selected={selected === "following"}
-                        onChange={() => {
-                            let operation = selected === "following" ? "unfollow" : "follow";
-                            dispatch(follow(myId, userId, operation, type, token));
-                            setSelected(selected === "following" ? "unfollowing" : "following");
-                        }}
-                        sx={{ width: 96, height: 48 }}
+                {
+                    isSelf ? <ListItemButton
+                        sx={{ justifyContent: 'center' }}
                     >
-                        <span>{selected === "following" ? "Following" : "Follow"}</span>
-                    </ToggleButton>
-                </ListItemButton>
+                        <ToggleButton
+                            selected={selected === "following"}
+                            onChange={() => {
+                                let operation = selected === "following" ? "unfollow" : "follow";
+                                dispatch(follow(myId, userId, operation, type, token));
+                                setSelected(selected === "following" ? "unfollowing" : "following");
+                            }}
+                            sx={{ width: 96, height: 48 }}
+                        >
+                            <span>{selected === "following" ? "Following" : "Follow"}</span>
+                        </ToggleButton>
+                    </ListItemButton> : ''
+                }
             </ListItem>
             <Divider variant="inset" component="li" />
         </React.Fragment>

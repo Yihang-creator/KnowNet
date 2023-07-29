@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { LoginCallback } from "@okta/okta-react";
 import { RequiredAuth } from "./SecureRoute";
 import Home from "../components/mainPage/MainPage";
@@ -23,7 +23,7 @@ const AppRoutes = () => {
       <Route path="/comments" element={<RequiredAuth />}>
         <Route path="" element={<CommentPage />} />
       </Route>
-      <Route path="/profile" element={<RequiredAuth />}>
+      <Route path="/profile/:userId" element={<RequiredAuth />}>
         <Route path="" element={<UserInfoPage />} />
       </Route>
       <Route path="/chat" element={<RequiredAuth />}>

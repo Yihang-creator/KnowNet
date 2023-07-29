@@ -93,9 +93,9 @@ const Dropdown = () => {
                         <Link key="Home" to="/">
                             <DropdownItem img={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLKy76cSh3Cu_SzL-P8aA_U8Uw0th_7cgnHA&usqp=CAU"} text={"Home"} />
                         </Link>,
-                        <Link key="Profile" to="/profile">
-                            <DropdownItem img={"https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg"} text={"Profile"} />
-                        </Link>,
+                        // <Link key="Profile" to="/profile/${userInfo.userId}">
+                        //     <DropdownItem img={"https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg"} text={"Profile"} />
+                        // </Link>,
                         <DropdownItem
                             key="logout"
                             img={"https://static.vecteezy.com/system/resources/previews/000/575/503/original/vector-logout-sign-icon.jpg"}

@@ -1,18 +1,29 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
-  Typography,
+  Button,
   CardContent,
-  Grid,
-  Chip,
+  Dialog,
+  DialogActions,
   Fab,
+  Grid,
+  IconButton,
+  Typography,
   Zoom,
-  Toolbar,
 } from "@mui/material";
-import { Face } from "@mui/icons-material";
-import { useTheme } from "@mui/material/styles";
+import {
+  FavoriteBorder,
+  Message,
+  Notes,
+  PersonAddAlt1,
+  PersonOff,
+} from "@mui/icons-material";
+import { styled, useTheme } from "@mui/material/styles";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
 import PopupButton from "./PopupButton";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProfileCard from "./ProfileCard";
 import { useOktaAuth } from "@okta/okta-react";
 import { useUserContext } from "../../auth/UserContext";
@@ -25,10 +36,32 @@ import BlockedTags from "./BlockedTags";
 import ResponsiveDrawer from "../mainPage/ResponsiveDrawer";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost, fetchAllPost } from "../../redux/actions/PostActions";
-import FormDialog from "./EditForm";
+import { follow } from "../../redux/actions/userActions";
 
-const UserInfoPage = () => {
-  const { userInfo } = useUserContext();
+const UserInfoPage = ({ name, email }) => {
+  const [userInfo, setUserInfo] = useState({});
+  const { userId } = useParams();
+  useEffect(() => {
+    fetch(`/api/users/getUserById/${userId}`, {
+      headers: {
+        Authorization: "Bearer " + oktaAuth.getAccessToken(),
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setUserInfo(data);
+        setSelectedImage(data.userPhotoUrl);
+      });
+  }, []);
+  const { userInfo: currentUserInfo } = useUserContext();
+  // let { userInfo } = useUserContext();
+  if (userInfo.userId) {
+    name = userInfo.username;
+    email = userInfo.email;
+  }
+  const users = useSelector((state) => state.userReducer["followers"]);
   const theme = useTheme();
   const avatar = userInfo == null ? null : userInfo.userPhotoUrl;
   const [selectedImage, setSelectedImage] = useState(avatar);
@@ -39,7 +72,16 @@ const UserInfoPage = () => {
   const [editStatus, setEditStatus] = useState(false); // Whether to enter editing mode
   const [setSearchTerm] = useState("");
   const [showPosts, setShowPosts] = useState(true);
+  const [selected, setSelected] = useState(false);
   const dispatch = useDispatch();
+  const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    const ifFollowing = (users || []).some(
+      (i) => i.userId === currentUserInfo.userId
+    );
+    setSelected(ifFollowing);
+  }, [JSON.stringify(users)]);
 
   useEffect(() => {
     dispatch(fetchAllPost(oktaAuth.getAccessToken()));
@@ -61,6 +103,17 @@ const UserInfoPage = () => {
     }
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setSelectedImage(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
   const handleClickOpen = (post) => {
     console.log("post:", post);
     fetch(`/api/posts/${post.postId}`, {
@@ -73,7 +126,7 @@ const UserInfoPage = () => {
         return response.json();
       })
       .then((data) => {
-        setEditPost(data);
+        setEditPost(data); // Here, the data should be the detailed post data returned from the server
         setOpen(true);
       })
       .catch((error) => console.error("Error", error));
@@ -110,6 +163,42 @@ const UserInfoPage = () => {
     color: "primary",
   };
 
+  const ColorButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText("#766c6b54"),
+    backgroundColor: "#766c6b54",
+    "&:hover": {
+      backgroundColor: "#766c6b54",
+    },
+    borderRadius: "25px",
+    height: "40%",
+  }));
+
+  const isSelf = currentUserInfo.userId === userInfo.userId;
+
+  const handleFollow = () => {
+    // follow/unfollow
+    let operation = selected ? "unfollow" : "follow";
+    dispatch(
+      follow(
+        currentUserInfo.userId,
+        userInfo.userId,
+        operation,
+        "followers",
+        oktaAuth.getAccessToken(),
+        () => {
+          setSelected(!selected);
+        }
+      )
+    );
+  };
+
+  // open share modal
+  const handleShareClick = () => {
+    setOpenDialog(true);
+  };
+
+  const shareUrl = window.location.href;
+
   return (
     <Box sx={{ display: "flex" }}>
       {/*<Box sx={{ display: 'flex', overflow: 'auto'}}>*/}
@@ -130,93 +219,165 @@ const UserInfoPage = () => {
             {/*<div className="float-right mr-2 mt-2">*/}
             {/*  <Dropdown />*/}
             {/*</div>*/}
-            <Grid className="flex p-5 pt-7">
-              <div className="relative mt-4 h-36 w-36 justify-center rounded-full bg-white">
-                {/* <div className="absolute bottom-0 right-4 z-10">
-                  <label
-                    htmlFor="profileUpload"
-                    className="flex h-7 w-7 items-center justify-center rounded-full bg-yellow-500 font-bold text-black shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                  >
-                    +
-                  </label>
-                  <input
-                    type="file"
-                    id="profileUpload"
-                    className="hidden"
-                    onChange={handleEditUserInfor}
-                  />
-                </div> */}
-                <div className="absolute inset-0 overflow-hidden rounded-full">
-                  {selectedImage && (
-                    <img
-                      className="h-full w-full"
-                      src={selectedImage}
-                      alt="profile"
-                    />
+            <Grid className="flex justify-between p-5 pt-7">
+              <Grid className="flex">
+                <div className="relative mt-4 h-36 w-36 justify-center rounded-full bg-white">
+                  {isSelf ? (
+                    <div className="absolute bottom-0 right-4 z-10">
+                      <label
+                        htmlFor="profileUpload"
+                        className="flex h-7 w-7 items-center justify-center rounded-full bg-yellow-500 font-bold text-black shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                      >
+                        +
+                      </label>
+                      <input
+                        type="file"
+                        id="profileUpload"
+                        className="hidden"
+                        onChange={handleImageUpload}
+                      />
+                    </div>
+                  ) : (
+                    ""
                   )}
+                  <div className="absolute inset-0 overflow-hidden rounded-full">
+                    {selectedImage && (
+                      <img
+                        className="h-full w-full"
+                        src={selectedImage}
+                        alt="profile"
+                      />
+                    )}
+                  </div>
                 </div>
+                <Box className="flex items-center pl-2">
+                  <CardContent sx={{ flex: "1 0 auto" }}>
+                    <Typography
+                      component="div"
+                      variant="h4"
+                      color="#fff"
+                      sx={{ marginBottom: "12px" }}
+                    >
+                      {name}
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      component="div"
+                      color="#bfbdbd"
+                    >
+                      @{email}
+                    </Typography>
+                  </CardContent>
+                </Box>
+              </Grid>
+              <div>
+                <ColorButton
+                  variant="contained"
+                  onClick={handleShareClick}
+                  sx={{ marginTop: "20px" }}
+                >
+                  <ShareOutlinedIcon />
+                </ColorButton>
+                <Dialog
+                  open={openDialog}
+                  onClose={() => {
+                    setOpenDialog(false);
+                  }}
+                >
+                  <DialogActions>
+                    <IconButton
+                      component="a"
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FacebookIcon />
+                    </IconButton>
+                    <IconButton
+                      component="a"
+                      href={`https://twitter.com/share?url=${shareUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <TwitterIcon />
+                    </IconButton>
+                  </DialogActions>
+                </Dialog>
               </div>
-              <Box className="flex items-center pl-2">
-                <CardContent sx={{ flex: "1 0 auto" }}>
-                  <Typography
-                    component="div"
-                    variant="h4"
-                    color="#fff"
-                    sx={{ marginBottom: "12px" }}
-                  >
-                    {userInfo.username}
-                    {/*<Chip sx={{ color: '#bfbdbd', marginLeft: '20px' }} icon={<Face color="#bfbdbd" sx={{ fontSize: '20px', color: '#bfbdbd' }} />} label="23" />*/}
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    component="div"
-                    color="#bfbdbd"
-                  >
-                    @{userInfo.email}
-                  </Typography>
-                </CardContent>
-              </Box>
             </Grid>
             <Grid className="flex justify-between p-2 text-white">
-              <Grid container className="flex flex-row  gap-2">
-                <Grid className="flex" xs={9}>
+              <Grid className="flex w-full items-center justify-between gap-2">
+                <Grid className="flex ">
                   <PopupButton
                     type="followings"
                     token={oktaAuth.getAccessToken()}
+                    isSelf={isSelf}
+                    userInfo={userInfo}
                   />
                   <PopupButton
                     type="followers"
                     token={oktaAuth.getAccessToken()}
+                    isSelf={isSelf}
+                    userInfo={userInfo}
+                    selected={selected}
                   />
-                </Grid>
+                  {/*// if isSelf, show blocked tags*/}
 
-                <BlockedTags token={oktaAuth.getAccessToken()} />
-                <FormDialog token={oktaAuth.getAccessToken()} />
+                  {isSelf ? <BlockedTags /> : ""}
+                </Grid>
+                <Grid>
+                  {isSelf ? (
+                    ""
+                  ) : (
+                    <>
+                      <ColorButton variant="contained" onClick={handleFollow}>
+                        {selected ? (
+                          <>
+                            <PersonOff className="mr-2" />
+                            unfollow
+                          </>
+                        ) : (
+                          <>
+                            <PersonAddAlt1 className="mr-2" />
+                            follow
+                          </>
+                        )}
+                      </ColorButton>
+                      <ColorButton
+                        variant="contained"
+                        // className="m-4"
+                        sx={{ margin: "0 15px" }}
+                      >
+                        <Message />
+                      </ColorButton>
+                    </>
+                  )}
+                </Grid>
               </Grid>
             </Grid>
           </Box>
 
           <Grid
-            sx={{ flexDirection: "column" }}
-            className="flex rounded-md border-2 bg-gray-400 p-2 text-white"
+            sx={{ flexDirection: "column", background: "#515f72" }}
+            className="flex rounded-md border-2 p-2 text-white"
           >
             <Grid className="flex justify-center gap-4 rounded-md p-2">
-              <button
-                className={`rounded-md border-2 p-2 ${
-                  showPosts ? "active-button-class" : ""
-                }`}
+              <ColorButton
+                variant="contained"
+                sx={{ margin: "0 15px" }}
                 onClick={() => setShowPosts(true)}
               >
+                <Notes sx={{ marginRight: "5px" }} />
                 Posts
-              </button>
-              <button
-                className={`rounded-md border-2 p-2 ${
-                  !showPosts ? "active-button-class" : ""
-                }`}
+              </ColorButton>
+              <ColorButton
+                variant="contained"
+                sx={{ margin: "0 15px" }}
                 onClick={() => setShowPosts(false)}
               >
+                <FavoriteBorder sx={{ marginRight: "5px" }} />
                 Liked
-              </button>
+              </ColorButton>
             </Grid>
 
             <Grid className="rounded-md bg-white p-2 md:columns-2 lg:columns-4">
@@ -270,24 +431,28 @@ const UserInfoPage = () => {
                   )}
                 </div>
               ))}
-              <Zoom
-                key={fab.color}
-                in={true}
-                timeout={transitionDuration}
-                style={{
-                  transitionDelay: `${transitionDuration.exit}ms`,
-                }}
-                unmountOnExit
-              >
-                <Fab
-                  sx={fab.sx}
-                  aria-label={fab.label}
-                  color={fab.color}
-                  onClick={handleEditStatus}
+              {isSelf ? (
+                <Zoom
+                  key={fab.color}
+                  in={true}
+                  timeout={transitionDuration}
+                  style={{
+                    transitionDelay: `${transitionDuration.exit}ms`,
+                  }}
+                  unmountOnExit
                 >
-                  {fab.icon}
-                </Fab>
-              </Zoom>
+                  <Fab
+                    sx={fab.sx}
+                    aria-label={fab.label}
+                    color={fab.color}
+                    onClick={handleEditStatus}
+                  >
+                    {fab.icon}
+                  </Fab>
+                </Zoom>
+              ) : (
+                ""
+              )}
               <PostEdit post={editPost} open={open} handleClose={handleClose} />
             </Grid>
           </Grid>

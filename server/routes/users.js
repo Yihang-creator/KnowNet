@@ -12,6 +12,16 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.get("/getUserById/:userId", async function (req, res, next) {
+  const { userId } = req.params;
+  try {
+    let user = await User.findOne({ userId });
+    res.send(user);
+  } catch (error) {
+    res.status(500).send("Error retrieving users");
+  }
+});
+
 router.get("/:email", async function (req, res, next) {
   const { email } = req.params;
 
