@@ -40,7 +40,7 @@ export const fetchFollowingsAndFollowers = (userId, accessToken) => {
   };
 };
 
-export const follow = (myId, userId, operation, type, accessToken) => {
+export const follow = (myId, userId, operation, type, accessToken, callback) => {
   return (dispatch) => {
     fetch(`/api/users/${myId}/${operation}`, {
       method: "PATCH",
@@ -50,11 +50,14 @@ export const follow = (myId, userId, operation, type, accessToken) => {
       },
       body: JSON.stringify({ userId: userId }),
     })
-      .then((response) => response.json())
-      .then(dispatch(toggleFollowingAndFollowers(userId, type)))
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+        .then((response) => response.json())
+        .then(dispatch(toggleFollowingAndFollowers(userId, type)))
+        .then(() => {
+          callback && callback()
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
   };
 };
 

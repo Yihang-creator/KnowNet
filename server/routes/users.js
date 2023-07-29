@@ -12,6 +12,16 @@ router.get("/", async function (req, res, next) {
   }
 });
 
+router.get("/getUserById/:userId", async function (req, res, next) {
+  const { userId } = req.params;
+  try {
+    let user = await User.findOne({ userId });
+    res.send(user);
+  } catch (error) {
+    res.status(500).send("Error retrieving users");
+  }
+});
+
 router.get("/:email", async function (req, res, next) {
   const { email } = req.params;
 
@@ -117,6 +127,29 @@ router.patch("/:id/block", async function (req, res, next) {
     await user.save();
 
     return res.status(200).json({ message: "Blocked Tags successfully" });
+  } catch (error) {
+    next(error); // Pass errors to your error handler
+  }
+});
+
+router.patch("/:id/edit", async function (req, res, next) {
+  const myId = req.params.id;
+  const { name, image } = req.body;
+
+  try {
+    const user = await User.findOne({ userId: myId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (name) user.username = name;
+
+    if (image) user.userPhotoUrl = image;
+
+    await user.save();
+
+    return res.status(200).json({ message: "Edit successfully" });
   } catch (error) {
     next(error); // Pass errors to your error handler
   }

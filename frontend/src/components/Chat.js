@@ -4,7 +4,6 @@ import { useUserContext } from "../auth/UserContext";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -22,11 +21,16 @@ const Chat = () => {
   const dispatch = useDispatch();
   const [talkTo, setTalkTo] = useState(userInfo.userId);
   const [textValue, setTextValue] = useState("");
+
   const chatState = useSelector((state) => state.chatReducer);
 
   useEffect(() => {
-    dispatch(fetchChat(userInfo.userId, talkTo));
-  }, [chatState]);
+    const interval = setInterval(() => {
+      dispatch(fetchChat(userInfo.userId, talkTo));
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [dispatch, talkTo, chatState]);
 
   return (
     <Layout>
@@ -54,7 +58,12 @@ const Chat = () => {
             <List>
               {chatState.people.map((person) => {
                 return (
-                  <ListItemButton onClick={() => setTalkTo(person.userId)}>
+                  <ListItemButton
+                    onClick={() => {
+                      setTalkTo(person.userId);
+                    }}
+                    selected={talkTo === person.userId}
+                  >
                     <ListItemIcon>
                       <Avatar alt={person.username} src={person.userPhotoUrl} />
                     </ListItemIcon>

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Avatar, Box, Typography, Button } from '@mui/material';
-import { connect } from 'react-redux';
-import { addReply, fetchLikes } from '../../redux/actions/commentActions';
-import { useOktaAuth } from '@okta/okta-react';
+import React, {useEffect, useState} from 'react';
+import {Avatar, Box, Button, Typography} from '@mui/material';
+import {connect} from 'react-redux';
+import {addReply, fetchLikes} from '../../redux/actions/commentActions';
+import {useOktaAuth} from '@okta/okta-react';
 import ReplyIcon from '@mui/icons-material/Reply';
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import IconButton from "@mui/material/IconButton";
-import { useUserContext } from '../../auth/UserContext';
+import {useUserContext} from '../../auth/UserContext';
 import '../../Styles/Comment.css';
 
 const handleTimeStamp = (time) => {
@@ -17,18 +17,18 @@ const handleTimeStamp = (time) => {
     let day = date.getDate();
     let hour = date.getHours();
     let minute = date.getMinutes();
-    day = day <10 ?'0'+ day : day;
-    hour = hour < 10 ? '0'+ hour : hour;
-    minute = minute < 10 ?'0' + minute : minute;
+    day = day < 10 ? '0' + day : day;
+    hour = hour < 10 ? '0' + hour : hour;
+    minute = minute < 10 ? '0' + minute : minute;
     let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
     return formattedDate;
 }
 
-const Reply = ({ review, toggleReplies, commentId, postId, fetchLikes }) => {
-    const { id, user, timestamp, replyToUser, likes, text, likedBy, replyId } = review;
-    const { userInfo } = useUserContext();
-    const { oktaAuth } = useOktaAuth();
-    const { userPhotoUrl: currentUserPhotoUrl, username: currentUsername, userId: currentUserId } = userInfo || {}; // 当前用户信息
+const Reply = ({review, toggleReplies, commentId, postId, fetchLikes, showUserInfo}) => {
+    const {id, user, timestamp, replyToUser, likes, text, likedBy, replyId} = review;
+    const {userInfo} = useUserContext();
+    const {oktaAuth} = useOktaAuth();
+    const {userPhotoUrl: currentUserPhotoUrl, username: currentUsername, userId: currentUserId} = userInfo || {}; // 当前用户信息
     const [currentLikes, setLikes] = useState(likes)
     const [secondLikeStatus, setSecondLikeStatus] = useState(false)
 
@@ -52,7 +52,12 @@ const Reply = ({ review, toggleReplies, commentId, postId, fetchLikes }) => {
                 marginTop: 1,
             }}
         >
-            <Avatar src={user?.userPhotoUrl} alt={user?.username} />
+            <Avatar
+                src={user?.userPhotoUrl}
+                alt={user?.username}
+                sx={{cursor: 'pointer'}}
+                onClick={() => showUserInfo(user)}
+            />
             <Box marginLeft={2}>
                 <Typography variant="subtitle2">{user?.username}</Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -60,21 +65,23 @@ const Reply = ({ review, toggleReplies, commentId, postId, fetchLikes }) => {
                 </Typography>
                 <Typography variant="body2" gutterBottom>
                     {/* reply to */}
-                    { replyToUser?.username ? (<span>reply to <span className='text-gray-400'>{replyToUser.username}:</span>  {text}</span>) : review.text }
+                    {replyToUser?.username ? (<span>reply to <span
+                        className='text-gray-400'>{replyToUser.username}:</span> {text}</span>) : review.text}
                 </Typography>
                 <Box display="flex" alignItems="center">
                     {/* reply to second level comment */}
                     <Box>
                         {/* should be userid, use username for now */}
-                        <IconButton onClick={() => toggleReplies(user?.userId, user?.username, 'secLevelComment')} sx={{ fontSize: 'x-small' }}>
-                            <ReplyIcon />
+                        <IconButton onClick={() => toggleReplies(user?.userId, user?.username, 'secLevelComment')}
+                                    sx={{fontSize: 'x-small'}}>
+                            <ReplyIcon/>
                         </IconButton>
                     </Box>
-                    <Box sx={{ marginLeft: '30px' }}>
+                    <Box sx={{marginLeft: '30px'}}>
                         <Button
                             variant="text"
                             color="primary"
-                            startIcon={secondLikeStatus ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+                            startIcon={secondLikeStatus ? <FavoriteOutlinedIcon/> : <FavoriteBorderOutlinedIcon/>}
                             onClick={handleSetLikesStatus}
                         >
                             {currentLikes}
