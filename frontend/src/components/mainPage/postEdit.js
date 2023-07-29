@@ -106,7 +106,7 @@ const PostEdit = (props) => {
     };
 
     const turnTagListTotags = (tags) => {
-        return tags.split(" ");
+        return tags.trim().split(" ");
     }
 
     const handleSubmit = async (event) => {
