@@ -100,4 +100,42 @@ router.patch("/:id/follow", async function (req, res, next) {
     next(error); // Pass errors to the error handler
   }
 });
+
+router.patch("/:id/block", async function (req, res, next) {
+  const myId = req.params.id;
+  const { blockedTags } = req.body;
+
+  try {
+    const user = await User.findOne({ userId: myId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.blockedTags) user.blockedTags = blockedTags;
+
+    await user.save();
+
+    return res.status(200).json({ message: "Blocked Tags successfully" });
+  } catch (error) {
+    next(error); // Pass errors to your error handler
+  }
+});
+
+router.get("/:id/block", async function (req, res, next) {
+  const myId = req.params.id;
+
+  try {
+    const user = await User.findOne({ userId: myId });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const blockedTags = user.blockedTags;
+    return res.status(200).json({ blockedTags });
+  } catch (error) {
+    next(error); // Pass errors to your error handler
+  }
+});
+
 module.exports = router;

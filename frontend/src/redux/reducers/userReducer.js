@@ -62,9 +62,16 @@ const userReducer = (state = [], action) => {
         }
       });
       return {
+        ...state,
         followers: updatedFollowers,
         followings: updatedFollowings,
       };
+
+      case "BLCOKED_TAGS":
+        return {
+          ...state,
+          blockedTags: action.payload,
+        };
 
     default:
       return state;

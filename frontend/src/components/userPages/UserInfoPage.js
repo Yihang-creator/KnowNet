@@ -13,6 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PostEdit from "../mainPage/postEdit";
 import SearchBar from '../mainPage/SearchBar';
+import BlockedTags from "./BlockedTags";
 import ResponsiveDrawer from '../mainPage/ResponsiveDrawer';
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost, fetchAllPost } from "../../redux/actions/PostActions";
@@ -176,6 +177,7 @@ const UserInfoPage = ({ name, email }) => {
                 <Grid className="flex gap-2">
                   <PopupButton type="followings" token={oktaAuth.getAccessToken()} />
                   <PopupButton type="followers" token={oktaAuth.getAccessToken()} />
+                  <BlockedTags type="followings" token={oktaAuth.getAccessToken()}/>
                 </Grid>
               </Grid>
             </Box>
