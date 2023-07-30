@@ -1,53 +1,53 @@
-import * as React from "react";
-import { styled, alpha } from "@mui/material/styles";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
-import { IconButton } from "@mui/material";
-import Dropdown from "./Dropdown";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import { useSearchContext } from "./searchContext";
-import { useNavigate } from "react-router-dom";
+import * as React from 'react';
+import { styled, alpha } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import { IconButton } from '@mui/material';
+import Dropdown from './Dropdown';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { useSearchContext } from './searchContext';
+import { useNavigate } from 'react-router-dom';
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
+  '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
-    width: "auto",
+    width: 'auto',
   },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  height: '100%',
+  position: 'absolute',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
+  color: 'inherit',
+  '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
       },
     },
   },
@@ -59,7 +59,7 @@ const handleSearch = (searchTerm, setSearchTerm, checked, setSearchByTag) => {
 };
 
 export default function SearchBar() {
-  const [localSearchTerm, setLocalSearchTerm] = React.useState("");
+  const [localSearchTerm, setLocalSearchTerm] = React.useState('');
   const [checked, setChecked] = React.useState(false);
   const { setSearchTerm, setSearchByTag } = useSearchContext();
   const navigate = useNavigate();
@@ -79,22 +79,29 @@ export default function SearchBar() {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: "black",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
+          backgroundColor: 'black',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
         <Toolbar>
-          <img src={"/images/ae.png"} className="z-40 w-40" alt="" />
+          <img src={'/images/ae.png'} className="z-40 w-40" alt="" />
           <Search>
             <IconButton
               size="large"
               aria-label="search"
               color="inherit"
-              onClick={() => handleSearch(localSearchTerm, setSearchTerm, checked, setSearchByTag)}
-              style={{ cursor: "pointer" }}
+              onClick={() =>
+                handleSearch(
+                  localSearchTerm,
+                  setSearchTerm,
+                  checked,
+                  setSearchByTag,
+                )
+              }
+              style={{ cursor: 'pointer' }}
             >
               <SearchIconWrapper>
                 <SearchIcon />
@@ -104,7 +111,7 @@ export default function SearchBar() {
               placeholder="Search…"
               value={localSearchTerm}
               onChange={(e) => setLocalSearchTerm(e.target.value)}
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
               onKeyUp={onKeyup}
             />
           </Search>
@@ -117,12 +124,12 @@ export default function SearchBar() {
                   color: 'white',
                   '& .MuiSvgIcon-root': {
                     backgroundColor: 'grey',
-                    borderRadius: '50%'
+                    borderRadius: '50%',
                   },
                   '&.Mui-checked': {
                     color: 'orange',
                   },
-                  marginLeft: '30px'
+                  marginLeft: '30px',
                 }}
               />
             }

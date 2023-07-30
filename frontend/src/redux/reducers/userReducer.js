@@ -1,15 +1,15 @@
 const userReducer = (state = [], action) => {
   switch (action.type) {
-    case "FAF_TOGGLE":
-      if (action.payload.listType === "followings") {
+    case 'FAF_TOGGLE':
+      if (action.payload.listType === 'followings') {
         let followings = state.followings;
 
         let updatedFollowings = followings.map((user) => {
           if (user.userId === action.payload.userId) {
-            if (user.status === "following") {
-              return { ...user, status: "unfollowing" };
+            if (user.status === 'following') {
+              return { ...user, status: 'unfollowing' };
             } else {
-              return { ...user, status: "following" };
+              return { ...user, status: 'following' };
             }
           } else {
             return user;
@@ -25,10 +25,10 @@ const userReducer = (state = [], action) => {
 
         let updatedFollowers = followers.map((user) => {
           if (user.userId === action.payload.userId) {
-            if (user.status === "following") {
-              return { ...user, status: "unfollowing" };
+            if (user.status === 'following') {
+              return { ...user, status: 'unfollowing' };
             } else {
-              return { ...user, status: "following" };
+              return { ...user, status: 'following' };
             }
           } else {
             return user;
@@ -41,7 +41,7 @@ const userReducer = (state = [], action) => {
         };
       }
 
-    case "FAF_UPDATE":
+    case 'FAF_UPDATE':
       let followings = action.payload.followings;
 
       let followers = action.payload.followers;
@@ -51,14 +51,14 @@ const userReducer = (state = [], action) => {
       });
 
       let updatedFollowings = followings.map((user) => {
-        return { ...user, status: "following" };
+        return { ...user, status: 'following' };
       });
 
       let updatedFollowers = followers.map((user) => {
         if (followingIds.includes(user.userId)) {
-          return { ...user, status: "following" };
+          return { ...user, status: 'following' };
         } else {
-          return { ...user, status: "unfollowing" };
+          return { ...user, status: 'unfollowing' };
         }
       });
       return {
@@ -67,11 +67,11 @@ const userReducer = (state = [], action) => {
         followings: updatedFollowings,
       };
 
-      case "BLCOKED_TAGS":
-        return {
-          ...state,
-          blockedTags: action.payload,
-        };
+    case 'BLCOKED_TAGS':
+      return {
+        ...state,
+        blockedTags: action.payload,
+      };
 
     default:
       return state;

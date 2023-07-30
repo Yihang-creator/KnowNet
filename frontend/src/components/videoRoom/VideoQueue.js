@@ -1,27 +1,27 @@
-import { ListItemButton, ListItemText, ListItemIcon, List, ListItem, Typography } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import {
+  ListItemButton,
+  ListItemText,
+  ListItemIcon,
+  List,
+  ListItem,
+  Typography,
+  Tooltip,
+  IconButton,
+} from '@mui/material';
+import React, { useState } from 'react';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const VideoQueue = (props) => {
-  const [queue, setQueue] = useState([]);
+  const queue = props.queue;
   const [current, setCurrent] = useState(0);
-  const { changeVideo, is_join = false, backend } = props;
-
-  useEffect(() => {
-    backend.socket.on('update-queue', (newQueue) => {
-      setQueue(newQueue);
-    });
-
-    return () => {
-      // Clean up the socket listener on component unmount
-      backend.socket.off('update-queue');
-    };
-  }, [backend.socket]);
+  const { changeVideo, is_join = false } = props;
 
   const makeList = () => {
     return queue.map((vid, idx) => {
       return (
-        <ListItem 
+        <ListItem
           key={idx}
           onClick={() => {
             if (!is_join) {
@@ -31,7 +31,10 @@ const VideoQueue = (props) => {
           }}
           disablePadding
         >
-          <ListItemButton selected={current === idx} onClick={() => setCurrent(idx)}>
+          <ListItemButton
+            selected={current === idx}
+            onClick={() => setCurrent(idx)}
+          >
             <ListItemIcon>
               <YouTubeIcon />
             </ListItemIcon>
@@ -42,11 +45,33 @@ const VideoQueue = (props) => {
     });
   };
 
+  const theme = useTheme();
+  const darkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
   return (
     <>
-      <Typography variant="h5" fontWeight="bold" mt={2}>
-        Video Queue
-      </Typography>
+      <Tooltip
+        title={
+          'Only host will be able to add videos to this queue. Enter the video URL and press the ADD VIDEO URL button. Host can click on a video link to switch to that Video'
+        }
+        placement="bottom-start"
+      >
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          mt={2}
+          style={{
+            color: darkMode
+              ? theme.palette.text.secondary
+              : theme.palette.text.primary,
+          }}
+        >
+          Video Queue
+          <IconButton aria-label="help">
+            <HelpOutlineIcon />
+          </IconButton>
+        </Typography>
+      </Tooltip>
       <List>{makeList()}</List>
     </>
   );

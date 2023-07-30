@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { useOktaAuth } from "@okta/okta-react";
-import { toRelativeUrl } from "@okta/okta-auth-js";
-import { Outlet } from "react-router-dom";
-import Loading from "./Loading";
-import { useUserContext } from "./UserContext";
+import React, { useEffect } from 'react';
+import { useOktaAuth } from '@okta/okta-react';
+import { toRelativeUrl } from '@okta/okta-auth-js';
+import { Outlet } from 'react-router-dom';
+import Loading from './Loading';
+import { useUserContext } from './UserContext';
 
 export const RequiredAuth = () => {
   const { oktaAuth, authState } = useOktaAuth();
@@ -17,7 +17,7 @@ export const RequiredAuth = () => {
     if (!authState?.isAuthenticated) {
       const originalUri = toRelativeUrl(
         window.location.href,
-        window.location.origin
+        window.location.origin,
       );
       oktaAuth.setOriginalUri(originalUri);
       oktaAuth.signInWithRedirect();
@@ -26,7 +26,7 @@ export const RequiredAuth = () => {
         oktaAuth.getUser().then((info) => {
           fetch(`/api/users/${info.email}`, {
             headers: {
-              Authorization: "Bearer " + oktaAuth.getAccessToken(),
+              Authorization: 'Bearer ' + oktaAuth.getAccessToken(),
             },
           })
             .then((response) => {

@@ -1,14 +1,14 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { LoginCallback } from "@okta/okta-react";
-import { RequiredAuth } from "./SecureRoute";
-import Home from "../components/mainPage/MainPage";
-import Loading from "./Loading";
-import { PostContent } from "../components/mainPage/PostContent";
-import CommentPage from "../components/comments/CommentBoard";
-import JoinPage from "../components/videoRoom/JoinPage";
-import Chat from "../components/Chat";
-import UserInfoPage from "../components/userPages/UserInfoPage";
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { LoginCallback } from '@okta/okta-react';
+import { RequiredAuth } from './SecureRoute';
+import Home from '../components/mainPage/MainPage';
+import Loading from './Loading';
+import { PostContent } from '../components/mainPage/PostContent';
+import CommentPage from '../components/comments/CommentBoard';
+import JoinPage from '../components/videoRoom/JoinPage';
+import Chat from '../components/Chat';
+import UserInfoPage from '../components/userPages/UserInfoPage';
 
 const AppRoutes = () => {
   return (

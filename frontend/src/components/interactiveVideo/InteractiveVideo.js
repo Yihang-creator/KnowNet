@@ -12,14 +12,20 @@ export default function InteractiveVideo(props) {
   const [muted, setMuted] = useState(true);
   const playerRef = useRef(null);
 
-  const fetchVideoData = useCallback(async (id) => {
-    const response = await fetch(`/api/posts/${postId}/interactiveVideo/${id}`, {
-      headers: {'Authorization': 'Bearer ' + oktaAuth.getAccessToken()}
-    });
-    const data = await response.json();
-    setVideoData(data);
-    setShowOptions(false);
-  }, [oktaAuth, postId]);
+  const fetchVideoData = useCallback(
+    async (id) => {
+      const response = await fetch(
+        `/api/posts/${postId}/interactiveVideo/${id}`,
+        {
+          headers: { Authorization: 'Bearer ' + oktaAuth.getAccessToken() },
+        },
+      );
+      const data = await response.json();
+      setVideoData(data);
+      setShowOptions(false);
+    },
+    [oktaAuth, postId],
+  );
 
   useEffect(() => {
     // Fetch the first video on initial render
@@ -27,7 +33,7 @@ export default function InteractiveVideo(props) {
   }, [fetchVideoData, rootId]);
 
   const handleProgress = ({ playedSeconds }) => {
-    // If there's less than 10 seconds left in the video, show the options
+    // If there's less than LeadTimeField seconds left in the video, show the options
     if (duration - playedSeconds <= videoData.LeadTimeField) {
       setShowOptions(true);
     } else {
@@ -47,37 +53,38 @@ export default function InteractiveVideo(props) {
   if (!videoData) return 'Loading...';
 
   return (
-      <Box className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
-        <ReactPlayer 
-          ref={playerRef}
-          playing={videoData.root === false} //non-root video starts automatically
-          muted={muted}
-          url={videoData.url} 
-          onProgress={handleProgress} 
-          onDuration={handleDuration}
-          config={{
-            // https://developers.google.com/youtube/player_parameters?playerVersion=HTML5
-            youtube: {
-              playerVars: {
-                controls: 1,
-                disablekb: 1,
-                modestbranding: 1,
-                mute: 1,
-              }
-            }
-          }}
-        />
-        {showOptions && (
-          <ButtonGroup variant="outlined">
-            {videoData.options.map(option => (
-              <Button 
-                key={option.nextVideoId} 
-                onClick={() => handleOptionClick(option.nextVideoId)}>
-                {option.label}
-              </Button>
-            ))}
-          </ButtonGroup>
-        )}
-      </Box>
+    <Box className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8 ">
+      <ReactPlayer
+        ref={playerRef}
+        playing={videoData.root === false} //non-root video starts automatically
+        muted={muted}
+        url={videoData.url}
+        onProgress={handleProgress}
+        onDuration={handleDuration}
+        config={{
+          // https://developers.google.com/youtube/player_parameters?playerVersion=HTML5
+          youtube: {
+            playerVars: {
+              controls: 1,
+              disablekb: 1,
+              modestbranding: 1,
+              mute: 1,
+            },
+          },
+        }}
+      />
+      {showOptions && (
+        <ButtonGroup variant="outlined">
+          {videoData.options.map((option) => (
+            <Button
+              key={option.nextVideoId}
+              onClick={() => handleOptionClick(option.nextVideoId)}
+            >
+              {option.label}
+            </Button>
+          ))}
+        </ButtonGroup>
+      )}
+    </Box>
   );
 }

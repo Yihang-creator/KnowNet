@@ -8,8 +8,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useTheme } from '@mui/material/styles';
 import PostEdit from './postEdit';
 
-
-const CreatePostButton = () => { 
+const CreatePostButton = () => {
   const [open, setOpen] = useState(false);
 
   const theme = useTheme();
@@ -26,15 +25,18 @@ const CreatePostButton = () => {
     <div>
       <ListItem key={'Create Post'} disablePadding onClick={handleClickOpen}>
         <ListItemButton>
-            <ListItemIcon sx={{ color: theme.palette.primary.main }}>
-                <AddCircleOutlineIcon/>
-            </ListItemIcon>
-            <ListItemText primary={'Create Post'} sx={{ color: theme.palette.text.primary }}/>
+          <ListItemIcon sx={{ color: theme.palette.primary.main }}>
+            <AddCircleOutlineIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={'Create Post'}
+            sx={{ color: theme.palette.text.primary }}
+          />
         </ListItemButton>
       </ListItem>
-      <PostEdit open={open} handleClose={handleClose}/>
+      <PostEdit open={open} handleClose={handleClose} />
     </div>
   );
-}
+};
 
 export default CreatePostButton;

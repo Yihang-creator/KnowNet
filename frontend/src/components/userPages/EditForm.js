@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { Box, Modal } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { useUserContext } from "../../auth/UserContext";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import React, { useState } from 'react';
+import { Box, Modal } from '@mui/material';
+import { useUserContext } from '../../auth/UserContext';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const EditForm = ({ token }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { userInfo } = useUserContext();
   const { userId } = userInfo;
-  const [textFieldValue1, setTextFieldValue1] = useState("");
-  const [textFieldValue2, setTextFieldValue2] = useState("");
+  const [textFieldValue1, setTextFieldValue1] = useState('');
+  const [textFieldValue2, setTextFieldValue2] = useState('');
 
   const closeModal = () => {
     setIsOpen(false);
@@ -19,16 +18,16 @@ const EditForm = ({ token }) => {
 
   const edit = function (userId, newName, newImage, token) {
     fetch(`/api/users/${userId}/edit`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
       body: JSON.stringify({ name: newName, image: newImage }),
     })
       .then((response) => response.json())
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
       });
   };
 
@@ -39,18 +38,18 @@ const EditForm = ({ token }) => {
   }
 
   const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 600,
-    maxHeight: "60vh",
-    overflow: "auto",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
+    maxHeight: '60vh',
+    overflow: 'auto',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    borderRadius: "10px",
+    borderRadius: '10px',
   };
   return (
     <div className="p-6">
@@ -70,7 +69,7 @@ const EditForm = ({ token }) => {
         <Box sx={style}>
           <h2
             style={{
-              color: "orange",
+              color: 'orange',
             }}
           >
             Edit your account information below

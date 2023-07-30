@@ -1,24 +1,26 @@
-import React, { useState } from "react";
-import { Box, Modal } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getBlockTags } from "../../redux/actions/userActions";
-import { useUserContext } from "../../auth/UserContext";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import React, { useState } from 'react';
+import { Box, Modal } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getBlockTags } from '../../redux/actions/userActions';
+import { useUserContext } from '../../auth/UserContext';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { useOktaAuth } from '@okta/okta-react';
 
-const BlockedTags = ({ token }) => {
+const BlockedTags = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const { userInfo } = useUserContext();
   const { userId } = userInfo;
-  const [textFieldValue, setTextFieldValue] = useState("");
+  const [textFieldValue, setTextFieldValue] = useState('');
+  const { oktaAuth } = useOktaAuth();
 
   const convertTagsToString = function (tags) {
-    let string = "";
+    let string = '';
     if (!tags || tags.length === 0) return string;
     for (let tag of tags) {
-      string = string + " " + tag;
+      string = string + ' ' + tag;
     }
     return string;
   };
@@ -30,9 +32,9 @@ const BlockedTags = ({ token }) => {
 
   useEffect(() => {
     if (!isOpen) {
-      dispatch(getBlockTags(userId, token));
+      dispatch(getBlockTags(userId, oktaAuth.getAccessToken()));
     }
-  }, [isOpen]);
+  }, [dispatch, isOpen, oktaAuth, userId]);
 
   const tags = useSelector((state) => state.userReducer.blockedTags);
 
@@ -46,38 +48,42 @@ const BlockedTags = ({ token }) => {
 
   const addBlockTags = function (userId, tags, token) {
     fetch(`/api/users/${userId}/block`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
       body: JSON.stringify({ userId: userId, blockedTags: tags }),
     })
       .then((response) => response.json())
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
       });
   };
 
   function handleSubmit(e) {
-    addBlockTags(userId, textFieldValue.trim().split(" "), token);
+    addBlockTags(
+      userId,
+      textFieldValue.trim().split(' '),
+      oktaAuth.getAccessToken(),
+    );
     closeModal();
     e.preventDefault();
   }
 
   const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 600,
-    maxHeight: "60vh",
-    overflow: "auto",
-    bgcolor: "background.paper",
-    border: "2px solid #000",
+    maxHeight: '60vh',
+    overflow: 'auto',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
-    borderRadius: "10px",
+    borderRadius: '10px',
   };
   return (
     <div className="p-6">
@@ -97,7 +103,7 @@ const BlockedTags = ({ token }) => {
         <Box sx={style}>
           <h2
             style={{
-              color: "orange",
+              color: 'orange',
             }}
           >
             Enter the tags you want to block and separate them by space.

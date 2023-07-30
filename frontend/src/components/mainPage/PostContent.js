@@ -1,26 +1,26 @@
-import { useEffect, useMemo, useState } from "react";
-import ReactPlayer from "react-player/lazy";
-import { useOktaAuth } from "@okta/okta-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import { red } from "@mui/material/colors";
-import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import CommentBoard from "../comments/CommentBoard";
-import CloseIcon from "@mui/icons-material/Close";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPost } from "../../redux/actions/PostActions";
-import { ContentState, convertFromRaw, Editor, EditorState } from "draft-js";
-import Layout from "./Layout";
-import InteractiveVideo from "../interactiveVideo/InteractiveVideo";
-import { calculateTimeAgo } from "../utils/calculateTimeAgo";
-import { Dialog, DialogActions, IconButton, Typography } from "@mui/material";
-import ShowTags from "./ShowTags";
-import { useUserContext } from "../../auth/UserContext";
-import { changeLike } from "../../redux/actions/commentActions";
+import { useEffect, useMemo, useState } from 'react';
+import ReactPlayer from 'react-player/lazy';
+import { useOktaAuth } from '@okta/okta-react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { red } from '@mui/material/colors';
+import TextsmsOutlinedIcon from '@mui/icons-material/TextsmsOutlined';
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import CommentBoard from '../comments/CommentBoard';
+import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPost } from '../../redux/actions/PostActions';
+import { ContentState, convertFromRaw, Editor, EditorState } from 'draft-js';
+import Layout from './Layout';
+import InteractiveVideo from '../interactiveVideo/InteractiveVideo';
+import { calculateTimeAgo } from '../utils/calculateTimeAgo';
+import { Dialog, DialogActions, IconButton, Typography } from '@mui/material';
+import ShowTags from './ShowTags';
+import { useUserContext } from '../../auth/UserContext';
+import { changeLike } from '../../redux/actions/commentActions';
 
 export function createEditorStateFromText(text) {
   try {
@@ -43,19 +43,19 @@ export const PostContent = () => {
   const { id: postId } = useParams();
   const nav = useNavigate();
   const dispatch = useDispatch();
-  const [timeAgo, setTimeAgo] = useState("");
+  const [timeAgo, setTimeAgo] = useState('');
   const { userInfo } = useUserContext();
   const userID = userInfo == null ? 99 : userInfo.userId;
 
   const post = useSelector((state) =>
-    state.posts.find((post) => post.postId === postId)
+    state.posts.find((post) => post.postId === postId),
   );
   useEffect(() => {
     dispatch(fetchPost(postId, oktaAuth.getAccessToken()));
   }, [dispatch, postId, oktaAuth]);
 
   useEffect(() => {
-    if (timeAgo === "") {
+    if (timeAgo === '') {
       setTimeAgo(calculateTimeAgo(post?.timestamp));
     }
     const interval = setInterval(() => {
@@ -77,7 +77,7 @@ export const PostContent = () => {
   const rootId = useMemo(() => {
     if (post?.interactiveVideos && post.interactiveVideos.length > 0) {
       const rootVideo = post.interactiveVideos.find(
-        (item) => item.root === true
+        (item) => item.root === true,
       );
       if (rootVideo) {
         return rootVideo.id;
@@ -96,7 +96,7 @@ export const PostContent = () => {
 
   var likes = post.like.length;
   var enrichedText =
-    typeof post.text === "undefined"
+    typeof post.text === 'undefined'
       ? EditorState.createEmpty()
       : createEditorStateFromText(post.text);
 
@@ -120,12 +120,6 @@ export const PostContent = () => {
   };
 
   const shareUrl = window.location.href;
-
-  // bg-white background color
-  // shadow-md set shadow
-  // rounded-lg rounded corners
-  // p-6 padding
-  // mb-6 margin-bottom 1.5rem
 
   const content = (
     <div className="mb-6 rounded-lg p-6 shadow-md">
@@ -157,7 +151,7 @@ export const PostContent = () => {
           </Link>
         </div>
         <div className="mt-4">
-          {post.mediaType === "image" ? (
+          {post.mediaType === 'image' ? (
             <img
               src={post.mediaUrl}
               alt={post.title}
@@ -178,7 +172,7 @@ export const PostContent = () => {
         <div className="mt-4 flex justify-between">
           <div>
             <div
-              style={{ display: "inline" }}
+              style={{ display: 'inline' }}
               onClick={() => likechanged(liked)}
             >
               {liked ? (
@@ -187,8 +181,8 @@ export const PostContent = () => {
                 <FavoriteBorderOutlinedIcon />
               )}
             </div>
-            <span className="ml-2" style={{ display: "inline" }}>
-              {" "}
+            <span className="ml-2" style={{ display: 'inline' }}>
+              {' '}
               {likes} Likes
             </span>
           </div>

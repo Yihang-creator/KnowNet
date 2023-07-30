@@ -1,29 +1,29 @@
 export const fetchPost = (postId, accessToken) => {
-    return (dispatch) => {
-      fetch(`/api/posts/${postId}`, {
-        headers: {
-          Authorization: 'Bearer ' + accessToken
-        }
+  return (dispatch) => {
+    fetch(`/api/posts/${postId}`, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error('API call failed');
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) throw new Error('API call failed');
-          return response.json();
-        })
-        .then((data) => {
-          dispatch(setPost(data));
-        })
-        .catch((error) => {
-          console.error('Error', error);
-        });
-    };
+      .then((data) => {
+        dispatch(setPost(data));
+      })
+      .catch((error) => {
+        console.error('Error', error);
+      });
+  };
 };
 
 export const fetchAllPost = (accessToken) => {
   return (dispatch) => {
     fetch(`/api/posts/`, {
       headers: {
-        Authorization: 'Bearer ' + accessToken
-      }
+        Authorization: 'Bearer ' + accessToken,
+      },
     })
       .then((response) => {
         if (!response.ok) throw new Error('API call failed');
@@ -36,12 +36,12 @@ export const fetchAllPost = (accessToken) => {
         console.error('Error', error);
       });
   };
-}
+};
 export const setPost = (post) => {
-    return {
-      type: 'SET_POST',
-      payload: post,
-    };
+  return {
+    type: 'SET_POST',
+    payload: post,
+  };
 };
 export const setAllPost = (posts) => {
   return {
@@ -61,17 +61,18 @@ export const deletePost = (postId, accessToken) => {
     fetch(`/api/posts/${postId}`, {
       method: 'DELETE',
       headers: {
-        Authorization: "Bearer " + accessToken,
-      }
-    }).then((response) => {
-      if (!response.ok) throw new Error('API call failed');
-      return response;
+        Authorization: 'Bearer ' + accessToken,
+      },
     })
-    .then((response) => {
-      dispatch(deletePostReduxStore(postId));
-    })
-    .catch((error) => {
-      console.error('Error', error);
-    })
+      .then((response) => {
+        if (!response.ok) throw new Error('API call failed');
+        return response;
+      })
+      .then((response) => {
+        dispatch(deletePostReduxStore(postId));
+      })
+      .catch((error) => {
+        console.error('Error', error);
+      });
   };
-}
+};

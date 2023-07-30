@@ -5,7 +5,7 @@ const initialState = {
 
 const chatReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "REFRESH":
+    case 'REFRESH':
       return action.payload;
 
     default:

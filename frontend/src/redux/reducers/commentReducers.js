@@ -1,6 +1,5 @@
 const initialState = {
-  comments: [
-  ]
+  comments: [],
 };
 
 const addReplyToComment = (comments, action) => {
@@ -22,26 +21,25 @@ const addReplyToComment = (comments, action) => {
 
 export const commentReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_COMMENT":
+    case 'ADD_COMMENT':
       return {
         ...state,
         comments: [...state.comments, action.payload],
       };
-    case "ADD_REPLY":
+    case 'ADD_REPLY':
       return {
         ...state,
         comments: addReplyToComment(state.comments, action),
       };
-    case "FETCH_COMMENTS_SUCCESS":
+    case 'FETCH_COMMENTS_SUCCESS':
       return { ...state, comments: action.payload };
-    case "FETCH_COMMENTS_FAILURE":
+    case 'FETCH_COMMENTS_FAILURE':
       return { ...state, error: action.error };
-    case "FETCH_LIKES_SUCCESS":
+    case 'FETCH_LIKES_SUCCESS':
       return { ...state, comments: action.payload.data };
-    case "FETCH_LIKES_FAILURE":
+    case 'FETCH_LIKES_FAILURE':
       return { ...state, error: action.error };
     default:
       return state;
   }
 };
-

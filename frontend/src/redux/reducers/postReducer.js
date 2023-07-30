@@ -1,19 +1,17 @@
-import _ from "lodash";
-
-
+import _ from 'lodash';
 
 const postReducer = (state = [], action) => {
   switch (action.type) {
-    case "SET_POST":
+    case 'SET_POST':
       return setPost(state, action.payload);
-    case "SET_ALL_POSTS":
+    case 'SET_ALL_POSTS':
       return action.payload;
-    case "ADD_LIKE":
+    case 'ADD_LIKE':
       // console.log(state);
       return addLike(state, action.payload.postId, action.payload.userID);
-    case "CANCEL_LIKE":
+    case 'CANCEL_LIKE':
       return cancelLike(state, action.payload.postId, action.payload.userID);
-    case "DELETE_POST":
+    case 'DELETE_POST':
       return deletePost(state, action.payload);
     default:
       return state;
@@ -23,7 +21,9 @@ const postReducer = (state = [], action) => {
 // const testId = "3";
 
 const setPost = (state, postContent) => {
-  const existingIndex = state.findIndex(post => post.postId === postContent.postId);
+  const existingIndex = state.findIndex(
+    (post) => post.postId === postContent.postId,
+  );
   if (existingIndex !== -1) {
     // Post already exists, update it
     const updatedState = [...state];
@@ -35,39 +35,36 @@ const setPost = (state, postContent) => {
   }
 };
 
-
 const addLike = (state, postID, userID) => {
-    let deep = _.cloneDeep(state);
-    const postIndex = deep.findIndex(post => post.postId === postID);
-    if (postIndex !== -1) {
-      // Post already exists, update it
-      deep[postIndex].like.push(userID);
-    } 
-    return deep;
+  let deep = _.cloneDeep(state);
+  const postIndex = deep.findIndex((post) => post.postId === postID);
+  if (postIndex !== -1) {
+    // Post already exists, update it
+    deep[postIndex].like.push(userID);
+  }
+  return deep;
 };
 
 const cancelLike = (state, postID, userID) => {
   let deep = _.cloneDeep(state);
-    const postIndex = deep.findIndex(post => post.postId === postID);
-    if (postIndex !== -1) {
-      // Post already exists, update it
-      deep[postIndex].like = deep[postIndex].like.filter(userId => userId !== userID);
-    } 
-    return deep;
+  const postIndex = deep.findIndex((post) => post.postId === postID);
+  if (postIndex !== -1) {
+    // Post already exists, update it
+    deep[postIndex].like = deep[postIndex].like.filter(
+      (userId) => userId !== userID,
+    );
+  }
+  return deep;
 };
 
 const deletePost = (state, postID) => {
   let deep = _.cloneDeep(state);
-  const postIndex = deep.findIndex(post => post.postId === postID);
+  const postIndex = deep.findIndex((post) => post.postId === postID);
   if (postIndex !== -1) {
     deep.splice(postIndex, 1);
   }
-  console.log("here");
   console.log(deep);
   return deep;
 };
 
 export default postReducer;
-
-
-

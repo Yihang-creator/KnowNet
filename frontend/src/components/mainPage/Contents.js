@@ -1,14 +1,14 @@
-import React from "react";
-import { useEffect } from "react";
-import PreviewCard from "./PreviewCard";
-import { Link } from "react-router-dom";
-import { useOktaAuth } from "@okta/okta-react";
-import { fetchAllPost } from "../../redux/actions/PostActions";
-import { useSelector, useDispatch } from "react-redux";
-import Loading from "../../auth/Loading";
-import { useSearchContext } from "./searchContext";
-import { getBlockTags } from "../../redux/actions/userActions";
-import { useUserContext } from "../../auth/UserContext";
+import React from 'react';
+import { useEffect } from 'react';
+import PreviewCard from './PreviewCard';
+import { Link } from 'react-router-dom';
+import { useOktaAuth } from '@okta/okta-react';
+import { fetchAllPost } from '../../redux/actions/PostActions';
+import { useSelector, useDispatch } from 'react-redux';
+import Loading from '../../auth/Loading';
+import { useSearchContext } from './searchContext';
+import { getBlockTags } from '../../redux/actions/userActions';
+import { useUserContext } from '../../auth/UserContext';
 
 const Contents = () => {
   const { oktaAuth } = useOktaAuth();
@@ -24,7 +24,7 @@ const Contents = () => {
 
   useEffect(() => {
     dispatch(getBlockTags(userInfo.userId, oktaAuth.getAccessToken()));
-  }, [dispatch, oktaAuth]);
+  }, [dispatch, oktaAuth, userInfo.userId]);
 
   if (!posts || !blockedTags) {
     return <Loading />;
@@ -51,13 +51,13 @@ const Contents = () => {
     if (searchByTag) {
       return posts.filter(
         (post) =>
-          titleHasTag(searchTerm, post) && postNotBlocked(blockedTags, post)
+          titleHasTag(searchTerm, post) && postNotBlocked(blockedTags, post),
       );
     } else {
       return posts.filter(
         (post) =>
           titleHasSearchTerm(searchTerm, post) &&
-          postNotBlocked(blockedTags, post)
+          postNotBlocked(blockedTags, post),
       );
     }
   };
@@ -68,20 +68,6 @@ const Contents = () => {
     <div className="mt-10 flex justify-center">
       <div className="flex-container bg-grey-600 w-11/12 justify-center rounded-lg border">
         <ul className="rounded-md p-2 md:columns-2 lg:columns-4">
-          {/* <li className="max-h-[500px] max-w-[500px] overflow-hidden">
-              <Carousel navButtonsAlwaysVisible={true}>
-                    {firstFivePosts.map((post, index) => (
-                      <div key={index}>
-                        <CardMedia
-                          component="img"
-                          image={post.mediaUrl}
-                          title={post.title}
-                          sx={{ maxHeight: '100%', objectFit: 'contain' }}
-                        />
-                      </div>
-                    ))}
-              </Carousel>
-            </li> */}
           {filteredPosts.map((post, index) => (
             <li key={index}>
               <Link
