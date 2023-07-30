@@ -8,8 +8,6 @@ export const calculateTimeAgo = (timestamp) => {
 	const minute = 60 * 1000;
 	const hour = 60 * minute;
 	const day = 24 * hour;
-	const month = 30 * day;
-	const year = 12 * month;
 
 	if (elapsed < minute) {
 		return 'Posted just now';

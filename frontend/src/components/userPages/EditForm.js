@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Box, Modal } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
 import { useUserContext } from '../../auth/UserContext';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';

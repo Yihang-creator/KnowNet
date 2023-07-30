@@ -52,15 +52,15 @@ function getTextColorForBackground(bgColor) {
 const JoinVideoRoom = (props) => {
 	const [duration, setDuration] = useState(props.duration);
 	const [url, setUrl] = useState(
-		props.url || 'https://www.youtube.com/watch?v=QZw-rgaQVfI'
+		props.url || 'https://www.youtube.com/watch?v=QZw-rgaQVfI' //default url
 	);
-	const [isJoin, setIsJoin] = useState(props.is_join || false);
+	const isJoin = props.is_join || false;
 	const [playing, setPlaying] = useState(props.playing);
 	const [addUrl, setAddUrl] = useState('');
 	const [chats, setChats] = useState(props.chats);
 	const [curMsg, setCurMsg] = useState('');
 	const [userColorMap, setUserColorMap] = useState(new Map());
-	const [username, setUsername] = useState(props.username);
+	const username = props.username;
 
 	const ref = useRef(null);
 	const chatRef = useRef(null);

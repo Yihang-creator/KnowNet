@@ -402,7 +402,7 @@ const InteractiveVideoBuilder = (props) => {
 					</Grid>
 				</Grid>
 			</Box>
-			<Snackbar open={errorSnackBarOpen} autoHideDuration={5000}>
+			<Snackbar open={errorSnackBarOpen} autoHideDuration={4000}>
 				<Alert
 					onClose={() => {
 						setErrorSnackBarOpen(false);

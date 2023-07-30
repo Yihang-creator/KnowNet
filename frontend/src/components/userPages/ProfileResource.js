@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 const ProfileResource = (props) => {
 	if (props.type === 'image') {
 		return (
+			// eslint-disable-next-line jsx-a11y/img-redundant-alt
 			<img
 				className="h-3/5 w-full"
 				src={props.link}

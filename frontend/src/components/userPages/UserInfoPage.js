@@ -42,6 +42,8 @@ import { follow } from '../../redux/actions/userActions';
 const UserInfoPage = ({ name, email }) => {
 	const [userInfo, setUserInfo] = useState({});
 	const { userId } = useParams();
+	const { oktaAuth } = useOktaAuth();
+	
 	useEffect(() => {
 		fetch(`/api/users/getUserById/${userId}`, {
 			headers: {
@@ -55,7 +57,7 @@ const UserInfoPage = ({ name, email }) => {
 				setUserInfo(data);
 				setSelectedImage(data.userPhotoUrl);
 			});
-	}, []);
+	}, [oktaAuth, userId]);
 	const { userInfo: currentUserInfo } = useUserContext();
 	if (userInfo.userId) {
 		name = userInfo.username;
@@ -66,7 +68,6 @@ const UserInfoPage = ({ name, email }) => {
 	const avatar = userInfo == null ? null : userInfo.userPhotoUrl;
 	const [selectedImage, setSelectedImage] = useState(avatar);
 	const posts = useSelector((state) => state.posts);
-	const { oktaAuth } = useOktaAuth();
 	const [open, setOpen] = useState(false);
 	const [editPost, setEditPost] = useState(false);
 	const [editStatus, setEditStatus] = useState(false); // Whether to enter editing mode
@@ -81,7 +82,7 @@ const UserInfoPage = ({ name, email }) => {
 			(i) => i.userId === currentUserInfo.userId
 		);
 		setSelected(ifFollowing);
-	}, [JSON.stringify(users)]);
+	}, [currentUserInfo.userId, users]);
 
 	useEffect(() => {
 		dispatch(fetchAllPost(oktaAuth.getAccessToken()));
@@ -103,16 +104,16 @@ const UserInfoPage = ({ name, email }) => {
 		}
 	};
 
-	const handleImageUpload = (e) => {
-		const file = e.target.files[0];
-		const reader = new FileReader();
+	// const handleImageUpload = (e) => {
+	// 	const file = e.target.files[0];
+	// 	const reader = new FileReader();
 
-		reader.onloadend = () => {
-			setSelectedImage(reader.result);
-		};
+	// 	reader.onloadend = () => {
+	// 		setSelectedImage(reader.result);
+	// 	};
 
-		reader.readAsDataURL(file);
-	};
+	// 	reader.readAsDataURL(file);
+	// };
 
 	const handleClickOpen = (post) => {
 		console.log('post:', post);
@@ -199,6 +200,7 @@ const UserInfoPage = ({ name, email }) => {
 
 	const shareUrl = window.location.href;
 
+	// TODO: Delete unneeded commented code
 	return (
 		<Box sx={{ display: 'flex' }}>
 			{/*<Box sx={{ display: 'flex', overflow: 'auto'}}>*/}

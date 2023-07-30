@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography, Snackbar, Alert } from '@mui/material';
 import Backend from './Backend';
 import JoinVideoRoom from './JoinVideoRoom';
 import Layout from '../mainPage/Layout';
+import { useUserContext } from '../../auth/UserContext';
 
 function JoinPage() {
 	const [backend] = useState(() => new Backend());
 	const [roomId, setRoomId] = useState('');
 	const [url, setUrl] = useState('');
-	const [username, setUsername] = useState('Anonymous');
+	const { userInfo } = useUserContext();
+	const { username } = userInfo;
 	const [roomSet, setRoomSet] = useState(false);
 	const [isJoin, setIsJoin] = useState(false);
 	const [duration, setDuration] = useState(0);
 	const [playing, setPlaying] = useState(false);
 	const [chats, setChats] = useState([]);
-
+	const [errorOpen, setErrorOpen] = useState(false);
+	const [errorMsg, setErrorMsg] = useState('');
+	
 	useEffect(() => {
 		backend.socket.on('room-created', (roomId) => {
 			setRoomId(roomId);
@@ -35,10 +39,15 @@ function JoinPage() {
 			setChats(roomInfo.chats);
 		});
 
-		// this is to mimic componentWillUnmount lifecycle hook to clean up when the component unmounts
+		backend.socket.on('error', (errMsg) => {
+			setErrorMsg(errMsg);
+			setErrorOpen(true);
+		});
+
 		return () => {
 			backend.socket.off('room-created');
 			backend.socket.off('room-state');
+			backend.socket.off('error');
 			backend.socket.disconnect();
 		};
 	}, [backend]);
@@ -76,18 +85,16 @@ function JoinPage() {
 		);
 	}
 
+	const handleErrorMsgClose = () => {
+		setErrorOpen(false);
+		setErrorMsg('');
+	}
+
 	const content = (
 		<div className="flex flex-col items-center">
 			<Typography variant="h5" className="mb-3 items-center justify-center">
 				Watch Video Together
 			</Typography>
-			<TextField
-				label="Username"
-				variant="outlined"
-				onChange={(e) => setUsername(e.target.value)}
-				className="w-1/2"
-				style={{ marginTop: '8px', marginBottom: '8px' }}
-			/>
 			<TextField
 				label="Video Address"
 				variant="outlined"
@@ -118,6 +125,11 @@ function JoinPage() {
 			>
 				Join Party
 			</Button>
+			<Snackbar open={errorOpen} autoHideDuration={4000} onClose={handleErrorMsgClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} >
+				<Alert onClose={handleErrorMsgClose} severity="error" sx={{ width: '100%' }}>
+					{errorMsg}
+				</Alert>
+    	</Snackbar>
 		</div>
 	);
 

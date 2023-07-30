@@ -3,12 +3,10 @@ import { Box, Grid, List, Modal } from '@mui/material';
 import AccountCard from './AccountCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFollowingsAndFollowers } from '../../redux/actions/userActions';
-import { useOktaAuth } from '@okta/okta-react';
 
 const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
 	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(false);
-	const { authState } = useOktaAuth();
 
 	const { userId } = userInfo;
 
@@ -23,11 +21,11 @@ const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
 		if (!isOpen && userId) {
 			dispatch(fetchFollowingsAndFollowers(userId, token));
 		}
-	}, [isOpen]);
+	}, [dispatch, isOpen, token, userId]);
 
 	useEffect(() => {
 		userId && dispatch(fetchFollowingsAndFollowers(userId, token));
-	}, [selected, JSON.stringify(userInfo)]);
+	}, [dispatch, selected, token, userId]);
 
 	if (!users) {
 		return <div> Loading ...</div>;

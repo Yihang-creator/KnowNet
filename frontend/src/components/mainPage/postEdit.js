@@ -588,7 +588,7 @@ const PostEdit = (props) => {
 			</Dialog>
 			<Snackbar
 				open={snackBarOpen}
-				autoHideDuration={6000}
+				autoHideDuration={4000}
 				onClose={handleCloseSnackbar}
 			>
 				<Alert onClose={handleCloseSnackbar} severity={severity}>
