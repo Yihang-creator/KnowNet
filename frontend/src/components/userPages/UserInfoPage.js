@@ -43,7 +43,7 @@ const UserInfoPage = ({ name, email }) => {
 	const [userInfo, setUserInfo] = useState({});
 	const { userId } = useParams();
 	const { oktaAuth } = useOktaAuth();
-	
+
 	useEffect(() => {
 		fetch(`/api/users/getUserById/${userId}`, {
 			headers: {

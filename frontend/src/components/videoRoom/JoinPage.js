@@ -18,7 +18,7 @@ function JoinPage() {
 	const [chats, setChats] = useState([]);
 	const [errorOpen, setErrorOpen] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
-	
+
 	useEffect(() => {
 		backend.socket.on('room-created', (roomId) => {
 			setRoomId(roomId);
@@ -88,7 +88,7 @@ function JoinPage() {
 	const handleErrorMsgClose = () => {
 		setErrorOpen(false);
 		setErrorMsg('');
-	}
+	};
 
 	const content = (
 		<div className="flex flex-col items-center">
@@ -125,11 +125,20 @@ function JoinPage() {
 			>
 				Join Party
 			</Button>
-			<Snackbar open={errorOpen} autoHideDuration={4000} onClose={handleErrorMsgClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} >
-				<Alert onClose={handleErrorMsgClose} severity="error" sx={{ width: '100%' }}>
+			<Snackbar
+				open={errorOpen}
+				autoHideDuration={4000}
+				onClose={handleErrorMsgClose}
+				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+			>
+				<Alert
+					onClose={handleErrorMsgClose}
+					severity="error"
+					sx={{ width: '100%' }}
+				>
 					{errorMsg}
 				</Alert>
-    	</Snackbar>
+			</Snackbar>
 		</div>
 	);
 

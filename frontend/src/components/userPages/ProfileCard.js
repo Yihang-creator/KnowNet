@@ -23,9 +23,6 @@ const ProfileCard = (props) => {
 					<Typography gutterBottom variant="h5" component="div">
 						{props.title}
 					</Typography>
-					<Typography variant="body2" color="text.secondary">
-						{props.previewText || ''}
-					</Typography>
 				</CardContent>
 			</CardActionArea>
 		</Card>

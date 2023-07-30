@@ -6,13 +6,15 @@ import { getBlockTags } from '../../redux/actions/userActions';
 import { useUserContext } from '../../auth/UserContext';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useOktaAuth } from '@okta/okta-react';
 
-const BlockedTags = ({ token }) => {
+const BlockedTags = () => {
 	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(false);
 	const { userInfo } = useUserContext();
 	const { userId } = userInfo;
 	const [textFieldValue, setTextFieldValue] = useState('');
+	const { oktaAuth } = useOktaAuth();
 
 	const convertTagsToString = function (tags) {
 		let string = '';
@@ -30,9 +32,9 @@ const BlockedTags = ({ token }) => {
 
 	useEffect(() => {
 		if (!isOpen) {
-			dispatch(getBlockTags(userId, token));
+			dispatch(getBlockTags(userId, oktaAuth.getAccessToken()));
 		}
-	}, [dispatch, isOpen, token, userId]);
+	}, [dispatch, isOpen, oktaAuth, userId]);
 
 	const tags = useSelector((state) => state.userReducer.blockedTags);
 
@@ -60,7 +62,11 @@ const BlockedTags = ({ token }) => {
 	};
 
 	function handleSubmit(e) {
-		addBlockTags(userId, textFieldValue.trim().split(' '), token);
+		addBlockTags(
+			userId,
+			textFieldValue.trim().split(' '),
+			oktaAuth.getAccessToken()
+		);
 		closeModal();
 		e.preventDefault();
 	}

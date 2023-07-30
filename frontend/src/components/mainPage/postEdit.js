@@ -23,7 +23,7 @@ import InteractiveVideoBuilder from '../interactiveVideo/InteractiveVideoBuilder
 import { useUserContext } from '../../auth/UserContext';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import { fetchAllPost } from '../../redux/actions/PostActions';
+import { setPost } from '../../redux/actions/PostActions';
 import { useDispatch } from 'react-redux';
 
 const emojis = [
@@ -333,8 +333,11 @@ const PostEdit = (props) => {
 	}, [post, handleClose]);
 
 	useEffect(() => {
-		setSubmitButtonDisabled(!media && !mediaUrl);
-	}, [media, mediaUrl]);
+		// when window switch to open, make sure button is correctly disabled or enabled
+		if (open) {
+			setSubmitButtonDisabled(!media && !mediaUrl);
+		}
+	}, [media, mediaUrl, open]);
 
 	const handleTitleChange = (event) => {
 		setTitle(event.target.value);
@@ -423,11 +426,10 @@ const PostEdit = (props) => {
 			mediaType =
 				mediaUrl.match(/\.(jpeg|jpg|gif|png)$/) != null ? 'image' : 'video';
 		}
-		let postResponse;
 
 		if (!post) {
 			// Send the URL and other post data to the backend
-			postResponse = await fetch('/api/posts', {
+			let postResponse = await fetch('/api/posts', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -444,11 +446,21 @@ const PostEdit = (props) => {
 					username: userInfo.username,
 				}),
 			});
-			dispatch(fetchAllPost(oktaAuth.getAccessToken()));
-			setMessage('Upload succeeded');
+
+			if (postResponse.ok) {
+				const body = await postResponse.json();
+				dispatch(setPost(body));
+				setMessage('Upload succeeded');
+				setSeverity('success');
+				handleClose();
+			} else {
+				const { error } = await postResponse.json();
+				setMessage(error);
+				setSeverity('error');
+			}
 		} else {
 			// Send the URL and other post data to the backend
-			postResponse = await fetch(`/api/posts/${post.postId}`, {
+			let putResponse = await fetch(`/api/posts/${post.postId}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
@@ -465,12 +477,20 @@ const PostEdit = (props) => {
 					username: userInfo.username,
 				}),
 			});
-			dispatch(fetchAllPost(oktaAuth.getAccessToken()));
-			setMessage('Update succeeded');
+
+			if (putResponse.ok) {
+				const body = await putResponse.json();
+				dispatch(setPost(body));
+				setMessage('Update succeeded');
+				setSeverity('success');
+				handleClose();
+			} else {
+				const { error } = await putResponse.json();
+				setMessage(error);
+				setSeverity('error');
+			}
 		}
 		setSnackbarOpen(true);
-		setSeverity('success');
-		handleClose();
 	};
 
 	const handleTabChange = (event, newValue) => {
