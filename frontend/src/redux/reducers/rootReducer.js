@@ -5,10 +5,10 @@ import postReducer from './postReducer';
 import chatReducer from './chatReducer';
 
 const rootReducer = combineReducers({
-	comments: commentReducer,
-	userReducer,
-	chatReducer,
-	posts: postReducer,
+  comments: commentReducer,
+  userReducer,
+  chatReducer,
+  posts: postReducer,
 });
 
 export default rootReducer;

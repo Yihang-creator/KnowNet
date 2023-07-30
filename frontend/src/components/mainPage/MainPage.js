@@ -5,18 +5,18 @@ import Contents from './Contents';
 import Layout from './Layout';
 
 const Home = () => {
-	const { authState } = useOktaAuth();
+  const { authState } = useOktaAuth();
 
-	if (!authState) {
-		return <div>Loading...</div>;
-	}
+  if (!authState) {
+    return <div>Loading...</div>;
+  }
 
-	return (
-		<div>
-			<Layout>
-				<Contents />
-			</Layout>
-		</div>
-	);
+  return (
+    <div>
+      <Layout>
+        <Contents />
+      </Layout>
+    </div>
+  );
 };
 export default Home;

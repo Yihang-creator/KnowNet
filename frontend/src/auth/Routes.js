@@ -11,32 +11,32 @@ import Chat from '../components/Chat';
 import UserInfoPage from '../components/userPages/UserInfoPage';
 
 const AppRoutes = () => {
-	return (
-		<Routes>
-			<Route path="/" element={<RequiredAuth />}>
-				<Route path="" exact={true} element={<Home />} />
-			</Route>
-			<Route
-				path="login/callback"
-				element={<LoginCallback loadingElement={<Loading />} />}
-			/>
-			<Route path="/comments" element={<RequiredAuth />}>
-				<Route path="" element={<CommentPage />} />
-			</Route>
-			<Route path="/profile/:userId" element={<RequiredAuth />}>
-				<Route path="" element={<UserInfoPage />} />
-			</Route>
-			<Route path="/chat" element={<RequiredAuth />}>
-				<Route path="" element={<Chat />} />
-			</Route>
-			<Route path="/post/:id" element={<RequiredAuth />}>
-				<Route path="" element={<PostContent />} />
-			</Route>
-			<Route path="/joinVideoRoom" element={<RequiredAuth />}>
-				<Route path="" exact={true} element={<JoinPage />} />
-			</Route>
-		</Routes>
-	);
+  return (
+    <Routes>
+      <Route path="/" element={<RequiredAuth />}>
+        <Route path="" exact={true} element={<Home />} />
+      </Route>
+      <Route
+        path="login/callback"
+        element={<LoginCallback loadingElement={<Loading />} />}
+      />
+      <Route path="/comments" element={<RequiredAuth />}>
+        <Route path="" element={<CommentPage />} />
+      </Route>
+      <Route path="/profile/:userId" element={<RequiredAuth />}>
+        <Route path="" element={<UserInfoPage />} />
+      </Route>
+      <Route path="/chat" element={<RequiredAuth />}>
+        <Route path="" element={<Chat />} />
+      </Route>
+      <Route path="/post/:id" element={<RequiredAuth />}>
+        <Route path="" element={<PostContent />} />
+      </Route>
+      <Route path="/joinVideoRoom" element={<RequiredAuth />}>
+        <Route path="" exact={true} element={<JoinPage />} />
+      </Route>
+    </Routes>
+  );
 };
 
 export default AppRoutes;

@@ -11,122 +11,122 @@ import { useUserContext } from '../../auth/UserContext';
 import '../../Styles/Comment.css';
 
 const handleTimeStamp = (time) => {
-	let date = new Date(time);
-	let year = date.getFullYear();
-	let month = date.getMonth() + 1; // JavaScript's months are O-indexed.
-	let day = date.getDate();
-	let hour = date.getHours();
-	let minute = date.getMinutes();
-	day = day < 10 ? '0' + day : day;
-	hour = hour < 10 ? '0' + hour : hour;
-	minute = minute < 10 ? '0' + minute : minute;
-	let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
-	return formattedDate;
+  let date = new Date(time);
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1; // JavaScript's months are O-indexed.
+  let day = date.getDate();
+  let hour = date.getHours();
+  let minute = date.getMinutes();
+  day = day < 10 ? '0' + day : day;
+  hour = hour < 10 ? '0' + hour : hour;
+  minute = minute < 10 ? '0' + minute : minute;
+  let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
+  return formattedDate;
 };
 
 const Reply = ({
-	review,
-	toggleReplies,
-	commentId,
-	postId,
-	fetchLikes,
-	showUserInfo,
+  review,
+  toggleReplies,
+  commentId,
+  postId,
+  fetchLikes,
+  showUserInfo,
 }) => {
-	const { id, user, timestamp, replyToUser, likes, text, likedBy, replyId } =
-		review;
-	const { userInfo } = useUserContext();
-	const { oktaAuth } = useOktaAuth();
-	const { userId: currentUserId } = userInfo || {}; // current userinfo
-	const [currentLikes, setLikes] = useState(likes);
-	const [secondLikeStatus, setSecondLikeStatus] = useState(false);
+  const { id, user, timestamp, replyToUser, likes, text, likedBy, replyId } =
+    review;
+  const { userInfo } = useUserContext();
+  const { oktaAuth } = useOktaAuth();
+  const { userId: currentUserId } = userInfo || {}; // current userinfo
+  const [currentLikes, setLikes] = useState(likes);
+  const [secondLikeStatus, setSecondLikeStatus] = useState(false);
 
-	useEffect(() => {
-		const isUserLike = likedBy?.includes(currentUserId);
-		setSecondLikeStatus(isUserLike);
-	}, [currentUserId, likedBy]);
+  useEffect(() => {
+    const isUserLike = likedBy?.includes(currentUserId);
+    setSecondLikeStatus(isUserLike);
+  }, [currentUserId, likedBy]);
 
-	const handleSetLikesStatus = () => {
-		setSecondLikeStatus(!secondLikeStatus);
-		setLikes(
-			likedBy?.includes(currentUserId) ? currentLikes - 1 : currentLikes + 1
-		);
-		fetchLikes(postId, commentId, replyId, currentUserId, oktaAuth);
-	};
+  const handleSetLikesStatus = () => {
+    setSecondLikeStatus(!secondLikeStatus);
+    setLikes(
+      likedBy?.includes(currentUserId) ? currentLikes - 1 : currentLikes + 1
+    );
+    fetchLikes(postId, commentId, replyId, currentUserId, oktaAuth);
+  };
 
-	return (
-		<Box
-			key={id}
-			sx={{
-				display: 'flex',
-				paddingLeft: 2,
-				marginTop: 1,
-			}}
-		>
-			<Avatar
-				src={user?.userPhotoUrl}
-				alt={user?.username}
-				sx={{ cursor: 'pointer' }}
-				onClick={() => showUserInfo(user)}
-			/>
-			<Box marginLeft={2}>
-				<Typography variant="subtitle2">{user?.username}</Typography>
-				<Typography variant="body2" color="text.secondary">
-					{handleTimeStamp(timestamp)}
-				</Typography>
-				<Typography variant="body2" gutterBottom>
-					{/* reply to */}
-					{replyToUser?.username ? (
-						<span>
-							reply to{' '}
-							<span className="text-gray-400">{replyToUser.username}:</span>{' '}
-							{text}
-						</span>
-					) : (
-						review.text
-					)}
-				</Typography>
-				<Box display="flex" alignItems="center">
-					{/* reply to second level comment */}
-					<Box>
-						{/* should be userid, use username for now */}
-						<IconButton
-							onClick={() =>
-								toggleReplies(user?.userId, user?.username, 'secLevelComment')
-							}
-							sx={{ fontSize: 'x-small' }}
-						>
-							<ReplyIcon />
-						</IconButton>
-					</Box>
-					<Box sx={{ marginLeft: '30px' }}>
-						<Button
-							variant="text"
-							color="primary"
-							startIcon={
-								secondLikeStatus ? (
-									<FavoriteOutlinedIcon />
-								) : (
-									<FavoriteBorderOutlinedIcon />
-								)
-							}
-							onClick={handleSetLikesStatus}
-						>
-							{currentLikes}
-						</Button>
-					</Box>
-				</Box>
-			</Box>
-		</Box>
-	);
+  return (
+    <Box
+      key={id}
+      sx={{
+        display: 'flex',
+        paddingLeft: 2,
+        marginTop: 1,
+      }}
+    >
+      <Avatar
+        src={user?.userPhotoUrl}
+        alt={user?.username}
+        sx={{ cursor: 'pointer' }}
+        onClick={() => showUserInfo(user)}
+      />
+      <Box marginLeft={2}>
+        <Typography variant="subtitle2">{user?.username}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {handleTimeStamp(timestamp)}
+        </Typography>
+        <Typography variant="body2" gutterBottom>
+          {/* reply to */}
+          {replyToUser?.username ? (
+            <span>
+              reply to{' '}
+              <span className="text-gray-400">{replyToUser.username}:</span>{' '}
+              {text}
+            </span>
+          ) : (
+            review.text
+          )}
+        </Typography>
+        <Box display="flex" alignItems="center">
+          {/* reply to second level comment */}
+          <Box>
+            {/* should be userid, use username for now */}
+            <IconButton
+              onClick={() =>
+                toggleReplies(user?.userId, user?.username, 'secLevelComment')
+              }
+              sx={{ fontSize: 'x-small' }}
+            >
+              <ReplyIcon />
+            </IconButton>
+          </Box>
+          <Box sx={{ marginLeft: '30px' }}>
+            <Button
+              variant="text"
+              color="primary"
+              startIcon={
+                secondLikeStatus ? (
+                  <FavoriteOutlinedIcon />
+                ) : (
+                  <FavoriteBorderOutlinedIcon />
+                )
+              }
+              onClick={handleSetLikesStatus}
+            >
+              {currentLikes}
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
 };
 
 const mapStateToProps = (state) => ({
-	comments: state.comments.comments,
+  comments: state.comments.comments,
 });
 
 const mapDispatchToProps = {
-	addSecLevelComment: addReply,
-	fetchLikes,
+  addSecLevelComment: addReply,
+  fetchLikes,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Reply);

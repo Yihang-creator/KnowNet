@@ -15,38 +15,38 @@ import { SearchProvider } from './components/mainPage/searchContext';
 const oktaAuth = new OktaAuth(config.oidc);
 
 const App = () => {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
-	const theme = React.useMemo(
-		() =>
-			createTheme({
-				palette: {
-					mode: prefersDarkMode ? 'dark' : 'light',
-				},
-			}),
-		[prefersDarkMode]
-	);
-	const restoreOriginalUri = (_oktaAuth, originalUri) => {
-		navigate(toRelativeUrl(originalUri || '/', window.location.origin));
-	};
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? 'dark' : 'light',
+        },
+      }),
+    [prefersDarkMode]
+  );
+  const restoreOriginalUri = (_oktaAuth, originalUri) => {
+    navigate(toRelativeUrl(originalUri || '/', window.location.origin));
+  };
 
-	return (
-		<Provider store={store}>
-			<UserProvider>
-				<Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
-					<ThemeProvider theme={theme}>
-						<SearchProvider>
-							<main>
-								<Routes />
-							</main>
-						</SearchProvider>
-					</ThemeProvider>
-				</Security>
-			</UserProvider>
-		</Provider>
-	);
+  return (
+    <Provider store={store}>
+      <UserProvider>
+        <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+          <ThemeProvider theme={theme}>
+            <SearchProvider>
+              <main>
+                <Routes />
+              </main>
+            </SearchProvider>
+          </ThemeProvider>
+        </Security>
+      </UserProvider>
+    </Provider>
+  );
 };
 
 export default App;

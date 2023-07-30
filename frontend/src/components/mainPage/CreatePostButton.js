@@ -9,34 +9,34 @@ import { useTheme } from '@mui/material/styles';
 import PostEdit from './postEdit';
 
 const CreatePostButton = () => {
-	const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
-	const theme = useTheme();
+  const theme = useTheme();
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-	const handleClose = () => {
-		setOpen(false);
-	};
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-	return (
-		<div>
-			<ListItem key={'Create Post'} disablePadding onClick={handleClickOpen}>
-				<ListItemButton>
-					<ListItemIcon sx={{ color: theme.palette.primary.main }}>
-						<AddCircleOutlineIcon />
-					</ListItemIcon>
-					<ListItemText
-						primary={'Create Post'}
-						sx={{ color: theme.palette.text.primary }}
-					/>
-				</ListItemButton>
-			</ListItem>
-			<PostEdit open={open} handleClose={handleClose} />
-		</div>
-	);
+  return (
+    <div>
+      <ListItem key={'Create Post'} disablePadding onClick={handleClickOpen}>
+        <ListItemButton>
+          <ListItemIcon sx={{ color: theme.palette.primary.main }}>
+            <AddCircleOutlineIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={'Create Post'}
+            sx={{ color: theme.palette.text.primary }}
+          />
+        </ListItemButton>
+      </ListItem>
+      <PostEdit open={open} handleClose={handleClose} />
+    </div>
+  );
 };
 
 export default CreatePostButton;
