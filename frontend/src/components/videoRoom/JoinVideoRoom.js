@@ -60,6 +60,7 @@ const JoinVideoRoom = (props) => {
 	const [chats, setChats] = useState(props.chats);
 	const [curMsg, setCurMsg] = useState('');
 	const [userColorMap, setUserColorMap] = useState(new Map());
+	const { queue, setQueue } = props;
 	const username = props.username;
 
 	const ref = useRef(null);
@@ -95,10 +96,19 @@ const JoinVideoRoom = (props) => {
 			setChats((prevChats) => [...prevChats, message]);
 		});
 
+		props.backend.socket.on('update-queue', (newQueue) => {
+			setQueue(newQueue);
+		});
+
 		return () => {
-			// Clean up event listeners here if needed
+			props.backend.socket.off('update-queue');
+			props.backend.socket.off('set-url');
+			props.backend.socket.off('play-toggled');
+			props.backend.socket.off('url-set');
+			props.backend.socket.off('seek-set');
+			props.backend.socket.off('chat-added');
 		};
-	}, [props.backend.socket]);
+	}, [props.backend.socket, setQueue]);
 
 	useEffect(() => {
 		if (Math.abs(duration - duration) > 2) {
@@ -234,7 +244,7 @@ const JoinVideoRoom = (props) => {
 								changeVideo={(vid) => {
 									props.backend.setURL(vid);
 								}}
-								backend={props.backend}
+								queue={queue}
 								is_join={isJoin}
 							/>
 						</Box>

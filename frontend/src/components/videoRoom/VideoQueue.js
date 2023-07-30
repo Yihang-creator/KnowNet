@@ -5,25 +5,17 @@ import {
 	List,
 	ListItem,
 	Typography,
+	Tooltip,
+	IconButton,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const VideoQueue = (props) => {
-	const [queue, setQueue] = useState([]);
+	const queue  = props.queue;
 	const [current, setCurrent] = useState(0);
-	const { changeVideo, is_join = false, backend } = props;
-
-	useEffect(() => {
-		backend.socket.on('update-queue', (newQueue) => {
-			setQueue(newQueue);
-		});
-
-		return () => {
-			// Clean up the socket listener on component unmount
-			backend.socket.off('update-queue');
-		};
-	}, [backend.socket]);
+	const { changeVideo, is_join = false } = props;
 
 	const makeList = () => {
 		return queue.map((vid, idx) => {
@@ -54,9 +46,15 @@ const VideoQueue = (props) => {
 
 	return (
 		<>
-			<Typography variant="h5" fontWeight="bold" mt={2}>
-				Video Queue
-			</Typography>
+			<Tooltip title={'Only host will be able to add videos to this queue. Enter the video URL and press the ADD VIDEO URL button. Host can click on a video link to switch to that Video'} placement="bottom-start"
+				>
+				<Typography variant="h5" fontWeight="bold" mt={2}>
+					Video Queue
+					<IconButton aria-label="help">
+						<HelpOutlineIcon />
+					</IconButton>
+				</Typography> 
+			</Tooltip>
 			<List>{makeList()}</List>
 		</>
 	);

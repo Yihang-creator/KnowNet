@@ -18,6 +18,7 @@ function JoinPage() {
 	const [chats, setChats] = useState([]);
 	const [errorOpen, setErrorOpen] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
+	const [queue, setQueue] = useState([]);
 
 	useEffect(() => {
 		backend.socket.on('room-created', (roomId) => {
@@ -37,6 +38,7 @@ function JoinPage() {
 			setPlaying(roomInfo.playing);
 			setIsJoin(true);
 			setChats(roomInfo.chats);
+			setQueue(roomInfo.queue);
 		});
 
 		backend.socket.on('error', (errMsg) => {
@@ -53,14 +55,22 @@ function JoinPage() {
 	}, [backend]);
 
 	const createRoom = () => {
-		backend.socket.emit('username', username);
-		backend.createRoom({
-			url: url,
-			playing: false,
-			duration: 0,
-			name: username,
-			chats: [],
-		});
+		if (!!url) {
+			backend.socket.emit('username', username);
+			backend.createRoom({
+				url: url,
+				playing: false,
+				duration: 0,
+				name: username,
+				chats: [],
+				videos: [url],
+			});
+			setQueue([url]);
+		} else {
+			setErrorMsg("URL cannot be empty");
+			setErrorOpen(true);
+		}
+		
 	};
 
 	const joinRoom = () => {
@@ -80,6 +90,8 @@ function JoinPage() {
 					playing={playing}
 					chats={chats}
 					username={username}
+					queue={queue}
+					setQueue={setQueue}
 				/>
 			</Layout>
 		);
