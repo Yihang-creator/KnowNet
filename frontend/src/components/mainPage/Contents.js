@@ -9,6 +9,7 @@ import Loading from '../../auth/Loading';
 import { useSearchContext } from './searchContext';
 import { getBlockTags } from '../../redux/actions/userActions';
 import { useUserContext } from '../../auth/UserContext';
+import Masonry from '@mui/lab/Masonry';
 
 const Contents = () => {
   const { oktaAuth } = useOktaAuth();
@@ -64,30 +65,27 @@ const Contents = () => {
 
   const filteredPosts = getFilteredPost(searchTerm, searchByTag, blockedTags);
 
+  //
   return (
-    <div className="mt-10 flex justify-center">
-      <div className="flex-container bg-grey-600 w-11/12 justify-center rounded-lg border">
-        <ul className="rounded-md p-2 md:columns-2 lg:columns-4">
-          {filteredPosts.map((post, index) => (
-            <li key={index}>
-              <Link
-                to={`/post/${post.postId}`}
-                className="inline-block w-full p-2"
-              >
-                <PreviewCard
-                  type={post.mediaType}
-                  src={post.mediaUrl}
-                  title={post.title}
-                  previewText={post.text}
-                  username={post.username}
-                  userPhotoUrl={post.userPhotoUrl}
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <Masonry
+      columns={{ xs: 2, sm: 3, md: 4, lg: 4, xl: 4, xxl: 5 }}
+      spacing={1}
+    >
+      {filteredPosts.map((post, index) => (
+        <div key={index}>
+          <Link to={`/post/${post.postId}`} className="inline-block w-full p-2">
+            <PreviewCard
+              type={post.mediaType}
+              src={post.mediaUrl}
+              title={post.title}
+              previewText={post.text}
+              username={post.username}
+              userPhotoUrl={post.userPhotoUrl}
+            />
+          </Link>
+        </div>
+      ))}
+    </Masonry>
   );
 };
 

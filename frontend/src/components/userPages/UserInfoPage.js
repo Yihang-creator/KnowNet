@@ -38,6 +38,7 @@ import ResponsiveDrawer from '../mainPage/ResponsiveDrawer';
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, fetchAllPost } from '../../redux/actions/PostActions';
 import { follow } from '../../redux/actions/userActions';
+import Masonry from '@mui/lab/Masonry';
 
 const UserInfoPage = ({ name, email }) => {
   const [userInfo, setUserInfo] = useState({});
@@ -384,7 +385,10 @@ const UserInfoPage = ({ name, email }) => {
               </ColorButton>
             </Grid>
 
-            <Grid className="rounded-md bg-white p-2 md:columns-2 lg:columns-4">
+            <Masonry
+              columns={{ xs: 2, sm: 3, md: 4, lg: 4, xl: 4, xxl: 5 }}
+              spacing={1}
+            >
               {filterPosts().map((post, index) => (
                 <div key={index} className="relative inline-block w-full p-2">
                   <Link to={`/post/${post.postId}`}>
@@ -435,30 +439,30 @@ const UserInfoPage = ({ name, email }) => {
                   )}
                 </div>
               ))}
-              {isSelf ? (
-                <Zoom
-                  key={fab.color}
-                  in={true}
-                  timeout={transitionDuration}
-                  style={{
-                    transitionDelay: `${transitionDuration.exit}ms`,
-                  }}
-                  unmountOnExit
+            </Masonry>
+            {isSelf ? (
+              <Zoom
+                key={fab.color}
+                in={true}
+                timeout={transitionDuration}
+                style={{
+                  transitionDelay: `${transitionDuration.exit}ms`,
+                }}
+                unmountOnExit
+              >
+                <Fab
+                  sx={fab.sx}
+                  aria-label={fab.label}
+                  color={fab.color}
+                  onClick={handleEditStatus}
                 >
-                  <Fab
-                    sx={fab.sx}
-                    aria-label={fab.label}
-                    color={fab.color}
-                    onClick={handleEditStatus}
-                  >
-                    {fab.icon}
-                  </Fab>
-                </Zoom>
-              ) : (
-                ''
-              )}
-              <PostEdit post={editPost} open={open} handleClose={handleClose} />
-            </Grid>
+                  {fab.icon}
+                </Fab>
+              </Zoom>
+            ) : (
+              ''
+            )}
+            <PostEdit post={editPost} open={open} handleClose={handleClose} />
           </Grid>
         </div>
       </Box>

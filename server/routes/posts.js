@@ -14,7 +14,6 @@ router.get('/', async function (req, res, next) {
     // Support pagination
     if (!isNaN(page) && !isNaN(limit)) {
       const startIndex = (page - 1) * limit;
-      const endIndex = page * limit;
 
       postsPreview = await Post.find()
         .skip(startIndex)

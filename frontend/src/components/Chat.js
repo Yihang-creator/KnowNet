@@ -69,7 +69,10 @@ const Chat = () => {
                     <ListItemIcon>
                       <Avatar alt={person.username} src={person.userPhotoUrl} />
                     </ListItemIcon>
-                    <ListItemText primary={person.username}>
+                    <ListItemText
+                      primary={person.username}
+                      sx={{ overflow: 'auto' }}
+                    >
                       {person.username}
                     </ListItemText>
                   </ListItemButton>

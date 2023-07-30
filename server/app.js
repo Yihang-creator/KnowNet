@@ -4,7 +4,6 @@ const path = require('path');
 const { createServer } = require('http');
 require('dotenv').config(); // dotenv is package to load environment variables
 var cors = require('cors');
-var indexRouter = require('./routes/index.js');
 var postRouter = require('./routes/posts.js');
 var awsRouter = require('./routes/awsPresignedURL.js');
 var commentRouter = require('./routes/comments.js');
@@ -35,7 +34,6 @@ console.log(uri);
 app.use('/api/*', authenticationRequired);
 
 // API routes
-app.use('/', indexRouter);
 app.use('/api/posts', postRouter);
 app.use('/api/comments', commentRouter);
 app.use('/api/aws/upload', awsRouter);

@@ -25,6 +25,7 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { setPost } from '../../redux/actions/PostActions';
 import { useDispatch } from 'react-redux';
+import { awsUploader } from '../utils/awsUploader';
 
 const emojis = [
   '😀',
@@ -385,30 +386,13 @@ const PostEdit = (props) => {
 
     if (media) {
       // Get the pre-signed URL from the backend
-      const response = await fetch(
-        '/api/aws/upload?fileType=' + encodeURIComponent(media.type),
-        {
-          headers: {
-            Authorization: 'Bearer ' + oktaAuth.getAccessToken(),
-          },
-        },
-      );
-      const { url } = await response.json();
-
-      //upload the media file to the s3 bucket
-      const uploadResponse = await fetch(url, {
-        method: 'PUT',
-        body: media.file,
-        headers: {
-          'Content-Type': media.type,
-        },
-      });
-
-      if (!uploadResponse.ok) {
+      let mediaAWSUrl = await awsUploader(media, oktaAuth.getAccessToken());
+      if (mediaAWSUrl !== null) {
+        fileUrl = mediaAWSUrl;
+      } else {
         alert('Failed to upload file.');
         return;
       }
-      fileUrl = url.split('?')[0];
     } else {
       if (validator.isURL(mediaUrl)) {
         fileUrl = mediaUrl;
@@ -505,15 +489,22 @@ const PostEdit = (props) => {
         aria-labelledby="form-dialog-title"
         fullWidth
         maxWidth="lg"
+        scroll="paper"
       >
         <DialogTitle id="form-dialog-title">{dialogTitle} </DialogTitle>
-        <Tabs value={selectedTab} onChange={handleTabChange}>
-          <Tab label="Post" icon={<PostAddIcon />} />
-          <Tab label="Interactive Video" icon={<VideogameAssetIcon />} />
-        </Tabs>
+        <div>
+          <Tabs value={selectedTab} onChange={handleTabChange}>
+            <Tab label="Post" icon={<PostAddIcon />} iconPosition="top" />
+            <Tab
+              label="Interactive Video"
+              icon={<VideogameAssetIcon />}
+              iconPosition="top"
+            />
+          </Tabs>
+        </div>
         {selectedTab === 0 && (
-          <>
-            <DialogContent>
+          <div>
+            <DialogContent dividers={true}>
               <TextField
                 autoFocus
                 margin="dense"
@@ -591,10 +582,10 @@ const PostEdit = (props) => {
                 Post
               </Button>
             </DialogActions>
-          </>
+          </div>
         )}
         {selectedTab === 1 && (
-          <DialogContent>
+          <DialogContent dividers={true}>
             <InteractiveVideoBuilder
               handleClose={handleClose}
               postId={post?.postId}
