@@ -1,22 +1,22 @@
-import { useOktaAuth } from "@okta/okta-react";
-import React from "react";
-import Contents from "./Contents";
+import { useOktaAuth } from '@okta/okta-react';
+import React from 'react';
+import Contents from './Contents';
 // import { useUserContext } from "../auth/UserContext";
-import Layout from "./Layout";
+import Layout from './Layout';
 
 const Home = () => {
-    const { authState } = useOktaAuth();
-    
-    if (!authState) {
-        return <div>Loading...</div>;
-    }
+	const { authState } = useOktaAuth();
 
-    return (
-        <div>
-            <Layout>
-                <Contents/>
-            </Layout>
-        </div>
-    );
+	if (!authState) {
+		return <div>Loading...</div>;
+	}
+
+	return (
+		<div>
+			<Layout>
+				<Contents />
+			</Layout>
+		</div>
+	);
 };
 export default Home;
