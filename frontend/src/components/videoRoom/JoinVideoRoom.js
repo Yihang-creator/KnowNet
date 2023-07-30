@@ -12,6 +12,7 @@ import {
 	Avatar,
 } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
+import { useTheme, useMediaQuery } from '@mui/material';
 
 const userColors = [
 	'#000000', // Black
@@ -60,6 +61,8 @@ const JoinVideoRoom = (props) => {
 	const [chats, setChats] = useState(props.chats);
 	const [curMsg, setCurMsg] = useState('');
 	const [userColorMap, setUserColorMap] = useState(new Map());
+	const darkMode = useMediaQuery('(prefers-color-scheme: dark)');
+	const theme = useTheme();
 	const { queue, setQueue } = props;
 	const username = props.username;
 
@@ -230,7 +233,7 @@ const JoinVideoRoom = (props) => {
 							onSeek={onSeek}
 							onReady={onReady}
 						/>
-						<Typography variant="h5" fontWeight="bold" py={2}>
+						<Typography variant="h5" fontWeight="bold" py={2} style={{ color: darkMode ? theme.palette.text.secondary : theme.palette.text.primary }}>
 							Room ID: {props.backend.state.roomId}
 						</Typography>
 						{queue_control}
@@ -256,7 +259,7 @@ const JoinVideoRoom = (props) => {
 					overflow="auto"
 					sx={{ maxHeight: '80vh', flex: 1, display: 'flex' }}
 				>
-					<Typography variant="h5" mt={2}>
+					<Typography variant="h5" mt={2} style={{ color: darkMode ? theme.palette.text.secondary : theme.palette.text.primary }}>
 						<Box display="flex" alignItems="center">
 							<ChatIcon sx={{ mr: 2 }} />
 							Chat Room
