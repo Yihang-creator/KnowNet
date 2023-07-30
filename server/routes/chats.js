@@ -3,7 +3,6 @@ var router = express.Router();
 const Chat = require("../model/chat");
 const Message = require("../model/message");
 const User = require("../model/user");
-const { v4: uuidv4 } = require("uuid");
 const mongoose = require("mongoose");
 
 module.exports = router;

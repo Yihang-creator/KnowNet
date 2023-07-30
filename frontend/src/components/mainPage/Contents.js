@@ -24,7 +24,7 @@ const Contents = () => {
 
   useEffect(() => {
     dispatch(getBlockTags(userInfo.userId, oktaAuth.getAccessToken()));
-  }, [dispatch, oktaAuth]);
+  }, [dispatch, oktaAuth, userInfo.userId]);
 
   if (!posts || !blockedTags) {
     return <Loading />;
@@ -68,20 +68,6 @@ const Contents = () => {
     <div className="mt-10 flex justify-center">
       <div className="flex-container bg-grey-600 w-11/12 justify-center rounded-lg border">
         <ul className="rounded-md p-2 md:columns-2 lg:columns-4">
-          {/* <li className="max-h-[500px] max-w-[500px] overflow-hidden">
-              <Carousel navButtonsAlwaysVisible={true}>
-                    {firstFivePosts.map((post, index) => (
-                      <div key={index}>
-                        <CardMedia
-                          component="img"
-                          image={post.mediaUrl}
-                          title={post.title}
-                          sx={{ maxHeight: '100%', objectFit: 'contain' }}
-                        />
-                      </div>
-                    ))}
-              </Carousel>
-            </li> */}
           {filteredPosts.map((post, index) => (
             <li key={index}>
               <Link

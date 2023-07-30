@@ -15,22 +15,24 @@ import SendIcon from "@mui/icons-material/Send";
 import Layout from "./mainPage/Layout";
 import { fetchChat, send } from "../redux/actions/chatActions";
 import { useState } from "react";
+import { useOktaAuth } from "@okta/okta-react";
 
 const Chat = () => {
   const { userInfo } = useUserContext();
   const dispatch = useDispatch();
   const [talkTo, setTalkTo] = useState(userInfo.userId);
   const [textValue, setTextValue] = useState("");
+  const { oktaAuth } = useOktaAuth();
 
   const chatState = useSelector((state) => state.chatReducer);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      dispatch(fetchChat(userInfo.userId, talkTo));
+      dispatch(fetchChat(userInfo.userId, talkTo, oktaAuth.getAccessToken()));
     }, 2000);
 
     return () => clearInterval(interval);
-  }, [dispatch, talkTo, chatState]);
+  }, [dispatch, talkTo, chatState, userInfo.userId, oktaAuth]);
 
   return (
     <Layout>
@@ -126,7 +128,7 @@ const Chat = () => {
                     color="primary"
                     aria-label="add"
                     onClick={() => {
-                      dispatch(send(userInfo.userId, talkTo, textValue));
+                      dispatch(send(userInfo.userId, talkTo, textValue, oktaAuth.getAccessToken()));
                       setTextValue("");
                     }}
                   >

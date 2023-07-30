@@ -171,7 +171,7 @@ const InteractiveVideoBuilder = (props) => {
                 })})
                 .then(response => {
                     if (response.status === 200) {
-                        // Request succeeded with 201 status code, close the dialog
+                        // Request succeeded with 200 status code, close the dialog
                         setMessage('Upload succeeded!');
                         setSnackbarOpen(true);
                         setSeverity('success');
@@ -184,7 +184,6 @@ const InteractiveVideoBuilder = (props) => {
                     }
                 })
                 .catch((error) => {
-                    //  console.error('Error:', error);
                     setUploadDisabled(false);
                     setErrorSnackBarOpen(true);
                     setErrorSnackMessage('An error occurred when submitting the form. Please check your inputs!')
@@ -229,10 +228,10 @@ const InteractiveVideoBuilder = (props) => {
     const renderRectSvgNode = ({ nodeDatum, onNodeClick }) => (
         <>
             <foreignObject
-                x={-10} // adjust these values
-                y={-27} // adjust these values
-                width={40} // adjust these values
-                height={40} // adjust these values
+                x={-10}
+                y={-27}
+                width={40}
+                height={40}
                 onClick={evt => {
                     // disable toggle node
                     onNodeClick(evt);

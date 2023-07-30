@@ -32,10 +32,10 @@ mongoose.connect(uri, options);
 console.log(uri);
 
 //authorization middleware
-//app.use('/api/*', authenticationRequired);
+app.use('/api/*', authenticationRequired);
 
 // API routes
-// app.use("/", indexRouter);
+app.use("/", indexRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/aws/upload", awsRouter);

@@ -65,7 +65,7 @@ router.get("/:id/faf", async function (req, res, next) {
 
     res.json({ followers, followings });
   } catch (error) {
-    next(error); // Pass errors to the error handler
+    next(error);
   }
 });
 
@@ -107,7 +107,7 @@ router.patch("/:id/follow", async function (req, res, next) {
 
     return res.status(200).json({ message: "Followed successfully" });
   } catch (error) {
-    next(error); // Pass errors to the error handler
+    next(error);
   }
 });
 
@@ -128,7 +128,7 @@ router.patch("/:id/block", async function (req, res, next) {
 
     return res.status(200).json({ message: "Blocked Tags successfully" });
   } catch (error) {
-    next(error); // Pass errors to your error handler
+    next(error);
   }
 });
 
@@ -151,7 +151,7 @@ router.patch("/:id/edit", async function (req, res, next) {
 
     return res.status(200).json({ message: "Edit successfully" });
   } catch (error) {
-    next(error); // Pass errors to your error handler
+    next(error);
   }
 });
 
@@ -167,7 +167,7 @@ router.get("/:id/block", async function (req, res, next) {
     const blockedTags = user.blockedTags;
     return res.status(200).json({ blockedTags });
   } catch (error) {
-    next(error); // Pass errors to your error handler
+    next(error);
   }
 });
 

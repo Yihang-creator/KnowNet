@@ -53,7 +53,7 @@ const Comment = ({
     const [replyUserInfo, setReplyUserInfo] = useState({}) // should be userId, use username for now
     const {oktaAuth} = useOktaAuth();
     const {userInfo} = useUserContext();
-    const {userPhotoUrl: currentUserPhotoUrl, username: currentUsername, userId: currentUserId} = userInfo || {}; // 当前用户信息
+    const {userPhotoUrl: currentUserPhotoUrl, username: currentUsername, userId: currentUserId} = userInfo || {}; // current userinfo
     const [currentLikes, setLikes] = useState(likes)
     const [likeStatus, setLikeStatus] = useState(false);
 

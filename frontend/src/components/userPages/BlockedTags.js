@@ -32,7 +32,7 @@ const BlockedTags = ({ token }) => {
     if (!isOpen) {
       dispatch(getBlockTags(userId, token));
     }
-  }, [isOpen]);
+  }, [dispatch, isOpen, token, userId]);
 
   const tags = useSelector((state) => state.userReducer.blockedTags);
 

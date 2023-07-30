@@ -29,43 +29,6 @@ const Dropdown = () => {
     }
 
     return (
-        // <div className="menu-container">
-        //   <div
-        //     className="menu-trigger"
-        //     onClick={() => {
-        //       setOpen(!open);
-        //     }}
-        //   >
-        //     <img src={user_image} alt=""></img>
-        //   </div>
-
-        //   <div className={`dropdown-menu ${open ? "active" : "inactive"}`}>
-        //     <h3>
-        //       The KyW
-        //       <br />
-        //       <span>Website Designer</span>
-        //     </h3>
-        //     <ul>
-        //       {authState.isAuthenticated ? (
-        //         <>
-        //           <Link to="/">
-        //             <DropdownItem img={user_image} text={"Home"} />
-        //           </Link>
-        //           <Link to="/profile">
-        //             <DropdownItem img={user_image} text={"Profile"} />
-        //           </Link>
-        //           <DropdownItem
-        //             img={user_image}
-        //             text={"Log Out"}
-        //             onClick={logout}
-        //           />
-        //         </>
-        //       ) : (
-        //         <DropdownItem img={user_image} text={"Log In"} onClick={login} />
-        //       )}
-        //     </ul>
-        //   </div>
-        // </div>
         <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
                 <IconButton onClick={() => setOpen(true)} sx={{ p: 0 }}>
@@ -93,9 +56,6 @@ const Dropdown = () => {
                         <Link key="Home" to="/">
                             <DropdownItem img={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLKy76cSh3Cu_SzL-P8aA_U8Uw0th_7cgnHA&usqp=CAU"} text={"Home"} />
                         </Link>,
-                        // <Link key="Profile" to="/profile/${userInfo.userId}">
-                        //     <DropdownItem img={"https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg"} text={"Profile"} />
-                        // </Link>,
                         <DropdownItem
                             key="logout"
                             img={"https://static.vecteezy.com/system/resources/previews/000/575/503/original/vector-logout-sign-icon.jpg"}

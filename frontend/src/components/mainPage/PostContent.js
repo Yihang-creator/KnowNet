@@ -121,12 +121,6 @@ export const PostContent = () => {
 
   const shareUrl = window.location.href;
 
-  // bg-white background color
-  // shadow-md set shadow
-  // rounded-lg rounded corners
-  // p-6 padding
-  // mb-6 margin-bottom 1.5rem
-
   const content = (
     <div className="mb-6 rounded-lg p-6 shadow-md">
       <div className="container mx-auto">

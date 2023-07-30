@@ -27,7 +27,7 @@ export default function InteractiveVideo(props) {
   }, [fetchVideoData, rootId]);
 
   const handleProgress = ({ playedSeconds }) => {
-    // If there's less than 10 seconds left in the video, show the options
+    // If there's less than LeadTimeField seconds left in the video, show the options
     if (duration - playedSeconds <= videoData.LeadTimeField) {
       setShowOptions(true);
     } else {

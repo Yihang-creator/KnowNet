@@ -2,19 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { body, validationResult } = require("express-validator");
 const { v4: uuidv4 } = require("uuid");
-var { posts } = require("../data/posts.js");
-var { users } = require("../data/users.js");
 const Post = require("../model/post");
-
-function getPostsPreview(posts) {
-  let previews = [];
-  for (const post of posts) {
-    const { _id, userId, mediaType, mediaUrl, title } = post;
-    const preview = { postId : _id, userId, mediaType, mediaUrl, title };
-    previews.push(preview)
-  }
-  return previews;
-}
 
 router.get("/", async function (req, res, next) {
   const page = parseInt(req.query.page);

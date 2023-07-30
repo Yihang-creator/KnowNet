@@ -110,7 +110,7 @@ router.get('/', async function(req, res, next) {
     }
 });
 
-router.get('/getCommentDetail', async function(req, res, next) { // Note: the function is now async
+router.get('/getCommentDetail', async function(req, res, next) {
     const postId = req.query.postId;
 
     try {

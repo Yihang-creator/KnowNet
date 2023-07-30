@@ -1,7 +1,5 @@
 import _ from "lodash";
 
-
-
 const postReducer = (state = [], action) => {
   switch (action.type) {
     case "SET_POST":

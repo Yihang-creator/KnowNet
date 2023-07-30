@@ -28,14 +28,14 @@ const Reply = ({review, toggleReplies, commentId, postId, fetchLikes, showUserIn
     const {id, user, timestamp, replyToUser, likes, text, likedBy, replyId} = review;
     const {userInfo} = useUserContext();
     const {oktaAuth} = useOktaAuth();
-    const {userPhotoUrl: currentUserPhotoUrl, username: currentUsername, userId: currentUserId} = userInfo || {}; // 当前用户信息
+    const {userId: currentUserId} = userInfo || {}; // current userinfo
     const [currentLikes, setLikes] = useState(likes)
     const [secondLikeStatus, setSecondLikeStatus] = useState(false)
 
     useEffect(() => {
         const isUserLike = likedBy?.includes(currentUserId)
         setSecondLikeStatus(isUserLike)
-    }, userInfo)
+    }, [currentUserId, likedBy])
 
     const handleSetLikesStatus = () => {
         setSecondLikeStatus(!secondLikeStatus)

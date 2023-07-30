@@ -4,42 +4,6 @@ const { body, validationResult } = require('express-validator');
 const Post = require('../model/post');
 const { v4: uuidv4 } = require('uuid');
 
-// let videoTree = {
-//     "1": {
-//       id: "1",
-//       url: "https://www.youtube.com/watch?v=52ZkFD-YlmY",
-//       LeadTimeField: 5,
-//       root: true,
-//       options: [
-//         {
-//           label: "Decline",
-//           nextVideoId: "2"
-//         },
-//         {
-//           label: "Answer",
-//           nextVideoId: "3"
-//         }
-//       ]
-//     },
-//     "2": {
-//       id: "2",
-//       url: "https://www.youtube.com/watch?v=CSyDiUbjtTE",
-//       LeadTimeField: 0,
-//       root: false,
-//       options: []
-//     },
-//     "3": {
-//       id: "3",
-//       url: "https://www.youtube.com/watch?v=VUj1PbvnHS4",
-//       LeadTimeField: 0,
-//       root: false,
-//       options: []
-//     }
-//     // Add more videos here
-//     yes https://www.youtube.com/watch?v=pSktoxkK58I
-//       no https://www.youtube.com/watch?v=pss7QrD6bXA
-//   };
-
 router.post("/",[
         body('id').notEmpty().withMessage('ID is required'),
         body('attributes.url').isURL().withMessage('Invalid URL'),
