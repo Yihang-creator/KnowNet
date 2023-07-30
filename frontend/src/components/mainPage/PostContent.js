@@ -48,7 +48,7 @@ export const PostContent = () => {
   const userID = userInfo == null ? 99 : userInfo.userId;
 
   const post = useSelector((state) =>
-    state.posts.find((post) => post.postId === postId)
+    state.posts.find((post) => post.postId === postId),
   );
   useEffect(() => {
     dispatch(fetchPost(postId, oktaAuth.getAccessToken()));
@@ -77,7 +77,7 @@ export const PostContent = () => {
   const rootId = useMemo(() => {
     if (post?.interactiveVideos && post.interactiveVideos.length > 0) {
       const rootVideo = post.interactiveVideos.find(
-        (item) => item.root === true
+        (item) => item.root === true,
       );
       if (rootVideo) {
         return rootVideo.id;

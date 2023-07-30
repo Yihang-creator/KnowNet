@@ -198,7 +198,7 @@ const InteractiveVideoBuilder = (props) => {
             setUploadDisabled(false);
             setErrorSnackBarOpen(true);
             setErrorSnackMessage(
-              'An error occurred when submitting the form. Please check your inputs!'
+              'An error occurred when submitting the form. Please check your inputs!',
             );
           }
         })
@@ -206,7 +206,7 @@ const InteractiveVideoBuilder = (props) => {
           setUploadDisabled(false);
           setErrorSnackBarOpen(true);
           setErrorSnackMessage(
-            'An error occurred when submitting the form. Please check your inputs!'
+            'An error occurred when submitting the form. Please check your inputs!',
           );
         });
     } else {
@@ -239,7 +239,7 @@ const InteractiveVideoBuilder = (props) => {
             setUploadDisabled(false);
             setErrorSnackBarOpen(true);
             setErrorSnackMessage(
-              'An error occurred when submitting the form. Please check your inputs!'
+              'An error occurred when submitting the form. Please check your inputs!',
             );
           }
         })
@@ -248,7 +248,7 @@ const InteractiveVideoBuilder = (props) => {
           setUploadDisabled(false);
           setErrorSnackBarOpen(true);
           setErrorSnackMessage(
-            'An error occurred when submitting the form. Please check your inputs!'
+            'An error occurred when submitting the form. Please check your inputs!',
           );
         });
     }
@@ -292,7 +292,7 @@ const InteractiveVideoBuilder = (props) => {
                       ? labelValue.toString()
                       : labelValue}
                   </tspan>
-                )
+                ),
               )}
           </text>
         )}

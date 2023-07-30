@@ -18,13 +18,13 @@ export default function InteractiveVideo(props) {
         `/api/posts/${postId}/interactiveVideo/${id}`,
         {
           headers: { Authorization: 'Bearer ' + oktaAuth.getAccessToken() },
-        }
+        },
       );
       const data = await response.json();
       setVideoData(data);
       setShowOptions(false);
     },
-    [oktaAuth, postId]
+    [oktaAuth, postId],
   );
 
   useEffect(() => {

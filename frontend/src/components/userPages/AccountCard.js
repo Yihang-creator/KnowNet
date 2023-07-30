@@ -60,7 +60,7 @@ const AccountCard = ({
                   selected === 'following' ? 'unfollow' : 'follow';
                 dispatch(follow(myId, userId, operation, type, token));
                 setSelected(
-                  selected === 'following' ? 'unfollowing' : 'following'
+                  selected === 'following' ? 'unfollowing' : 'following',
                 );
               }}
               sx={{ width: 96, height: 48 }}

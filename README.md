@@ -2,8 +2,7 @@
 
 ## Project High-level Description
 
-Our project is a social meida platform targeted towards students who want to connect with peers, share experiences, engage in discussions, and expand their networks. This platform offers essential socializing activities, including posting, editing, deleting, and viewing posts with images/videos, along with features like comments and likes. Users can access their uploaded posts, curated collections, follow others and engage in private chat. To enhance user engagement both within the platform and among users, we introduce innovative features such as interactive videos resembling Netflix's Black Mirror: Bandersnatch. Additionally, our video room feature allows multiple users to watch video together, furthen strengthening interactions within the community. 
-
+Our project is a social meida platform targeted towards students who want to connect with peers, share experiences, engage in discussions, and expand their networks. This platform offers essential socializing activities, including posting, editing, deleting, and viewing posts with images/videos, along with features like comments and likes. Users can access their uploaded posts, curated collections, follow others and engage in private chat. To enhance user engagement both within the platform and among users, we introduce innovative features such as interactive videos resembling Netflix's Black Mirror: Bandersnatch. Additionally, our video room feature allows multiple users to watch video together, furthen strengthening interactions within the community.
 
 ## Project Task Requirements:
 
@@ -73,7 +72,6 @@ Our project is a social meida platform targeted towards students who want to con
 ## Prototypes
 
 1. Sign-in Page:
-![sign-in Page](https://user-images.githubusercontent.com/64096168/256692418-657ae486-cf5e-4843-a376-0608035b276c.png)
+   ![sign-in Page](https://user-images.githubusercontent.com/64096168/256692418-657ae486-cf5e-4843-a376-0608035b276c.png)
 2. Post-viewing page
-![Post-viewing page](https://user-images.githubusercontent.com/64096168/256692462-bedb3e2f-348e-4dd8-9a9b-484db69defac.png)
-
+   ![Post-viewing page](https://user-images.githubusercontent.com/64096168/256692462-bedb3e2f-348e-4dd8-9a9b-484db69defac.png)

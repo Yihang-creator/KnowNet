@@ -53,7 +53,7 @@ function getTextColorForBackground(bgColor) {
 const JoinVideoRoom = (props) => {
   const [duration, setDuration] = useState(props.duration);
   const [url, setUrl] = useState(
-    props.url || 'https://www.youtube.com/watch?v=QZw-rgaQVfI' //default url
+    props.url || 'https://www.youtube.com/watch?v=QZw-rgaQVfI', //default url
   );
   const isJoin = props.is_join || false;
   const [playing, setPlaying] = useState(props.playing);

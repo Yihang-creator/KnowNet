@@ -22,7 +22,7 @@ const postReducer = (state = [], action) => {
 
 const setPost = (state, postContent) => {
   const existingIndex = state.findIndex(
-    (post) => post.postId === postContent.postId
+    (post) => post.postId === postContent.postId,
   );
   if (existingIndex !== -1) {
     // Post already exists, update it
@@ -51,7 +51,7 @@ const cancelLike = (state, postID, userID) => {
   if (postIndex !== -1) {
     // Post already exists, update it
     deep[postIndex].like = deep[postIndex].like.filter(
-      (userId) => userId !== userID
+      (userId) => userId !== userID,
     );
   }
   return deep;

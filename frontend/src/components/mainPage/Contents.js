@@ -51,13 +51,13 @@ const Contents = () => {
     if (searchByTag) {
       return posts.filter(
         (post) =>
-          titleHasTag(searchTerm, post) && postNotBlocked(blockedTags, post)
+          titleHasTag(searchTerm, post) && postNotBlocked(blockedTags, post),
       );
     } else {
       return posts.filter(
         (post) =>
           titleHasSearchTerm(searchTerm, post) &&
-          postNotBlocked(blockedTags, post)
+          postNotBlocked(blockedTags, post),
       );
     }
   };

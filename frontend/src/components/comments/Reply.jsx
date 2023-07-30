@@ -48,7 +48,7 @@ const Reply = ({
   const handleSetLikesStatus = () => {
     setSecondLikeStatus(!secondLikeStatus);
     setLikes(
-      likedBy?.includes(currentUserId) ? currentLikes - 1 : currentLikes + 1
+      likedBy?.includes(currentUserId) ? currentLikes - 1 : currentLikes + 1,
     );
     fetchLikes(postId, commentId, replyId, currentUserId, oktaAuth);
   };

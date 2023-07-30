@@ -391,7 +391,7 @@ const PostEdit = (props) => {
           headers: {
             Authorization: 'Bearer ' + oktaAuth.getAccessToken(),
           },
-        }
+        },
       );
       const { url } = await response.json();
 

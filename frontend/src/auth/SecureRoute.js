@@ -17,7 +17,7 @@ export const RequiredAuth = () => {
     if (!authState?.isAuthenticated) {
       const originalUri = toRelativeUrl(
         window.location.href,
-        window.location.origin
+        window.location.origin,
       );
       oktaAuth.setOriginalUri(originalUri);
       oktaAuth.signInWithRedirect();

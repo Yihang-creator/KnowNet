@@ -65,7 +65,7 @@ const BlockedTags = () => {
     addBlockTags(
       userId,
       textFieldValue.trim().split(' '),
-      oktaAuth.getAccessToken()
+      oktaAuth.getAccessToken(),
     );
     closeModal();
     e.preventDefault();

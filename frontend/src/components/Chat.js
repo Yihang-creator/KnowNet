@@ -133,8 +133,8 @@ const Chat = () => {
                           userInfo.userId,
                           talkTo,
                           textValue,
-                          oktaAuth.getAccessToken()
-                        )
+                          oktaAuth.getAccessToken(),
+                        ),
                       );
                       setTextValue('');
                     }}

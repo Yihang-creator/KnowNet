@@ -26,7 +26,7 @@ const App = () => {
           mode: prefersDarkMode ? 'dark' : 'light',
         },
       }),
-    [prefersDarkMode]
+    [prefersDarkMode],
   );
   const restoreOriginalUri = (_oktaAuth, originalUri) => {
     navigate(toRelativeUrl(originalUri || '/', window.location.origin));

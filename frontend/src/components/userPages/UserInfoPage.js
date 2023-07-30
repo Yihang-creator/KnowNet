@@ -79,7 +79,7 @@ const UserInfoPage = ({ name, email }) => {
 
   useEffect(() => {
     const ifFollowing = (users || []).some(
-      (i) => i.userId === currentUserInfo.userId
+      (i) => i.userId === currentUserInfo.userId,
     );
     setSelected(ifFollowing);
   }, [currentUserInfo.userId, users]);
@@ -188,8 +188,8 @@ const UserInfoPage = ({ name, email }) => {
         oktaAuth.getAccessToken(),
         () => {
           setSelected(!selected);
-        }
-      )
+        },
+      ),
     );
   };
 

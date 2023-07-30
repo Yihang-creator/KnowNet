@@ -85,7 +85,7 @@ export const addReply =
     commentText,
     replyTo,
     isSecLevelComment,
-    accessToken
+    accessToken,
   ) =>
   async (dispatch) => {
     const newComment = {
@@ -105,7 +105,7 @@ export const addReply =
             Authorization: 'Bearer ' + accessToken,
           },
           body: JSON.stringify(newComment),
-        }
+        },
       );
       const data = await response.json();
 
@@ -126,7 +126,7 @@ export const fetchComments = (postId, accessToken) => async (dispatch) => {
         headers: {
           Authorization: 'Bearer ' + accessToken,
         },
-      }
+      },
     );
     const data = await response.json();
     dispatch({ type: 'FETCH_COMMENTS_SUCCESS', payload: data });

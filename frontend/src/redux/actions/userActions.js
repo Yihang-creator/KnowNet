@@ -45,7 +45,7 @@ export const follow = (
   operation,
   type,
   accessToken,
-  callback
+  callback,
 ) => {
   return (dispatch) => {
     fetch(`/api/users/${myId}/${operation}`, {

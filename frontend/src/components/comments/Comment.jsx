@@ -69,7 +69,7 @@ const Comment = ({
   const handleLike = () => {
     setLikeStatus(!likeStatus);
     setLikes(
-      likedBy?.includes(currentUserId) ? currentLikes - 1 : currentLikes + 1
+      likedBy?.includes(currentUserId) ? currentLikes - 1 : currentLikes + 1,
     );
     fetchLikes(postId, commentId, '', currentUserId, oktaAuth);
   };
@@ -89,7 +89,7 @@ const Comment = ({
       reply,
       replyUserInfo.userId,
       isSecLevelComment,
-      oktaAuth
+      oktaAuth,
     ).then(() => {
       setReply('');
       setShowReplies(!showReplies);

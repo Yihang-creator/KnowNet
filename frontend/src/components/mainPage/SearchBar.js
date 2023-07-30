@@ -98,7 +98,7 @@ export default function SearchBar() {
                   localSearchTerm,
                   setSearchTerm,
                   checked,
-                  setSearchByTag
+                  setSearchByTag,
                 )
               }
               style={{ cursor: 'pointer' }}

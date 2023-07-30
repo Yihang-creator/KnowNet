@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const data = require("../data/users");
+const mongoose = require('mongoose');
+const data = require('../data/users');
 
 const userSchema = new mongoose.Schema(
   {
@@ -32,10 +32,10 @@ const userSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 
 // User.deleteMany({})
 //   .then(() => console.log("All users deleted."))
