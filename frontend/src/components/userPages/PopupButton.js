@@ -66,7 +66,7 @@ const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
 					>
 						{users.map((user) => {
 							return (
-								<Grid>
+								<Grid key={user.userId}>
 									<AccountCard
 										name={user.username}
 										description={user.email}

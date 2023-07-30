@@ -6,8 +6,8 @@ const ShowTags = (props) => {
 	return (
 		<>
 			<Stack style={{ display: 'inline' }} direction="row" spacing={2}>
-				{goodTags.map((tag) => (
-					<Button variant="text">#{tag}</Button>
+				{goodTags.map((tag, index) => (
+					<Button key={index} variant="text">#{tag}</Button>
 				))}
 			</Stack>
 		</>

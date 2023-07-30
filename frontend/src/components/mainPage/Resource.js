@@ -19,6 +19,7 @@ const Resource = (props) => {
 					width="100%"
 					height="100%"
 					style={{ borderRadius: '4px' }}
+					controls={false}
 					config={{
 						// https://developers.google.com/youtube/player_parameters?playerVersion=HTML5
 						youtube: {

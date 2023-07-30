@@ -18,13 +18,13 @@ const ProfileResource = (props) => {
 					url={props.link}
 					width="100%"
 					height="100%"
+					controls={false}
 					config={{
 						// https://developers.google.com/youtube/player_parameters?playerVersion=HTML5
 						youtube: {
 							playerVars: {
 								controls: 0,
 								disablekb: 1,
-								modestbranding: 1,
 							},
 						},
 					}}
