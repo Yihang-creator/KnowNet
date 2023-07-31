@@ -10,6 +10,7 @@ import {
 import Resource from './Resource';
 import '../../Styles/PreviewCard.css';
 
+// overflow auto to enable scrolling if title is too long
 const PreviewCard = (props) => {
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -18,7 +19,12 @@ const PreviewCard = (props) => {
           <Resource type={props.type} link={props.src} className=" w-full" />
         </CardMedia>
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{ overflow: 'auto' }}
+          >
             {props.title}
           </Typography>
           <Typography
@@ -30,7 +36,7 @@ const PreviewCard = (props) => {
               alt=""
               src={props.userPhotoUrl}
               className="mr-2"
-              sx={{ width: '20px', height: '20px' }}
+              sx={{ width: '20px', height: '20px', overflow: 'auto' }}
             />
             {props.username}
           </Typography>

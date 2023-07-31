@@ -7,16 +7,19 @@ const Post = require('../model/post');
 router.get('/', async function (req, res, next) {
   const page = parseInt(req.query.page);
   const limit = parseInt(req.query.limit);
+  const userId = req.query.userId; // get userId from the query parameters
 
   try {
     let postsPreview = [];
 
+    const filter = {};
+    if (userId) filter.userId = userId;
+
     // Support pagination
     if (!isNaN(page) && !isNaN(limit)) {
       const startIndex = (page - 1) * limit;
-      const endIndex = page * limit;
 
-      postsPreview = await Post.find()
+      postsPreview = await Post.find(filter)
         .skip(startIndex)
         .limit(limit)
         .select(
@@ -27,7 +30,7 @@ router.get('/', async function (req, res, next) {
         .setHeader('Content-Type', 'application/json')
         .send(postsPreview);
     } else {
-      postsPreview = await Post.find().select(
+      postsPreview = await Post.find(filter).select(
         '_id userId username userPhotoUrl mediaType mediaUrl title like tags',
       );
       return res

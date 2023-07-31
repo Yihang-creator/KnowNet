@@ -18,7 +18,8 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useUserContext } from '../../auth/UserContext';
 import { UsageGuide } from './UsageGuide';
 import { useDispatch } from 'react-redux';
-import { fetchAllPost } from '../../redux/actions/PostActions';
+import { setPost } from '../../redux/actions/PostActions';
+import { transformData } from './transformData';
 
 const textLayout = {
   title: {
@@ -32,18 +33,11 @@ const textLayout = {
 };
 
 const InteractiveVideoBuilder = (props) => {
-  const { handleClose, postId, setMessage, setSnackbarOpen, setSeverity } =
-    props;
-  const [data, setData] = useState({
-    // tree storing all the data related to current interactive video
-    name: 'Root',
-    id: uuidv4(),
-    attributes: {
-      url: '',
-      LeadTimeField: 0, // this is the amount of time (in seconds) before the end of the video that the options should be displayed
-    },
-    children: [],
-  });
+  const { handleClose, post, setMessage, setSnackbarOpen, setSeverity } = props;
+  const { postId, title, interactiveVideos } = post;
+  const [data, setData] = useState(() =>
+    transformData(title, interactiveVideos),
+  );
   const [inputs, setInputs] = useState({
     name: '',
     url: '',
@@ -147,7 +141,7 @@ const InteractiveVideoBuilder = (props) => {
     }
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setUploadDisabled(true);
     const validateUrls = (node) => {
       if (node.attributes.url !== '') {
@@ -192,15 +186,14 @@ const InteractiveVideoBuilder = (props) => {
             setMessage('Upload succeeded!');
             setSnackbarOpen(true);
             setSeverity('success');
-            dispatch(fetchAllPost(oktaAuth.getAccessToken()));
-            handleClose();
+            return response.json();
           } else {
-            setUploadDisabled(false);
-            setErrorSnackBarOpen(true);
-            setErrorSnackMessage(
-              'An error occurred when submitting the form. Please check your inputs!',
-            );
+            throw new Error('HTTP status error');
           }
+        })
+        .then((data) => {
+          dispatch(setPost(data));
+          handleClose();
         })
         .catch((error) => {
           setUploadDisabled(false);
@@ -233,15 +226,14 @@ const InteractiveVideoBuilder = (props) => {
             setMessage('Update succeeded!');
             setSnackbarOpen(true);
             setSeverity('success');
-            dispatch(fetchAllPost(oktaAuth.getAccessToken()));
-            handleClose();
+            return response.json();
           } else {
-            setUploadDisabled(false);
-            setErrorSnackBarOpen(true);
-            setErrorSnackMessage(
-              'An error occurred when submitting the form. Please check your inputs!',
-            );
+            throw new Error('HTTP status error');
           }
+        })
+        .then((data) => {
+          dispatch(setPost(data));
+          handleClose();
         })
         .catch((error) => {
           console.error('Error:', error);

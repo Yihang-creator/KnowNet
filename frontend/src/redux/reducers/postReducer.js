@@ -13,6 +13,12 @@ const postReducer = (state = [], action) => {
       return cancelLike(state, action.payload.postId, action.payload.userID);
     case 'DELETE_POST':
       return deletePost(state, action.payload);
+    case 'APPEND_MORE_POSTS':
+      const existingPostIds = state.map((post) => post.postId);
+      const newPosts = action.payload.filter(
+        (post) => !existingPostIds.includes(post.postId),
+      );
+      return [...state, ...newPosts];
     default:
       return state;
   }
