@@ -19,6 +19,7 @@ import { useUserContext } from '../../auth/UserContext';
 import { UsageGuide } from './UsageGuide';
 import { useDispatch } from 'react-redux';
 import { setPost } from '../../redux/actions/PostActions';
+import { transformData } from './transformData';
 
 const textLayout = {
   title: {
@@ -32,18 +33,11 @@ const textLayout = {
 };
 
 const InteractiveVideoBuilder = (props) => {
-  const { handleClose, postId, setMessage, setSnackbarOpen, setSeverity } =
-    props;
-  const [data, setData] = useState({
-    // tree storing all the data related to current interactive video
-    name: 'Root',
-    id: uuidv4(),
-    attributes: {
-      url: '',
-      LeadTimeField: 0, // this is the amount of time (in seconds) before the end of the video that the options should be displayed
-    },
-    children: [],
-  });
+  const { handleClose, post, setMessage, setSnackbarOpen, setSeverity } = props;
+  const { postId, title, interactiveVideos } = post;
+  const [data, setData] = useState(() =>
+    transformData(title, interactiveVideos),
+  );
   const [inputs, setInputs] = useState({
     name: '',
     url: '',

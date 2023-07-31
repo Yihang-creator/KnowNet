@@ -588,8 +588,7 @@ const PostEdit = (props) => {
           <DialogContent dividers={true}>
             <InteractiveVideoBuilder
               handleClose={handleClose}
-              postId={post?.postId}
-              interactiveVideos={post?.interactiveVideos}
+              post={post}
               setMessage={setMessage}
               setSnackbarOpen={setSnackbarOpen}
               setSeverity={setSeverity}
