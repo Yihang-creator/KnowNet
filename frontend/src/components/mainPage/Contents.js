@@ -10,6 +10,7 @@ import { getBlockTags } from '../../redux/actions/userActions';
 import { useUserContext } from '../../auth/UserContext';
 import Masonry from '@mui/lab/Masonry';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Typography } from '@mui/material';
 
 const Contents = () => {
   const { oktaAuth } = useOktaAuth();
@@ -135,7 +136,11 @@ const Contents = () => {
         ))}
       </Masonry>
       <div ref={pageEnd} className="flex justify-center">
-        <CircularProgress />
+        {hasMore ? (
+          <CircularProgress />
+        ) : (
+          <Typography variant="body1">There are no more posts to be loaded.</Typography>
+        )}
       </div>
     </>
   );
