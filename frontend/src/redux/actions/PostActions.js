@@ -76,3 +76,30 @@ export const deletePost = (postId, accessToken) => {
       });
   };
 };
+
+export const loadMorePosts = (accessToken, page, limit) => {
+  return (dispatch) => {
+    fetch(`/api/posts/?page=${page}&limit=${limit}`, {
+      headers: {
+        Authorization: 'Bearer ' + accessToken,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error('API call failed');
+        return response.json();
+      })
+      .then((data) => {
+        dispatch(appendMorePosts(data));
+      })
+      .catch((error) => {
+        console.error('Error', error);
+      });
+  };
+};
+
+export const appendMorePosts = (posts) => {
+  return {
+    type: 'APPEND_MORE_POSTS',
+    payload: posts,
+  };
+};

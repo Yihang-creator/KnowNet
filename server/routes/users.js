@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const User = require('../model/user');
+const Post = require('../model/post');
 const { v4: uuidv4 } = require('uuid');
 
 router.get('/', async function (req, res, next) {
@@ -168,6 +169,25 @@ router.get('/:id/block', async function (req, res, next) {
     return res.status(200).json({ blockedTags });
   } catch (error) {
     next(error);
+  }
+});
+
+router.get('/:userId/like', async function (req, res, next) {
+  const userId = req.params.userId;
+
+  if (!userId) {
+    return res.status(400).json({ error: 'UserId is required' });
+  }
+
+  try {
+    const likedPosts = await Post.find({ like: userId }) //find posts which has like containing userId
+      .select(
+        '_id userId username userPhotoUrl mediaType mediaUrl title like tags',
+      );
+    return res.setHeader('Content-Type', 'application/json').send(likedPosts);
+  } catch (error) {
+    console.error('Error retrieving liked posts:', error);
+    return res.status(500).json({ error: 'Failed to retrieve liked posts' });
   }
 });
 
