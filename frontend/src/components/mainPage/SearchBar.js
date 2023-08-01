@@ -122,10 +122,6 @@ export default function SearchBar() {
                 onChange={handleTagChange}
                 sx={{
                   color: 'white',
-                  '& .MuiSvgIcon-root': {
-                    backgroundColor: 'grey',
-                    borderRadius: '50%',
-                  },
                   '&.Mui-checked': {
                     color: 'orange',
                   },

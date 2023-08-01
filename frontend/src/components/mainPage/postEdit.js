@@ -408,7 +408,7 @@ const PostEdit = (props) => {
     } else {
       // user enters an url
       mediaType =
-        mediaUrl.match(/\.(jpeg|jpg|gif|png)$/) != null ? 'image' : 'video';
+        mediaUrl.match(/\.(jpeg|jpg|gif|png|image)$/) != null ? 'image' : 'video';
     }
 
     if (!post) {

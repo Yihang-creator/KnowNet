@@ -63,14 +63,14 @@ export const PostContent = () => {
     }, 60000); // Update the time every minute (60000 milliseconds)
 
     return () => clearInterval(interval);
-  }, [post?.timestamp, timeAgo]);
+  }, [post?.timestamp, timeAgo, oktaAuth]);
 
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     const alreadyLiked = post?.like?.includes(userID) || false;
     setLiked(alreadyLiked);
-  }, [post, userID]);
+  }, [post, userID, oktaAuth]);
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -104,9 +104,9 @@ export const PostContent = () => {
     setLiked(!liked);
     let returnedFunction;
     if (!liked) {
-      returnedFunction = changeLike(post, false, userID, oktaAuth);
+      returnedFunction = changeLike(post, false, userID, oktaAuth.getAccessToken());
     } else {
-      returnedFunction = changeLike(post, true, userID, oktaAuth);
+      returnedFunction = changeLike(post, true, userID, oktaAuth.getAccessToken());
     }
     await returnedFunction(dispatch);
   };
