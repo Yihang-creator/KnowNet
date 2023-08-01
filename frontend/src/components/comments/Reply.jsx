@@ -43,14 +43,14 @@ const Reply = ({
   useEffect(() => {
     const isUserLike = likedBy?.includes(currentUserId);
     setSecondLikeStatus(isUserLike);
-  }, [currentUserId, likedBy]);
+  }, [currentUserId, likedBy, oktaAuth]);
 
   const handleSetLikesStatus = () => {
     setSecondLikeStatus(!secondLikeStatus);
     setLikes(
       likedBy?.includes(currentUserId) ? currentLikes - 1 : currentLikes + 1,
     );
-    fetchLikes(postId, commentId, replyId, currentUserId, oktaAuth);
+    fetchLikes(postId, commentId, replyId, currentUserId, oktaAuth.getAccessToken());
   };
 
   return (

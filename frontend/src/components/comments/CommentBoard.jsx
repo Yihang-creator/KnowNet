@@ -40,7 +40,7 @@ const CommentBoard = ({ postId, fetchComments, addComment, addReply }) => {
       </div>
       <CommentInput
         addComment={(text) =>
-          addComment(postId, userInfo.userId, text, oktaAuth)
+          addComment(postId, userInfo.userId, text, oktaAuth.getAccessToken())
         }
       />
     </div>

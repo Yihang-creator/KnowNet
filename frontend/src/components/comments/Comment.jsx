@@ -64,14 +64,14 @@ const Comment = ({
   useEffect(() => {
     const isUserLike = likedBy?.includes(currentUserId);
     setLikeStatus(isUserLike);
-  }, [currentUserId, likedBy]);
+  }, [currentUserId, likedBy, oktaAuth]);
 
   const handleLike = () => {
     setLikeStatus(!likeStatus);
     setLikes(
       likedBy?.includes(currentUserId) ? currentLikes - 1 : currentLikes + 1,
     );
-    fetchLikes(postId, commentId, '', currentUserId, oktaAuth);
+    fetchLikes(postId, commentId, '', currentUserId, oktaAuth.getAccessToken());
   };
 
   const toggleReplies = (userId, username, secLevelComment) => {
@@ -89,7 +89,7 @@ const Comment = ({
       reply,
       replyUserInfo.userId,
       isSecLevelComment,
-      oktaAuth,
+      oktaAuth.getAccessToken(),
     ).then(() => {
       setReply('');
       setShowReplies(!showReplies);
@@ -102,7 +102,7 @@ const Comment = ({
     reply,
     replyUserInfo.userId,
     isSecLevelComment,
-    oktaAuth,
+    oktaAuth.getAccessToken(),
     showReplies,
   ]);
 

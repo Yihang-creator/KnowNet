@@ -21,8 +21,6 @@ export const changeLike =
       changedPost.like = post.like.filter((userId) => userId !== userID);
     }
 
-    console.log(post.postId);
-
     try {
       const response = await fetch(`/api/posts/${post.postId}`, {
         method: 'PUT',
