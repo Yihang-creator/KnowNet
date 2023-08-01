@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, List, Modal } from '@mui/material';
+import { Box, Grid, List, Modal, Alert, Snackbar } from '@mui/material';
 import AccountCard from './AccountCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFollowingsAndFollowers } from '../../redux/actions/userActions';
@@ -7,6 +7,8 @@ import { fetchFollowingsAndFollowers } from '../../redux/actions/userActions';
 const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [ipTipOpen, setTipOpen] = useState(false);
+  const [tipMessage, setTipMessage] = useState('')
 
   const { userId } = userInfo;
 
@@ -14,7 +16,19 @@ const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
     setIsOpen(false);
   };
 
-  const openModal = () => setIsOpen(true);
+  const openModal = () => {
+    if(users.length === 0) {
+      setTipMessage(type === 'followings' ? 'not following anyone' : 'no followers')
+      setTipOpen(true)
+    } else {
+      setIsOpen(true);
+    }
+  }
+
+  const handleClose = () => {
+    setTipOpen(false)
+  }
+
   const users = useSelector((state) => state.userReducer[type]);
 
   useEffect(() => {
@@ -84,6 +98,11 @@ const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
           </List>
         </Box>
       </Modal>
+      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={ipTipOpen} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
+          {tipMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
