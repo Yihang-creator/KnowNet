@@ -5,12 +5,14 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
 import { IconButton } from '@mui/material';
 import Dropdown from './Dropdown';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useSearchContext } from './searchContext';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -27,7 +29,7 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const IconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: '100%',
   position: 'absolute',
@@ -45,24 +47,36 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
+      width: '37ch',
+      // '&:focus': {
+      //   width: '50ch',
+      // },
     },
   },
 }));
 
-const handleSearch = (searchTerm, setSearchTerm, checked, setSearchByTag) => {
-  setSearchTerm(searchTerm);
-  setSearchByTag(checked);
-};
-
 export default function SearchBar() {
-  const [localSearchTerm, setLocalSearchTerm] = React.useState('');
-  const [checked, setChecked] = React.useState(false);
-  const { setSearchTerm, setSearchByTag } = useSearchContext();
+  const {
+    setSearchTerm,
+    setSearchByTag,
+    setLocalSearchTerm,
+    setChecked,
+    localSearchTerm,
+    checked,
+  } = useSearchContext();
   const navigate = useNavigate();
+
+  const handleSearch = (searchTerm, setSearchTerm, checked, setSearchByTag) => {
+    setSearchTerm(searchTerm);
+    setSearchByTag(checked);
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
+    setSearchByTag(false);
+    setLocalSearchTerm('');
+    setChecked(false);
+  };
 
   const handleTagChange = (event) => {
     setChecked(event.target.checked);
@@ -89,6 +103,7 @@ export default function SearchBar() {
         <Toolbar>
           <img src={'/images/ae.png'} className="z-40 w-40" alt="" />
           <Search>
+          <Link to='/'>
             <IconButton
               size="large"
               aria-label="search"
@@ -103,10 +118,12 @@ export default function SearchBar() {
               }
               style={{ cursor: 'pointer' }}
             >
-              <SearchIconWrapper>
+              <IconWrapper>
                 <SearchIcon />
-              </SearchIconWrapper>
+              </IconWrapper>
             </IconButton>
+            </Link>
+
             <StyledInputBase
               placeholder="Search…"
               value={localSearchTerm}
@@ -114,6 +131,17 @@ export default function SearchBar() {
               inputProps={{ 'aria-label': 'search' }}
               onKeyUp={onKeyup}
             />
+            <IconButton
+              size="large"
+              aria-label="search"
+              color="inherit"
+              onClick={() => clearSearch()}
+              style={{ cursor: 'pointer' }}
+            >
+              <IconWrapper>
+                <ClearIcon />
+              </IconWrapper>
+            </IconButton>
           </Search>
           <FormControlLabel
             control={
