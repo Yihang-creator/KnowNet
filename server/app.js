@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const { createServer } = require('http');
-require('dotenv').config(); // dotenv is package to load environment variables
+require('dotenv').config();
 var cors = require('cors');
 var postRouter = require('./routes/posts.js');
 var awsRouter = require('./routes/awsPresignedURL.js');
@@ -12,6 +12,7 @@ var chatRouter = require('./routes/chats.js');
 var interactiveRouter = require('./routes/interactiveVideo.js');
 const { authenticationRequired } = require('./authMiddleware.js');
 const videoRoom = require('./routes/videoRoom.js');
+const chatRealtime = require('./routes/chatRealtime.js');
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/api/chats', chatRouter);
 app.use('/api/interactiveVideo', interactiveRouter);
 const server = createServer(app);
 videoRoom.attachSocketServer(server);
+chatRealtime.attachSocketServer(server);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../frontend/build')));

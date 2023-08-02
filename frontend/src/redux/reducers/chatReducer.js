@@ -8,6 +8,10 @@ const chatReducer = (state = initialState, action) => {
     case 'REFRESH':
       return action.payload;
 
+    case 'SEND':
+      const newMessages = [...state.messages, action.payload];
+      return { ...state, messages: newMessages };
+
     default:
       return state;
   }
