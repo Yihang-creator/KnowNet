@@ -3,7 +3,6 @@ var router = express.Router();
 const User = require('../model/user');
 const Post = require('../model/post');
 const { v4: uuidv4 } = require('uuid');
-const defaultProfile = require('../default-profile.png');
 
 router.get('/', async function (req, res, next) {
   try {
@@ -36,8 +35,8 @@ router.get('/:email', async function (req, res, next) {
       const userData = {
         userId: _id,
         username: email,
-        userPhotoUrl:
-          defaultProfile,
+        userPhotoUrl: 'https://www.seekpng.com/ipng/u2q8r5t4i1y3w7e6_existing-user-default-avatar/',
+
         email: email,
         follow: [],
       };
