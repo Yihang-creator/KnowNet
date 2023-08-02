@@ -79,21 +79,25 @@ export const deletePost = (postId, accessToken) => {
 
 export const loadMorePosts = (accessToken, page, limit) => {
   return (dispatch) => {
-    fetch(`/api/posts/?page=${page}&limit=${limit}`, {
-      headers: {
-        Authorization: 'Bearer ' + accessToken,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error('API call failed');
-        return response.json();
+    return new Promise((resolve, reject) => {
+      fetch(`/api/posts/?page=${page}&limit=${limit}`, {
+        headers: {
+          Authorization: 'Bearer ' + accessToken,
+        },
       })
-      .then((data) => {
-        dispatch(appendMorePosts(data));
-      })
-      .catch((error) => {
-        console.error('Error', error);
-      });
+        .then((response) => {
+          if (!response.ok) throw new Error('API call failed');
+          return response.json();
+        })
+        .then((data) => {
+          dispatch(appendMorePosts(data));
+          resolve(data.length);  // resolve with the number of posts fetched
+        })
+        .catch((error) => {
+          console.error('Error', error);
+          reject(error);  // reject with the error
+        });
+    });
   };
 };
 
