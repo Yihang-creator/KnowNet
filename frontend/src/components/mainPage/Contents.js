@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import PreviewCard from './PreviewCard';
 import { Link } from 'react-router-dom';
 import { useOktaAuth } from '@okta/okta-react';
@@ -11,6 +11,39 @@ import { useUserContext } from '../../auth/UserContext';
 import Masonry from '@mui/lab/Masonry';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Typography } from '@mui/material';
+
+const titleHasSearchTerm = function (searchTerm, post) {
+  return post.title.toLowerCase().includes(searchTerm.toLowerCase());
+};
+
+const titleHasTag = function (searchTerm, post) {
+  return post.tags
+    .map((string) => string.toLowerCase())
+    .includes(searchTerm.toLowerCase());
+};
+
+const postNotBlocked = function (blockedTags, post) {
+  const lowerCaseTags = blockedTags.map((string) => string.toLowerCase());
+  return !post.tags
+    .map((string) => string.toLowerCase())
+    .some((tag) => lowerCaseTags.includes(tag));
+};
+
+const Post = React.memo(({ post }) => (
+  <div>
+    <Link to={`/post/${post.postId}`} className="inline-block w-full p-2">
+      <PreviewCard
+        type={post.mediaType}
+        src={post.mediaUrl}
+        title={post.title}
+        previewText={post.text}
+        username={post.username}
+        userPhotoUrl={post.userPhotoUrl}
+      />
+    </Link>
+  </div>
+));
+
 
 const Contents = () => {
   const { oktaAuth } = useOktaAuth();
@@ -28,8 +61,18 @@ const Contents = () => {
     if (!loading && hasMore) {
       setLoading(true);
       dispatch(
-        loadMorePosts(oktaAuth.getAccessToken(), page, page === 1 ? 30 : 10),
-      ); // 30 posts on initial render, get 10 more posts for subsequent calls
+        loadMorePosts(oktaAuth.getAccessToken(), page, page === 1 ? 20 : 10),
+      )
+        .then((fetchedPostCount) => {
+          setLoading(false);
+          if (fetchedPostCount < (page === 1 ? 20 : 10)) {
+            setHasMore(false);
+          }
+        })
+        .catch((error) => {
+          console.error('Error', error);
+          setLoading(false);
+        });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, oktaAuth, page, hasMore]);
@@ -39,21 +82,9 @@ const Contents = () => {
   }, [dispatch, oktaAuth, userInfo.userId]);
 
   useEffect(() => {
-    // Check if posts are loaded and set loading to false
-    if (posts && posts.length) {
-      setLoading(false);
-
-      if (posts.length < page * 10) {
-        setHasMore(false);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts]);
-
-  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !loading) {
+        if (entries[0].isIntersecting && !loading && hasMore) {
           setPage((old) => old + 1);
         }
       },
@@ -70,30 +101,12 @@ const Contents = () => {
         observer.unobserve(el);
       }
     };
-  }, [pageEnd, loading]);
+  }, [pageEnd, loading, hasMore]);
 
-  if (!posts || !blockedTags) {
-    return <Loading />;
-  }
-
-  const titleHasSearchTerm = function (searchTerm, post) {
-    return post.title.toLowerCase().includes(searchTerm.toLowerCase());
-  };
-
-  const titleHasTag = function (searchTerm, post) {
-    return post.tags
-      .map((string) => string.toLowerCase())
-      .includes(searchTerm.toLowerCase());
-  };
-
-  const postNotBlocked = function (blockedTags, post) {
-    const lowerCaseTags = blockedTags.map((string) => string.toLowerCase());
-    return !post.tags
-      .map((string) => string.toLowerCase())
-      .some((tag) => lowerCaseTags.includes(tag));
-  };
-
-  const getFilteredPost = function (searchTerm, searchByTag, blockedTags) {
+  const getFilteredPost = useCallback(() => {
+    if (!posts || !blockedTags) {
+      return [];
+    }
     if (searchByTag) {
       return posts.filter(
         (post) =>
@@ -106,9 +119,13 @@ const Contents = () => {
           postNotBlocked(blockedTags, post),
       );
     }
-  };
+  }, [posts, searchTerm, searchByTag, blockedTags]);
 
-  const filteredPosts = getFilteredPost(searchTerm, searchByTag, blockedTags);
+  const filteredPosts = useMemo(getFilteredPost, [getFilteredPost]);
+
+  if (!posts || !blockedTags) {
+    return <Loading />;
+  }
 
   //
   return (
@@ -118,21 +135,7 @@ const Contents = () => {
         spacing={1}
       >
         {filteredPosts.map((post, index) => (
-          <div key={index}>
-            <Link
-              to={`/post/${post.postId}`}
-              className="inline-block w-full p-2"
-            >
-              <PreviewCard
-                type={post.mediaType}
-                src={post.mediaUrl}
-                title={post.title}
-                previewText={post.text}
-                username={post.username}
-                userPhotoUrl={post.userPhotoUrl}
-              />
-            </Link>
-          </div>
+          <Post key={post.postId} post={post} />
         ))}
       </Masonry>
       <div ref={pageEnd} className="flex justify-center">
@@ -146,4 +149,4 @@ const Contents = () => {
   );
 };
 
-export default Contents;
+export default React.memo(Contents);

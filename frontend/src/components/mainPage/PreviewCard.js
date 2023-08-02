@@ -46,4 +46,4 @@ const PreviewCard = (props) => {
   );
 };
 
-export default PreviewCard;
+export default React.memo(PreviewCard);

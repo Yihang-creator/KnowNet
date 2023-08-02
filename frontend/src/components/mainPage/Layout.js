@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, CssBaseline, Toolbar } from '@mui/material';
 import ResponsiveDrawer from './ResponsiveDrawer';
 import SearchBar from './SearchBar';
@@ -26,4 +27,4 @@ function Layout({ children }) {
   );
 }
 
-export default Layout;
+export default React.memo(Layout);

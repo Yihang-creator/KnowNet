@@ -34,7 +34,9 @@ const textLayout = {
 
 const InteractiveVideoBuilder = (props) => {
   const { handleClose, post, setMessage, setSnackbarOpen, setSeverity } = props;
-  const { postId, title, interactiveVideos } = post;
+  const postId = post?.postId ?? null;
+  const title = post?.title ?? null;
+  const interactiveVideos = post?.interactiveVideos ?? null;
   const [data, setData] = useState(() =>
     transformData(title, interactiveVideos),
   );
