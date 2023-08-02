@@ -3,6 +3,7 @@ var router = express.Router();
 const User = require('../model/user');
 const Post = require('../model/post');
 const { v4: uuidv4 } = require('uuid');
+const defaultProfile = require('../default-profile.png');
 
 router.get('/', async function (req, res, next) {
   try {
@@ -36,7 +37,7 @@ router.get('/:email', async function (req, res, next) {
         userId: _id,
         username: email,
         userPhotoUrl:
-          'https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg',
+          defaultProfile,
         email: email,
         follow: [],
       };
