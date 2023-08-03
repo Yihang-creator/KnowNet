@@ -3,8 +3,6 @@ import { useOktaAuth } from '@okta/okta-react';
 import {
   Menu,
   Avatar,
-  IconButton,
-  Tooltip,
   Box,
 } from '@mui/material';
 import { useUserContext } from '../../auth/UserContext';
@@ -25,11 +23,7 @@ const Dropdown = () => {
 
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title="Open settings">
-        <IconButton sx={{ p: 0 }}>
-          <Avatar alt="Null" src={user_image} />
-        </IconButton>
-      </Tooltip>
+      <Avatar alt="Null" src={user_image} />
       <Menu
         sx={{ mt: '45px' }}
         id="menu-appbar"
