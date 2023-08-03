@@ -423,7 +423,7 @@ const UserInfoPage = ({ name, email }) => {
                       variant="extended"
                       sx={{
                         position: 'absolute',
-                        right: '20px',
+                        right: '60px',
                         top: '20px',
                         width: '20px',
                         opacity: '0.5',
