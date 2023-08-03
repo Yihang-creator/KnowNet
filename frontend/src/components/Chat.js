@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useUserContext } from '../auth/UserContext';
 import Grid from '@mui/material/Grid';
@@ -16,6 +16,7 @@ import Layout from './mainPage/Layout';
 import { fetchChat, send } from '../redux/actions/chatActions';
 import { useState } from 'react';
 import { useOktaAuth } from '@okta/okta-react';
+import io from 'socket.io-client';
 
 const Chat = () => {
   const { userInfo } = useUserContext();
@@ -23,16 +24,40 @@ const Chat = () => {
   const [talkTo, setTalkTo] = useState(userInfo.userId);
   const [textValue, setTextValue] = useState('');
   const { oktaAuth } = useOktaAuth();
+  const socket = useRef();
 
   const chatState = useSelector((state) => state.chatReducer);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch(fetchChat(userInfo.userId, talkTo, oktaAuth.getAccessToken()));
-    }, 2000);
+    dispatch(fetchChat(userInfo.userId, talkTo, oktaAuth.getAccessToken()));
+  }, [talkTo]);
 
-    return () => clearInterval(interval);
-  }, [dispatch, talkTo, chatState, userInfo.userId, oktaAuth]);
+  useEffect(() => {
+    socket.current = io('', {
+      path: '/socket/chat',
+      auth: { userId: userInfo.userId },
+    });
+
+    socket.current.on('connect', () => {
+      console.log('Connected to the server');
+    });
+
+    socket.current.on('privateMessage', ({ senderUserId, message }) => {
+      console.log(`Received private message from ${senderUserId}: ${message}`);
+
+      setTimeout(
+        () =>
+          dispatch(
+            fetchChat(userInfo.userId, talkTo, oktaAuth.getAccessToken()),
+          ),
+        2000,
+      );
+    });
+
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
 
   return (
     <Layout>
@@ -131,14 +156,19 @@ const Chat = () => {
                     color="primary"
                     aria-label="add"
                     onClick={() => {
+                      console.log(textValue);
+                      socket.current.emit('privateMessage', {
+                        recipientUserId: talkTo,
+                        message: textValue,
+                      });
                       dispatch(
-                        send(
-                          userInfo.userId,
-                          talkTo,
-                          textValue,
-                          oktaAuth.getAccessToken(),
-                        ),
+                        send({
+                          userId: userInfo.userId,
+                          text: textValue,
+                          time: new Date().toLocaleTimeString(),
+                        }),
                       );
+
                       setTextValue('');
                     }}
                   >
