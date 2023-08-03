@@ -102,8 +102,9 @@ export default function SearchBar() {
       >
         <Toolbar>
           <img src={'/images/ae.png'} className="z-40 w-40" alt="" />
+          <div className="ml-96">
           <Search>
-          <Link to='/'>
+            <Link to='/'>
             <IconButton
               size="large"
               aria-label="search"
@@ -143,6 +144,7 @@ export default function SearchBar() {
               </IconWrapper>
             </IconButton>
           </Search>
+          </div>
           <FormControlLabel
             control={
               <Checkbox

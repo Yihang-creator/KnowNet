@@ -17,13 +17,17 @@ import { Link } from 'react-router-dom';
 import CreatePostButton from './CreatePostButton';
 import { useTheme } from '@mui/material/styles';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useUserContext } from '../../auth/UserContext';
+import {useOktaAuth} from "@okta/okta-react";
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const theme = useTheme();
   const { userInfo } = useUserContext();
+  const {  oktaAuth } = useOktaAuth();
+  const logout = async () => oktaAuth.signOut();
 
   const drawer = (
     <div>
@@ -84,6 +88,20 @@ function ResponsiveDrawer(props) {
             </ListItemButton>
           </ListItem>
         </Link>
+
+        <div onClick={logout}>
+          <ListItem key={'Logout'} disablePadding>
+            <ListItemButton>
+              <ListItemIcon sx={{ color: theme.palette.primary.main }}>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText
+                  primary={'Logout'}
+                  sx={{ color: theme.palette.text.primary }}
+              />
+            </ListItemButton>
+          </ListItem>
+        </div>
       </List>
     </div>
   );
