@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import PreviewCard from './PreviewCard';
 import { Link } from 'react-router-dom';
 import { useOktaAuth } from '@okta/okta-react';
@@ -53,7 +53,7 @@ const Contents = () => {
   const posts = useSelector((state) => state.posts);
   const blockedTags = useSelector((state) => state.userReducer.blockedTags);
   const [page, setPage] = useState(1);
-  const pageEnd = useRef();
+  const [pageEnd, setPageEnd] = useState(null);
   const [loading, setLoading] = useState(false); // loading=true when more posts are being load
   const [hasMore, setHasMore] = useState(true); // if hasmore = false, don't fetch more items
 
@@ -91,7 +91,7 @@ const Contents = () => {
       { threshold: 1 },
     );
 
-    const el = pageEnd.current;
+    const el = pageEnd;
     if (el) {
       observer.observe(el);
     }
@@ -102,6 +102,10 @@ const Contents = () => {
       }
     };
   }, [pageEnd, loading, hasMore]);
+
+  const setRef = useCallback((node) => {
+    setPageEnd(node);
+  }, []);
 
   const getFilteredPost = useCallback(() => {
     if (!posts || !blockedTags) {
@@ -138,7 +142,7 @@ const Contents = () => {
           <Post key={post.postId} post={post} />
         ))}
       </Masonry>
-      <div ref={pageEnd} className="flex justify-center">
+      <div ref={setRef} className="flex justify-center">
         {hasMore ? (
           <CircularProgress />
         ) : (
