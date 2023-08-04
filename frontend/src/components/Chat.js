@@ -45,13 +45,15 @@ const Chat = () => {
     socket.current.on('privateMessage', ({ senderUserId, message }) => {
       console.log(`Received private message from ${senderUserId}: ${message}`);
 
-      setTimeout(
-        () =>
-          dispatch(
-            fetchChat(userInfo.userId, talkTo, oktaAuth.getAccessToken()),
-          ),
-        2000,
-      );
+      if (senderUserId === talkTo) {
+        setTimeout(
+          () =>
+            dispatch(
+              fetchChat(userInfo.userId, talkTo, oktaAuth.getAccessToken()),
+            ),
+          2000,
+        );
+      }
     });
 
     return () => {
