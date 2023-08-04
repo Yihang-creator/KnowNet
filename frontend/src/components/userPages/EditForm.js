@@ -3,13 +3,15 @@ import { Box, Modal } from '@mui/material';
 import { useUserContext } from '../../auth/UserContext';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useOktaAuth } from '@okta/okta-react';
 
-const EditForm = ({ token }) => {
+const EditForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { userInfo } = useUserContext();
   const { userId } = userInfo;
   const [textFieldValue1, setTextFieldValue1] = useState('');
   const [textFieldValue2, setTextFieldValue2] = useState('');
+  const { oktaAuth } = useOktaAuth();
 
   const closeModal = () => {
     setIsOpen(false);
@@ -32,7 +34,7 @@ const EditForm = ({ token }) => {
   };
 
   function handleSubmit(e) {
-    edit(userId, textFieldValue1, textFieldValue2, token);
+    edit(userId, textFieldValue1, textFieldValue2, oktaAuth.getAccessToken());
     closeModal();
     e.preventDefault();
   }
