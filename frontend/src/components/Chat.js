@@ -25,10 +25,21 @@ const Chat = () => {
   const [textValue, setTextValue] = useState('');
   const { oktaAuth } = useOktaAuth();
   const socket = useRef();
+  const talkToRef = useRef(talkTo);
+  const messageBoxRef = useRef(null);
 
   const chatState = useSelector((state) => state.chatReducer);
 
+  const scrollToBottom = () => {
+    messageBoxRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   useEffect(() => {
+    scrollToBottom();
+  }, [chatState]);
+
+  useEffect(() => {
+    talkToRef.current = talkTo;
     dispatch(fetchChat(userInfo.userId, talkTo, oktaAuth.getAccessToken()));
   }, [talkTo]);
 
@@ -45,12 +56,12 @@ const Chat = () => {
     socket.current.on('privateMessage', ({ senderUserId, message }) => {
       console.log(`Received private message from ${senderUserId}: ${message}`);
 
-      setTimeout(
-        () =>
-          dispatch(
-            fetchChat(userInfo.userId, talkTo, oktaAuth.getAccessToken()),
-          ),
-        2000,
+      dispatch(
+        fetchChat(
+          userInfo.userId,
+          talkToRef.current,
+          oktaAuth.getAccessToken(),
+        ),
       );
     });
 
@@ -73,14 +84,7 @@ const Chat = () => {
               </ListItemButton>
             </List>
             <Divider />
-            <Grid item xs={12} style={{ padding: '10px' }}>
-              <TextField
-                id="outlined-basic-email"
-                label="Search"
-                variant="outlined"
-                fullWidth
-              />
-            </Grid>
+            <Grid item xs={12} style={{ padding: '10px' }}></Grid>
             <Divider />
             <List>
               {chatState.people.map((person) => {
@@ -134,6 +138,7 @@ const Chat = () => {
                   );
                 })}
               </List>
+              <div ref={messageBoxRef}></div>
             </Grid>
 
             <Divider />

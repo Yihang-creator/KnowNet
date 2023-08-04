@@ -14,13 +14,13 @@ const attachSocketServer = (httpServer) => {
 
   io.on('connection', (socket) => {
     const userId = socket.handshake.auth.userId;
-    // Store this user's socket
+
     userSockets[userId] = socket;
 
-    // Handle private messages
-    socket.on('privateMessage', ({ recipientUserId, message }) => {
+    socket.on('privateMessage', async ({ recipientUserId, message }) => {
       console.log(message);
-      insertMessageIntoDb(userId, recipientUserId, message);
+
+      await insertMessageIntoDb(userId, recipientUserId, message);
       const recipientSocket = userSockets[recipientUserId];
       if (recipientSocket) {
         recipientSocket.emit('privateMessage', {
