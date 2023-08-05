@@ -5,9 +5,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useOktaAuth } from '@okta/okta-react';
 
-const EditForm = () => {
+const EditForm = ({ setUserInfo, setSelectedImage }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { userInfo } = useUserContext();
+  const { userInfo, setUserInfo: setCurrentUserInfo } = useUserContext();
   const { userId } = userInfo;
   const [textFieldValue1, setTextFieldValue1] = useState('');
   const [textFieldValue2, setTextFieldValue2] = useState('');
@@ -28,6 +28,22 @@ const EditForm = () => {
       body: JSON.stringify({ name: newName, image: newImage }),
     })
       .then((response) => response.json())
+      .then(() => {
+        if (newName) {
+          setUserInfo(prevInfo => ({
+            ...prevInfo,
+            username: newName }));
+          setCurrentUserInfo(prevInfo => ({
+            ...prevInfo,
+            username: newName }));
+        }
+        if (newImage) {
+          setSelectedImage(newImage);
+          setCurrentUserInfo(prevInfo => ({
+            ...prevInfo,
+            userPhotoUrl: newImage }));
+        }
+      })
       .catch((error) => {
         console.error('Error:', error);
       });
