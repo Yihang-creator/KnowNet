@@ -19,15 +19,25 @@ import { useTheme } from '@mui/material/styles';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUserContext } from '../../auth/UserContext';
-import {useOktaAuth} from "@okta/okta-react";
+import { useOktaAuth } from '@okta/okta-react';
+import { useSearchContext } from './searchContext';
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
   const theme = useTheme();
   const { userInfo } = useUserContext();
-  const {  oktaAuth } = useOktaAuth();
+  const { oktaAuth } = useOktaAuth();
   const logout = async () => oktaAuth.signOut();
+  const { setSearchTerm, setSearchByTag, setLocalSearchTerm, setChecked } =
+    useSearchContext();
+
+  const clearSearch = () => {
+    setSearchTerm('');
+    setSearchByTag(false);
+    setLocalSearchTerm('');
+    setChecked(false);
+  };
 
   const drawer = (
     <div>
@@ -36,7 +46,7 @@ function ResponsiveDrawer(props) {
       <List>
         <Link to={`/`}>
           <ListItem key={'Home'} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={clearSearch}>
               <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                 <HomeIcon />
               </ListItemIcon>
@@ -96,8 +106,8 @@ function ResponsiveDrawer(props) {
                 <LogoutIcon />
               </ListItemIcon>
               <ListItemText
-                  primary={'Logout'}
-                  sx={{ color: theme.palette.text.primary }}
+                primary={'Logout'}
+                sx={{ color: theme.palette.text.primary }}
               />
             </ListItemButton>
           </ListItem>
