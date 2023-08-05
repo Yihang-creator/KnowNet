@@ -55,15 +55,22 @@ Our project is a social meida platform targeted towards students who want to con
 4. Generate test data for posts.
 5. Write front-end code to make API calls to backend to retrieve data. -->
 
-## Above and Beyond Functionality(To be Added)
+## Above and Beyond Functionality(To be Edited)
 
-<!-- ### AWS S3 Presigned URL
+### AWS S3 and CloudFront
+We leverage presigned URLs to securely upload images and videos directly to an AWS S3 bucket. To ensure fast and efficient access, we set up a AWS CloudFront distribution for low-latency content delivery of these media files to users.
 
-### Socket IO
+### Socket.io
+With Socket.io, we implemented real-time chat and video synchronization functionalities. These features permit users to exchange private messages and join video rooms where they can simultaneously watch videos and engage in group chats.
 
 ### Interactive Video
+Our online tree editor tool, powered by the react-d3-tree library, facilitates the upload and editing of interactive videos. As users watch, they can make choices and interact with the video content in real-time.
 
-### OKTA SDK Authentication and Authorization -->
+### OKTA SDK Authentication and Authorization
+We've integrated OKTA SDK for robust frontend authentication and backend authorization. If not logged in, users are redirected to Okta's login page, regardless of their current page. All backend APIs are fortified: only those with valid access tokens can interact with the API endpoints.
+
+### Infinite Scrolling and Lazy loading
+Through React's useMemo hook and memo components, we minimized unnecessary re-renders, enhancing performance. Our main page is optimized for user experience: rather than loading all posts at once, it uses infinite scrolling, loading more content as the user scrolls down.
 
 ## Next Steps
 
