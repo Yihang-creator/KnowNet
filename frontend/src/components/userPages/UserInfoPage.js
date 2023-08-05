@@ -328,7 +328,7 @@ const UserInfoPage = ({ name, email }) => {
                   {/*// if isSelf, show blocked tags*/}
 
                   {isSelf ? <BlockedTags /> : ''}
-                  {isSelf ? <EditForm /> : ''}
+                  {isSelf ? <EditForm setUserInfo={setUserInfo} setSelectedImage={setSelectedImage}/> : ''}
                 </Grid>
                 <Grid>
                   {isSelf ? (

@@ -3,13 +3,15 @@ import { Box, Modal } from '@mui/material';
 import { useUserContext } from '../../auth/UserContext';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useOktaAuth } from '@okta/okta-react';
 
-const EditForm = ({ token }) => {
+const EditForm = ({ setUserInfo, setSelectedImage }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { userInfo } = useUserContext();
+  const { userInfo, setUserInfo: setCurrentUserInfo } = useUserContext();
   const { userId } = userInfo;
   const [textFieldValue1, setTextFieldValue1] = useState('');
   const [textFieldValue2, setTextFieldValue2] = useState('');
+  const { oktaAuth } = useOktaAuth();
 
   const closeModal = () => {
     setIsOpen(false);
@@ -26,13 +28,29 @@ const EditForm = ({ token }) => {
       body: JSON.stringify({ name: newName, image: newImage }),
     })
       .then((response) => response.json())
+      .then(() => {
+        if (newName) {
+          setUserInfo(prevInfo => ({
+            ...prevInfo,
+            username: newName }));
+          setCurrentUserInfo(prevInfo => ({
+            ...prevInfo,
+            username: newName }));
+        }
+        if (newImage) {
+          setSelectedImage(newImage);
+          setCurrentUserInfo(prevInfo => ({
+            ...prevInfo,
+            userPhotoUrl: newImage }));
+        }
+      })
       .catch((error) => {
         console.error('Error:', error);
       });
   };
 
   function handleSubmit(e) {
-    edit(userId, textFieldValue1, textFieldValue2, token);
+    edit(userId, textFieldValue1, textFieldValue2, oktaAuth.getAccessToken());
     closeModal();
     e.preventDefault();
   }
