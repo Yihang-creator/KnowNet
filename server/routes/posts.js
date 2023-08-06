@@ -20,6 +20,7 @@ router.get('/', async function (req, res, next) {
       const startIndex = (page - 1) * limit;
 
       postsPreview = await Post.find(filter)
+        .sort({ timestamp: -1 })
         .skip(startIndex)
         .limit(limit)
         .select(
@@ -30,7 +31,7 @@ router.get('/', async function (req, res, next) {
         .setHeader('Content-Type', 'application/json')
         .send(postsPreview);
     } else {
-      postsPreview = await Post.find(filter).select(
+      postsPreview = await Post.find(filter).sort({ timestamp: -1 }).select(
         '_id userId username userPhotoUrl mediaType mediaUrl title like tags',
       );
       return res
