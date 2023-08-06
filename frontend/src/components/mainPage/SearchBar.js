@@ -103,47 +103,47 @@ export default function SearchBar() {
         <Toolbar>
           <img src={'/images/ae.png'} className="z-40 w-40" alt="" />
           <div className="mx-screen">
-          <Search>
-            <Link to='/'>
-            <IconButton
-              size="large"
-              aria-label="search"
-              color="inherit"
-              onClick={() =>
-                handleSearch(
-                  localSearchTerm,
-                  setSearchTerm,
-                  checked,
-                  setSearchByTag,
-                )
-              }
-              style={{ cursor: 'pointer' }}
-            >
-              <IconWrapper>
-                <SearchIcon />
-              </IconWrapper>
-            </IconButton>
-            </Link>
+            <Search>
+              <Link to="/">
+                <IconButton
+                  size="large"
+                  aria-label="search"
+                  color="inherit"
+                  onClick={() =>
+                    handleSearch(
+                      localSearchTerm,
+                      setSearchTerm,
+                      checked,
+                      setSearchByTag,
+                    )
+                  }
+                  style={{ cursor: 'pointer' }}
+                >
+                  <IconWrapper>
+                    <SearchIcon />
+                  </IconWrapper>
+                </IconButton>
+              </Link>
 
-            <StyledInputBase
-              placeholder="Search…"
-              value={localSearchTerm}
-              onChange={(e) => setLocalSearchTerm(e.target.value)}
-              inputProps={{ 'aria-label': 'search' }}
-              onKeyUp={onKeyup}
-            />
-            <IconButton
-              size="large"
-              aria-label="search"
-              color="inherit"
-              onClick={() => clearSearch()}
-              style={{ cursor: 'pointer' }}
-            >
-              <IconWrapper>
-                <ClearIcon />
-              </IconWrapper>
-            </IconButton>
-          </Search>
+              <StyledInputBase
+                placeholder="Search…"
+                value={localSearchTerm}
+                onChange={(e) => setLocalSearchTerm(e.target.value)}
+                inputProps={{ 'aria-label': 'search' }}
+                onKeyUp={onKeyup}
+              />
+              <IconButton
+                size="large"
+                aria-label="search"
+                color="inherit"
+                onClick={() => clearSearch()}
+                style={{ cursor: 'pointer' }}
+              >
+                <IconWrapper>
+                  <ClearIcon />
+                </IconWrapper>
+              </IconButton>
+            </Search>
           </div>
           <FormControlLabel
             control={
@@ -161,10 +161,10 @@ export default function SearchBar() {
             }
             label="Search By Tag"
           />
-          <div className="mr-5">
-            <Dropdown />
-          </div>
         </Toolbar>
+        <div className="mr-5">
+          <Dropdown />
+        </div>
       </AppBar>
     </Box>
   );

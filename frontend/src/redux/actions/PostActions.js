@@ -91,11 +91,11 @@ export const loadMorePosts = (accessToken, page, limit) => {
         })
         .then((data) => {
           dispatch(appendMorePosts(data));
-          resolve(data.length);  // resolve with the number of posts fetched
+          resolve(data.length); // resolve with the number of posts fetched
         })
         .catch((error) => {
           console.error('Error', error);
-          reject(error);  // reject with the error
+          reject(error); // reject with the error
         });
     });
   };

@@ -36,8 +36,7 @@ const Dropdown = () => {
         }}
         open={Boolean(open)}
         onClose={() => setOpen(false)}
-      >
-      </Menu>
+      ></Menu>
     </Box>
   );
 };

@@ -44,7 +44,6 @@ const Post = React.memo(({ post }) => (
   </div>
 ));
 
-
 const Contents = () => {
   const { oktaAuth } = useOktaAuth();
   const dispatch = useDispatch();
@@ -146,7 +145,9 @@ const Contents = () => {
         {hasMore ? (
           <CircularProgress />
         ) : (
-          <Typography variant="body1">There are no more posts to be loaded.</Typography>
+          <Typography variant="body1">
+            There are no more posts to be loaded.
+          </Typography>
         )}
       </div>
     </>
