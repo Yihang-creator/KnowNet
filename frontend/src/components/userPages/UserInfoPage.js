@@ -419,8 +419,8 @@ const UserInfoPage = ({ name, email }) => {
                       variant="extended"
                       sx={{
                         position: 'absolute',
-                        right: '60px',
-                        top: '20px',
+                        left: '20px',
+                        top: '80px',
                         width: '20px',
                         opacity: '0.5',
                         zIndex: '10',
