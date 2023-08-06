@@ -102,7 +102,7 @@ export default function SearchBar() {
       >
         <Toolbar>
           <img src={'/images/ae.png'} className="z-40 w-40" alt="" />
-          <div className="ml-96">
+          <div className="mx-screen">
           <Search>
             <Link to='/'>
             <IconButton
@@ -161,10 +161,10 @@ export default function SearchBar() {
             }
             label="Search By Tag"
           />
+          <div className="mr-5">
+            <Dropdown />
+          </div>
         </Toolbar>
-        <div className="mr-5">
-          <Dropdown />
-        </div>
       </AppBar>
     </Box>
   );
