@@ -37,7 +37,7 @@ const setPost = (state, postContent) => {
     return updatedState;
   } else {
     // Post doesn't exist, add it to the list
-    return [...state, postContent];
+    return [postContent, ...state];
   }
 };
 

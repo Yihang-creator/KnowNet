@@ -26,6 +26,7 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import { setPost } from '../../redux/actions/PostActions';
 import { useDispatch } from 'react-redux';
 import { awsUploader } from '../utils/awsUploader';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const emojis = [
   '😀',
@@ -307,6 +308,7 @@ const PostEdit = (props) => {
   const [severity, setSeverity] = useState('success');
   const [tags, setTags] = useState('');
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
+  const [uploading, setUploading] = useState(false); // whether upload is in progress or not
   const dispatch = useDispatch();
 
   const user_image = userInfo == null ? null : userInfo.userPhotoUrl;
@@ -346,11 +348,12 @@ const PostEdit = (props) => {
 
   const handleMediaChange = (event) => {
     const file = event.target.files[0];
+    event.target.value = null;
     setMedia({
       file,
       type: file.type,
     });
-    setPreviewUrl(URL.createObjectURL(event.target.files[0]));
+    setPreviewUrl(URL.createObjectURL(file));
     setMediaUrl('');
   };
 
@@ -376,6 +379,7 @@ const PostEdit = (props) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitButtonDisabled(true);
+    setUploading(true);
 
     if (!media && !mediaUrl) {
       alert('Please select a media file to upload or enter a URL.');
@@ -430,7 +434,7 @@ const PostEdit = (props) => {
           username: userInfo.username,
         }),
       });
-
+      setUploading(false);
       if (postResponse.ok) {
         const body = await postResponse.json();
         dispatch(setPost(body));
@@ -461,7 +465,7 @@ const PostEdit = (props) => {
           username: userInfo.username,
         }),
       });
-
+      setUploading(false);
       if (putResponse.ok) {
         const body = await putResponse.json();
         dispatch(setPost(body));
@@ -580,6 +584,7 @@ const PostEdit = (props) => {
                 color="primary"
               >
                 Post
+                {uploading && <CircularProgress size={24}/>}
               </Button>
             </DialogActions>
           </div>
