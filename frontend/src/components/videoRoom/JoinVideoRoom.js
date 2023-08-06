@@ -306,7 +306,7 @@ const JoinVideoRoom = (props) => {
                         borderRadius={20}
                         sx={{ bgcolor: userColor, color: textColor }}
                       >
-                        <Typography variant="body2">User {msg.user}</Typography>
+                        <Typography variant="body2">{msg.user}</Typography>
                         <Typography variant="body2">{msg.text}</Typography>
                       </Box>
                       <Typography
