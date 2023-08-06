@@ -49,7 +49,7 @@ Consequently, React components can seamlessly update and fetch data without bein
 We leveraged the Express.js framework for our backend operations, 
 channeling API requests to our backend services powered by Node.js. 
 This setup processes data from the frontend, saving it to our MongoDB server when required. 
-Also, we use S3 bucket to store user-uploaded images and videos
+Also, we use S3 bucket to store user-uploaded images and videos.
 ### Unit 4 - MongoDB
 We employed a NoSQL database via MongoDB to retain application data across sessions, 
 executing NoSQL queries on our backend to fetch pertinent data. 
