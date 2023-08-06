@@ -23,7 +23,7 @@ router.get('/getUserById/:userId', async function (req, res, next) {
   }
 });
 
-router.get('/:email/:name', async function (req, res, next) {
+router.get('/getOrCreate/:email/:name', async function (req, res, next) {
   const { email, name } = req.params;
 
   try {

@@ -24,7 +24,7 @@ export const RequiredAuth = () => {
     } else {
       if (!userInfo) {
         oktaAuth.getUser().then((info) => {
-          fetch(`/api/users/${info.email}/${info.name}`, {
+          fetch(`/api/users/getOrCreate/${info.email}/${info.name}`, {
             headers: {
               Authorization: 'Bearer ' + oktaAuth.getAccessToken(),
             },
