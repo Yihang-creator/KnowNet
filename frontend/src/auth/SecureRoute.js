@@ -25,9 +25,11 @@ export const RequiredAuth = () => {
       if (!userInfo) {
         oktaAuth.getUser().then((info) => {
           fetch(`/api/users/${info.email}`, {
+            method: 'POST',
             headers: {
               Authorization: 'Bearer ' + oktaAuth.getAccessToken(),
             },
+            body: JSON.stringify({ name: info.name }),
           })
             .then((response) => {
               return response.json();

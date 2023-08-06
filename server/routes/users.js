@@ -23,8 +23,9 @@ router.get('/getUserById/:userId', async function (req, res, next) {
   }
 });
 
-router.get('/:email', async function (req, res, next) {
+router.post('/:email', async function (req, res, next) {
   const { email } = req.params;
+  const { name } = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -34,8 +35,9 @@ router.get('/:email', async function (req, res, next) {
 
       const userData = {
         userId: _id,
-        username: email,
-        userPhotoUrl: 'https://www.seekpng.com/ipng/u2q8r5t4i1y3w7e6_existing-user-default-avatar/',
+        username: name,
+        userPhotoUrl:
+          'https://www.seekpng.com/ipng/u2q8r5t4i1y3w7e6_existing-user-default-avatar/',
 
         email: email,
         follow: [],

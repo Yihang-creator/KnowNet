@@ -26,7 +26,7 @@ const AppRoutes = () => {
       <Route path="/profile/:userId" element={<RequiredAuth />}>
         <Route path="" element={<UserInfoPage />} />
       </Route>
-      <Route path="/chat" element={<RequiredAuth />}>
+      <Route path="/chat/:talkTo" element={<RequiredAuth />}>
         <Route path="" element={<Chat />} />
       </Route>
       <Route path="/post/:id" element={<RequiredAuth />}>
