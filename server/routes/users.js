@@ -23,9 +23,8 @@ router.get('/getUserById/:userId', async function (req, res, next) {
   }
 });
 
-router.post('/:email', async function (req, res, next) {
-  const { email } = req.params;
-  const { name } = req.body;
+router.get('/:email/:name', async function (req, res, next) {
+  const { email, name } = req.params;
 
   try {
     let user = await User.findOne({ email });
