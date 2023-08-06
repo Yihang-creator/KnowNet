@@ -71,7 +71,7 @@ const UserInfoPage = ({ name, email }) => {
   const posts = useSelector((state) => state.posts);
   const [open, setOpen] = useState(false);
   const [editPost, setEditPost] = useState(false);
-  const [editStatus, setEditStatus] = useState(false); // Whether to enter editing mode
+  const [editStatus, setEditStatus] = useState(false);
   const [setSearchTerm] = useState('');
   const [showPosts, setShowPosts] = useState(true);
   const [selected, setSelected] = useState(false);
@@ -105,17 +105,6 @@ const UserInfoPage = ({ name, email }) => {
     }
   };
 
-  // const handleImageUpload = (e) => {
-  // 	const file = e.target.files[0];
-  // 	const reader = new FileReader();
-
-  // 	reader.onloadend = () => {
-  // 		setSelectedImage(reader.result);
-  // 	};
-
-  // 	reader.readAsDataURL(file);
-  // };
-
   const handleClickOpen = (post) => {
     console.log('post:', post);
     fetch(`/api/posts/${post.postId}`, {
@@ -128,7 +117,7 @@ const UserInfoPage = ({ name, email }) => {
         return response.json();
       })
       .then((data) => {
-        setEditPost(data); // Here, the data should be the detailed post data returned from the server
+        setEditPost(data);
         setOpen(true);
       })
       .catch((error) => console.error('Error', error));
@@ -178,7 +167,6 @@ const UserInfoPage = ({ name, email }) => {
   const isSelf = currentUserInfo.userId === userInfo.userId;
 
   const handleFollow = () => {
-    // follow/unfollow
     let operation = selected ? 'unfollow' : 'follow';
     dispatch(
       follow(
@@ -328,7 +316,14 @@ const UserInfoPage = ({ name, email }) => {
                   {/*// if isSelf, show blocked tags*/}
 
                   {isSelf ? <BlockedTags /> : ''}
-                  {isSelf ? <EditForm setUserInfo={setUserInfo} setSelectedImage={setSelectedImage}/> : ''}
+                  {isSelf ? (
+                    <EditForm
+                      setUserInfo={setUserInfo}
+                      setSelectedImage={setSelectedImage}
+                    />
+                  ) : (
+                    ''
+                  )}
                 </Grid>
                 <Grid>
                   {isSelf ? (
@@ -348,13 +343,14 @@ const UserInfoPage = ({ name, email }) => {
                           </>
                         )}
                       </ColorButton>
-                      <ColorButton
-                        variant="contained"
-                        // className="m-4"
-                        sx={{ margin: '0 15px' }}
-                      >
-                        <Message />
-                      </ColorButton>
+                      <Link to={`/chat/${userInfo.userId}`}>
+                        <ColorButton
+                          variant="contained"
+                          sx={{ margin: '0 15px' }}
+                        >
+                          <Message />
+                        </ColorButton>
+                      </Link>
                     </>
                   )}
                 </Grid>

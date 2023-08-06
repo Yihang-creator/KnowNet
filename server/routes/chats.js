@@ -38,7 +38,19 @@ router.get('/:userId1/:userId2', async (req, res) => {
       return {
         userId: message.userId,
         text: message.text,
-        time: message.timestamp.toLocaleTimeString(),
+        time: `${String(message.timestamp.getMonth() + 1).padStart(
+          2,
+          '0',
+        )}-${String(message.timestamp.getDate()).padStart(
+          2,
+          '0',
+        )} ${message.timestamp
+          .toLocaleString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          })
+          .toLowerCase()}`,
       };
     });
 

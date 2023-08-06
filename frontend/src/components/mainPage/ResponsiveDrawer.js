@@ -71,7 +71,7 @@ function ResponsiveDrawer(props) {
             </ListItemButton>
           </ListItem>
         </Link>
-        <Link to={`/chat`} className="chats">
+        <Link to={`/chat/${userInfo.userId}`} className="chats">
           <ListItem key={'Chats'} disablePadding>
             <ListItemButton>
               <ListItemIcon sx={{ color: theme.palette.primary.main }}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useUserContext } from '../auth/UserContext';
+import { Link, useParams } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
@@ -21,7 +22,7 @@ import io from 'socket.io-client';
 const Chat = () => {
   const { userInfo } = useUserContext();
   const dispatch = useDispatch();
-  const [talkTo, setTalkTo] = useState(userInfo.userId);
+  const { talkTo } = useParams();
   const [textValue, setTextValue] = useState('');
   const { oktaAuth } = useOktaAuth();
   const socket = useRef();
@@ -89,22 +90,22 @@ const Chat = () => {
             <List>
               {chatState.people.map((person) => {
                 return (
-                  <ListItemButton
-                    onClick={() => {
-                      setTalkTo(person.userId);
-                    }}
-                    selected={talkTo === person.userId}
-                  >
-                    <ListItemIcon>
-                      <Avatar alt={person.username} src={person.userPhotoUrl} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={person.username}
-                      sx={{ overflow: 'auto' }}
-                    >
-                      {person.username}
-                    </ListItemText>
-                  </ListItemButton>
+                  <Link to={`/chat/${person.userId}`}>
+                    <ListItemButton selected={talkTo === person.userId}>
+                      <ListItemIcon>
+                        <Avatar
+                          alt={person.username}
+                          src={person.userPhotoUrl}
+                        />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={person.username}
+                        sx={{ overflow: 'auto' }}
+                      >
+                        {person.username}
+                      </ListItemText>
+                    </ListItemButton>
+                  </Link>
                 );
               })}
             </List>
@@ -161,16 +162,26 @@ const Chat = () => {
                     color="primary"
                     aria-label="add"
                     onClick={() => {
-                      console.log(textValue);
                       socket.current.emit('privateMessage', {
                         recipientUserId: talkTo,
                         message: textValue,
                       });
+
+                      const date = new Date();
                       dispatch(
                         send({
                           userId: userInfo.userId,
                           text: textValue,
-                          time: new Date().toLocaleTimeString(),
+                          time: `${String(date.getMonth() + 1).padStart(
+                            2,
+                            '0',
+                          )}-${String(date.getDate()).padStart(2, '0')} ${date
+                            .toLocaleString('en-US', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: true,
+                            })
+                            .toLowerCase()}`,
                         }),
                       );
 
