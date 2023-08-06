@@ -103,14 +103,6 @@ const JoinVideoRoom = (props) => {
       setQueue(newQueue);
     });
 
-    return () => {
-      props.backend.socket.off('update-queue');
-      props.backend.socket.off('set-url');
-      props.backend.socket.off('play-toggled');
-      props.backend.socket.off('url-set');
-      props.backend.socket.off('seek-set');
-      props.backend.socket.off('chat-added');
-    };
   }, [props.backend.socket, setQueue]);
 
   useEffect(() => {
