@@ -171,7 +171,6 @@ router.patch('/:id/edit', async function (req, res, next) {
   }
 });
 
-
 router.get('/:id/block', async function (req, res, next) {
   const myId = req.params.id;
 

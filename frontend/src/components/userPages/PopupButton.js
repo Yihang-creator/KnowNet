@@ -8,7 +8,7 @@ const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [ipTipOpen, setTipOpen] = useState(false);
-  const [tipMessage, setTipMessage] = useState('')
+  const [tipMessage, setTipMessage] = useState('');
 
   const { userId } = userInfo;
 
@@ -17,17 +17,19 @@ const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
   };
 
   const openModal = () => {
-    if(users.length === 0) {
-      setTipMessage(type === 'followings' ? 'not following anyone' : 'no followers')
-      setTipOpen(true)
+    if (users.length === 0) {
+      setTipMessage(
+        type === 'followings' ? 'not following anyone' : 'no followers',
+      );
+      setTipOpen(true);
     } else {
       setIsOpen(true);
     }
-  }
+  };
 
   const handleClose = () => {
-    setTipOpen(false)
-  }
+    setTipOpen(false);
+  };
 
   const users = useSelector((state) => state.userReducer[type]);
 
@@ -98,7 +100,12 @@ const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
           </List>
         </Box>
       </Modal>
-      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={ipTipOpen} autoHideDuration={6000} onClose={handleClose}>
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={ipTipOpen}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
         <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
           {tipMessage}
         </Alert>

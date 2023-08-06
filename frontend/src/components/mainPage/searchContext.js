@@ -15,10 +15,10 @@ export const SearchProvider = ({ children }) => {
         setSearchTerm,
         searchByTag,
         setSearchByTag,
-        localSearchTerm, 
+        localSearchTerm,
         setLocalSearchTerm,
-        checked, 
-        setChecked
+        checked,
+        setChecked,
       }}
     >
       {children}

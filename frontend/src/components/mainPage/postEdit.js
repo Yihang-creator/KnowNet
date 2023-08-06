@@ -412,7 +412,9 @@ const PostEdit = (props) => {
     } else {
       // user enters an url
       mediaType =
-        mediaUrl.match(/\.(jpeg|jpg|gif|png|image)$/) != null ? 'image' : 'video';
+        mediaUrl.match(/\.(jpeg|jpg|gif|png|image)$/) != null
+          ? 'image'
+          : 'video';
     }
 
     if (!post) {
@@ -584,7 +586,7 @@ const PostEdit = (props) => {
                 color="primary"
               >
                 Post
-                {uploading && <CircularProgress size={24}/>}
+                {uploading && <CircularProgress size={24} />}
               </Button>
             </DialogActions>
           </div>
