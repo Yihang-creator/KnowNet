@@ -28,6 +28,7 @@ const Chat = () => {
   const socket = useRef();
   const talkToRef = useRef(talkTo);
   const messageBoxRef = useRef(null);
+  const selfPage = `${userInfo.userId}personal`;
 
   const chatState = useSelector((state) => state.chatReducer);
 
@@ -77,12 +78,17 @@ const Chat = () => {
         <Grid container sx={{ width: '100%', height: '80vh' }}>
           <Grid item xs={3} sx={{ borderRight: '1px solid #e0e0e0' }}>
             <List>
-              <ListItemButton>
-                <ListItemIcon>
-                  <Avatar alt={userInfo.username} src={userInfo.userPhotoUrl} />
-                </ListItemIcon>
-                <ListItemText primary={userInfo.username}></ListItemText>
-              </ListItemButton>
+              <Link to={`/chat/${userInfo.userId}personal`}>
+                <ListItemButton selected={talkTo === selfPage}>
+                  <ListItemIcon>
+                    <Avatar
+                      alt={userInfo.username}
+                      src={userInfo.userPhotoUrl}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={`Personal Space`}></ListItemText>
+                </ListItemButton>
+              </Link>
             </List>
             <Divider />
             <Grid item xs={12} style={{ padding: '10px' }}></Grid>
