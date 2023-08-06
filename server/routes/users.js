@@ -135,6 +135,29 @@ router.patch('/:id/block', async function (req, res, next) {
   }
 });
 
+// router.patch('/:id/edit', async function (req, res, next) {
+//   const myId = req.params.id;
+//   const { name, image } = req.body;
+//
+//   try {
+//     const user = await User.findOne({ userId: myId });
+//
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+//
+//     if (name) user.username = name;
+//
+//     if (image) user.userPhotoUrl = image;
+//
+//     await user.save();
+//
+//     return res.status(200).json({ message: 'Edit successfully' });
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
 router.patch('/:id/edit', async function (req, res, next) {
   const myId = req.params.id;
   const { name, image } = req.body;
@@ -146,17 +169,31 @@ router.patch('/:id/edit', async function (req, res, next) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (name) user.username = name;
+    // Track changes to apply to posts
+    const updates = {};
 
-    if (image) user.userPhotoUrl = image;
+    if (name) {
+      user.username = name;
+      updates.username = name;
+    }
+
+    if (image) {
+      user.userPhotoUrl = image;
+      updates.userPhotoUrl = image;
+    }
 
     await user.save();
+
+    if (Object.keys(updates).length > 0) {
+      await Post.updateMany({ userId: myId }, { $set: updates });
+    }
 
     return res.status(200).json({ message: 'Edit successfully' });
   } catch (error) {
     next(error);
   }
 });
+
 
 router.get('/:id/block', async function (req, res, next) {
   const myId = req.params.id;
