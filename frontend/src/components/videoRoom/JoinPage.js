@@ -38,20 +38,13 @@ function JoinPage() {
       setPlaying(roomInfo.playing);
       setIsJoin(true);
       setChats(roomInfo.chats);
-      setQueue(roomInfo.queue);
+      setQueue(roomInfo.videos);
     });
 
     backend.socket.on('error', (errMsg) => {
       setErrorMsg(errMsg);
       setErrorOpen(true);
     });
-
-    return () => {
-      backend.socket.off('room-created');
-      backend.socket.off('room-state');
-      backend.socket.off('error');
-      backend.socket.disconnect();
-    };
   }, [backend]);
 
   const createRoom = () => {
