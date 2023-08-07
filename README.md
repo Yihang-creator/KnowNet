@@ -91,7 +91,7 @@ With Socket.io, we implemented real-time chat and video synchronization function
 
 Our online tree editor tool, powered by the react-d3-tree library, facilitates the upload and editing of interactive videos. As users watch, they can make choices and interact with the video content in real-time.
 
-### OKTA SDK Authentication and Authorization
+### Okta SDK Authentication and Authorization
 
 We've integrated OKTA SDK for robust frontend authentication and backend authorization. If not logged in, users are redirected to Okta's login page, regardless of their current page. All backend APIs are fortified: only those with valid access tokens can interact with the API endpoints.
 
