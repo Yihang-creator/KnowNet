@@ -227,7 +227,15 @@ const Chat = () => {
                   />
                 </Grid>
                 <Grid xs={1} align="right">
-                  <Fab color="primary" aria-label="add" onClick={handleSend}>
+                  <Fab
+                    color="primary"
+                    aria-label="add"
+                    onClick={() => {
+                      if (textValue.trim() !== '') {
+                        handleSend();
+                      }
+                    }}
+                  >
                     <SendIcon />
                   </Fab>
                 </Grid>
