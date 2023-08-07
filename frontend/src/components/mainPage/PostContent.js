@@ -104,9 +104,19 @@ export const PostContent = () => {
     setLiked(!liked);
     let returnedFunction;
     if (!liked) {
-      returnedFunction = changeLike(post, false, userID, oktaAuth.getAccessToken());
+      returnedFunction = changeLike(
+        post,
+        false,
+        userID,
+        oktaAuth.getAccessToken(),
+      );
     } else {
-      returnedFunction = changeLike(post, true, userID, oktaAuth.getAccessToken());
+      returnedFunction = changeLike(
+        post,
+        true,
+        userID,
+        oktaAuth.getAccessToken(),
+      );
     }
     await returnedFunction(dispatch);
   };

@@ -10,9 +10,11 @@ import {
   Stack,
   Grid,
   Avatar,
+  Snackbar,
 } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useTheme, useMediaQuery } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const userColors = [
   '#000000', // Black
@@ -87,11 +89,13 @@ const JoinVideoRoom = (props) => {
 
     props.backend.socket.on('url-set', (url) => {
       setUrl(url);
+      setPlaying(false);
     });
 
-    props.backend.socket.on('seek-set', (duration) => {
-      if (Math.abs(duration - duration) > 2) {
-        setDuration(duration);
+    props.backend.socket.on('seek-set', (currentDur) => {
+      if (Math.abs(currentDur - duration) > 2) {
+        setDuration(currentDur);
+        ref.current.seekTo(currentDur, 'seconds');
       }
     });
 
@@ -103,22 +107,8 @@ const JoinVideoRoom = (props) => {
       setQueue(newQueue);
     });
 
-    return () => {
-      props.backend.socket.off('update-queue');
-      props.backend.socket.off('set-url');
-      props.backend.socket.off('play-toggled');
-      props.backend.socket.off('url-set');
-      props.backend.socket.off('seek-set');
-      props.backend.socket.off('chat-added');
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.backend.socket, setQueue]);
-
-  useEffect(() => {
-    if (Math.abs(duration - duration) > 2) {
-      ref.current.seekTo(duration, 'seconds');
-    }
-    scrollToBottom();
-  }, [duration]);
 
   const scrollToBottom = () => {
     if (chatRef.current) {
@@ -193,6 +183,20 @@ const JoinVideoRoom = (props) => {
     }
   };
 
+  const handleTimeStamp = (time) => {
+    let date = new Date(time);
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    day = day < 10 ? '0' + day : day;
+    hour = hour < 10 ? '0' + hour : hour;
+    minute = minute < 10 ? '0' + minute : minute;
+    let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
+    return formattedDate;
+  };
+
   let queue_control = '';
   if (!isJoin) {
     queue_control = (
@@ -211,6 +215,13 @@ const JoinVideoRoom = (props) => {
       </>
     );
   }
+
+  const [open, setOpen] = useState(false);
+
+  const copyRoomId = () => {
+    navigator.clipboard.writeText(props.backend.state.roomId);
+    setOpen(true);
+  };
 
   return (
     <Box minHeight="95vh">
@@ -244,7 +255,18 @@ const JoinVideoRoom = (props) => {
               }}
             >
               Room ID: {props.backend.state.roomId}
+              <ContentCopyIcon
+                style={{ cursor: 'pointer' }}
+                onClick={copyRoomId}
+              ></ContentCopyIcon>
             </Typography>
+            <Snackbar
+              open={open}
+              onClose={() => setOpen(false)}
+              autoHideDuration={2000}
+              message="Copied to clipboard"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            />
             {queue_control}
             <Box
               display="flex"
@@ -314,14 +336,14 @@ const JoinVideoRoom = (props) => {
                         borderRadius={20}
                         sx={{ bgcolor: userColor, color: textColor }}
                       >
-                        <Typography variant="body2">User {msg.user}</Typography>
+                        <Typography variant="body2">{msg.user}</Typography>
                         <Typography variant="body2">{msg.text}</Typography>
                       </Box>
                       <Typography
                         variant="body2"
                         align={msg.user === username ? 'right' : 'left'}
                       >
-                        {msg.time}
+                        {handleTimeStamp(msg.time)}
                       </Typography>
                     </Grid>
                   </Grid>

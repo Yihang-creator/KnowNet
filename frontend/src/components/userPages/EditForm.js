@@ -4,8 +4,8 @@ import { useUserContext } from '../../auth/UserContext';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useOktaAuth } from '@okta/okta-react';
-import {useDispatch}  from "react-redux";
-import {fetchAllPost} from "../../redux/actions/PostActions";
+import { useDispatch } from 'react-redux';
+import { fetchAllPost } from '../../redux/actions/PostActions';
 
 const EditForm = ({ setUserInfo, setSelectedImage }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,18 +33,21 @@ const EditForm = ({ setUserInfo, setSelectedImage }) => {
       .then((response) => response.json())
       .then(() => {
         if (newName) {
-          setUserInfo(prevInfo => ({
+          setUserInfo((prevInfo) => ({
             ...prevInfo,
-            username: newName }));
-          setCurrentUserInfo(prevInfo => ({
+            username: newName,
+          }));
+          setCurrentUserInfo((prevInfo) => ({
             ...prevInfo,
-            username: newName }));
+            username: newName,
+          }));
         }
         if (newImage) {
           setSelectedImage(newImage);
-          setCurrentUserInfo(prevInfo => ({
+          setCurrentUserInfo((prevInfo) => ({
             ...prevInfo,
-            userPhotoUrl: newImage }));
+            userPhotoUrl: newImage,
+          }));
         }
         dispatch(fetchAllPost(oktaAuth.getAccessToken()));
       })

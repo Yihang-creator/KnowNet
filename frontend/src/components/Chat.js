@@ -34,6 +34,8 @@ const Chat = () => {
 
   const talkToUser = chatState.people.find((user) => talkTo === user.userId);
 
+  const talkToUser = chatState.people.find((user) => talkTo === user.userId);
+
   const scrollToBottom = () => {
     messageBoxRef.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -217,7 +219,7 @@ const Chat = () => {
                       setTextValue(event.target.value);
                     }}
                     onKeyUp={(e) => {
-                      if (e.key == 'Enter') {
+                      if (e.key === 'Enter' && textValue.trim() !== '') {
                         handleSend();
                       }
                     }}

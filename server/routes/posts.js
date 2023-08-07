@@ -31,9 +31,11 @@ router.get('/', async function (req, res, next) {
         .setHeader('Content-Type', 'application/json')
         .send(postsPreview);
     } else {
-      postsPreview = await Post.find(filter).sort({ timestamp: -1 }).select(
-        '_id userId username userPhotoUrl mediaType mediaUrl title like tags',
-      );
+      postsPreview = await Post.find(filter)
+        .sort({ timestamp: -1 })
+        .select(
+          '_id userId username userPhotoUrl mediaType mediaUrl title like tags',
+        );
       return res
         .setHeader('Content-Type', 'application/json')
         .send(postsPreview);
