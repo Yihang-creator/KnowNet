@@ -10,12 +10,11 @@ import {
   Stack,
   Grid,
   Avatar,
-  Snackbar
+  Snackbar,
 } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
-import { useTheme, useMediaQuery} from '@mui/material';
+import { useTheme, useMediaQuery } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-
 
 const userColors = [
   '#000000', // Black
@@ -108,7 +107,7 @@ const JoinVideoRoom = (props) => {
       setQueue(newQueue);
     });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.backend.socket, setQueue]);
 
   const scrollToBottom = () => {
@@ -217,12 +216,12 @@ const JoinVideoRoom = (props) => {
     );
   }
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const copyRoomId = () => {
-    navigator.clipboard.writeText(props.backend.state.roomId)
-    setOpen(true)
-  }
+    navigator.clipboard.writeText(props.backend.state.roomId);
+    setOpen(true);
+  };
 
   return (
     <Box minHeight="95vh">
@@ -256,15 +255,18 @@ const JoinVideoRoom = (props) => {
               }}
             >
               Room ID: {props.backend.state.roomId}
-              <ContentCopyIcon style= {{cursor: 'pointer'}} onClick={copyRoomId}></ContentCopyIcon>
+              <ContentCopyIcon
+                style={{ cursor: 'pointer' }}
+                onClick={copyRoomId}
+              ></ContentCopyIcon>
             </Typography>
             <Snackbar
-            open={open}
-            onClose={() => setOpen(false)}
-            autoHideDuration={2000}
-            message="Copied to clipboard"
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-          />
+              open={open}
+              onClose={() => setOpen(false)}
+              autoHideDuration={2000}
+              message="Copied to clipboard"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            />
             {queue_control}
             <Box
               display="flex"

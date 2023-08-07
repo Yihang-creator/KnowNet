@@ -217,7 +217,7 @@ const Chat = () => {
                       setTextValue(event.target.value);
                     }}
                     onKeyUp={(e) => {
-                      if (e.key == 'Enter') {
+                      if (e.key === 'Enter' && textValue.trim() !== '') {
                         handleSend();
                       }
                     }}

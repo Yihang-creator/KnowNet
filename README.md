@@ -5,8 +5,8 @@
 Our project is a social media platform targeted towards students who want to connect with peers, share experiences, engage in discussions, and expand their networks. This platform offers essential socializing activities, including posting, editing, deleting, and viewing posts with images/videos, along with features like comments and likes. Users can access their uploaded posts, curated collections, follow others and engage in private chat. To enhance user engagement both within the platform and among users, we introduce innovative features such as interactive videos resembling Netflix's Black Mirror: Bandersnatch. Additionally, our video room feature allows multiple users to watch video together, furthen strengthening interactions within the community.
 
 ## A note on signing up:
-We utilize Okta's services for authentication and user identification in our app. When registering, Okta sends an email verification link. Upon clicking, you're directed to Okta's page and must manually return to our site to sign in. Ideally, we'd have Okta auto-redirect to our page, but due to Okta Auth being an enterprise solution, this feature is too expensive. Note: This doesn't impact the sign-in process.
 
+We utilize Okta's services for authentication and user identification in our app. When registering, Okta sends an email verification link. Upon clicking, you're directed to Okta's page and must manually return to our site to sign in. Ideally, we'd have Okta auto-redirect to our page, but due to Okta Auth being an enterprise solution, this feature is too expensive. Note: This doesn't impact the sign-in process.
 
 ### Minimal Requirements
 
@@ -37,31 +37,39 @@ Instead of creating separate CSS files for styling, we adopted MaterialUI, a rob
 to furnish our site with easily customizable UI components. With MaterialUI, 
 styling adjustments can be made directly through JSX tags, or using Tailwind CSS, aligning with best practices for more accessible style modification.
 JavaScript, being one of today's most prevalent languages, powers both our frontend and backend application logic. 
+
 This popularity enables us to tap into a wealth of packages via Node.js and npm.
+
 ### Unit 2 - React & Redux
-Throughout our frontend, we heavily employed the React.js framework to develop highly modular UI components. 
+
+Throughout our frontend, we heavily employed the React.js framework to develop highly modular UI components.
 These components are designed to capture and manage user inputs using React hooks,
-and we adhere to best practices like abstraction to minimize code redundancy and complexity. 
-For managing our frontend data architecture, we integrated Redux. 
-This allows us to streamline the data structure, ensuring a centralized data source. 
+and we adhere to best practices like abstraction to minimize code redundancy and complexity.
+For managing our frontend data architecture, we integrated Redux.
+This allows us to streamline the data structure, ensuring a centralized data source.
 Consequently, React components can seamlessly update and fetch data without being entangled in the intricacies of their hierarchy.
+
 ### Unit 3 - Node & Express
-We leveraged the Express.js framework for our backend operations, 
-channeling API requests to our backend services powered by Node.js. 
-This setup processes data from the frontend, saving it to our MongoDB server when required. 
+
+We leveraged the Express.js framework for our backend operations,
+channeling API requests to our backend services powered by Node.js.
+This setup processes data from the frontend, saving it to our MongoDB server when required.
 Also, we use S3 bucket to store user-uploaded images and videos.
 
 ### Unit 4 - MongoDB
-We employed a NoSQL database via MongoDB to retain application data across sessions, 
-executing NoSQL queries on our backend to fetch pertinent data. 
-Our database houses five primary collections: 'Post', 'chats', 'comments', 'messages', and 'users'. 
+
+We employed a NoSQL database via MongoDB to retain application data across sessions,
+executing NoSQL queries on our backend to fetch pertinent data.
+Our database houses five primary collections: 'Post', 'chats', 'comments', 'messages', and 'users'.
 Each document within these collections adheres to a schema defined in our backend using mongoose.
+
 ### Unit 5 - Builds and Deployment
 Our web app is hosted on Heroku. By linking the app to our GitHub repository, 
 we've set up Continuous Deployment. 
 This ensures that any commits made to the code-review branch on GitHub are automatically rolled out to our app on Heroku. 
 We opted for this method over crafting a GitHub action because our needs were sufficiently met by Heroku's built-in capabilities. 
 Using a GitHub action would have introduced unnecessary complexity and an added potential point of breakdown.
+
 <!-- ### Users are able to register, sign in and sign out:
 
 1. Use Mongoose to link MongoDB with backend objects and create a MongoDB database in MongoDB Atlas.
@@ -100,7 +108,7 @@ We've integrated OKTA SDK for robust frontend authentication and backend authori
 
 Through React's useMemo hook and memo components, we minimized unnecessary re-renders, enhancing performance. Our main page is optimized for user experience: rather than loading all posts at once, it uses infinite scrolling, loading more content as the user scrolls down.
 
-### Dark Mode 
+### Dark Mode
 
 To enhance the user experience throughout the day, our app automatically switches between light and dark modes based on the mode detected from the user's device, ensuring an optimal experience at all times.
 
@@ -113,7 +121,7 @@ We utilized tooltips and snackbars to guide users to play with our websites. We 
 
 Develop a recommendation engine for our app to suggest tailored content for each user. The personalized content will be based on posts the user has interacted with, as well as those they have liked and commented on. To construct this recommendation engine, we will utilize an existing recommendation framework and customize it to better fit our app.
 
-### Better Search Algorithm 
+### Better Search Algorithm
 
 Currently, our search function retrieves text from the search bar and checks for exact keyword matches in posts. We've recognized that this approach may overlook related posts. Consequently, we intend to enhance our search algorithm from mere substring matching to a more sophisticated fuzzy search.
 
