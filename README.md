@@ -32,12 +32,12 @@ We utilize Okta's services for authentication and user identification in our app
 ## Technology:
 
 ### Unit 1 - HTML, CSS, JS
+We utilized JSX, an HTML-like syntax, to incorporate React components seamlessly alongside traditional HTML tags. 
+Instead of creating separate CSS files for styling, we adopted MaterialUI, a robust React.js library, 
+to furnish our site with easily customizable UI components. With MaterialUI, 
+styling adjustments can be made directly through JSX tags, or using Tailwind CSS, aligning with best practices for more accessible style modification.
+JavaScript, being one of today's most prevalent languages, powers both our frontend and backend application logic. 
 
-We utilized JS, an HTML-like syntax, to incorporate React components seamlessly alongside traditional HTML tags.
-Instead of creating separate CSS files for styling, we adopted MaterialUI, a robust React.js library,
-to furnish our site with easily customizable UI components. With MaterialUI,
-styling adjustments can be made directly through JS tags, or using Tailwind CSS, aligning with best practices for more accessible style modification.
-JavaScript, being one of today's most prevalent languages, powers both our frontend and backend application logic.
 This popularity enables us to tap into a wealth of packages via Node.js and npm.
 
 ### Unit 2 - React & Redux
@@ -64,11 +64,10 @@ Our database houses five primary collections: 'Post', 'chats', 'comments', 'mess
 Each document within these collections adheres to a schema defined in our backend using mongoose.
 
 ### Unit 5 - Builds and Deployment
-
-Our web app is hosted on Heroku. By linking the app to our GitHub repository,
-we've set up Continuous Integration and Continuous Deployment.
-This ensures that any commits made to the code-review branch on GitHub are automatically rolled out to our app on Heroku.
-We opted for this method over crafting a GitHub action because our needs were sufficiently met by Heroku's built-in capabilities.
+Our web app is hosted on Heroku. By linking the app to our GitHub repository, 
+we've set up Continuous Deployment. 
+This ensures that any commits made to the code-review branch on GitHub are automatically rolled out to our app on Heroku. 
+We opted for this method over crafting a GitHub action because our needs were sufficiently met by Heroku's built-in capabilities. 
 Using a GitHub action would have introduced unnecessary complexity and an added potential point of breakdown.
 
 <!-- ### Users are able to register, sign in and sign out:
@@ -91,11 +90,11 @@ Using a GitHub action would have introduced unnecessary complexity and an added 
 
 ### AWS S3 and CloudFront
 
-We leverage presigned URLs to securely upload images and videos directly to an AWS S3 bucket. To ensure fast and efficient access, we set up a AWS CloudFront distribution for low-latency content delivery of these media files to users.
+We leverage presigned URLs to securely upload images and videos directly to an AWS S3 bucket. To ensure fast and efficient access, we set up an AWS CloudFront distribution for low-latency content delivery of these media files to users.
 
 ### Socket.io
 
-With Socket.io, we implemented real-time chat and video synchronization functionalities. These features permit users to exchange private messages and join video rooms where they can simultaneously watch videos and engage in group chats.
+With Socket.io, we implemented real-time chat and video synchronization functionalities. These features allow users to exchange private messages and join video rooms where they can simultaneously watch videos and engage in group chats.
 
 ### Interactive Video
 
@@ -103,7 +102,7 @@ Our online tree editor tool, powered by the react-d3-tree library, facilitates t
 
 ### OKTA SDK Authentication and Authorization
 
-We've integrated OKTA SDK for robust frontend authentication and backend authorization. If not logged in, users are redirected to Okta's login page, regardless of their current page. All backend APIs are fortified: only those with valid access tokens can interact with the API endpoints.
+We've integrated OKTA SDK for robust frontend authentication and backend authorization. If not logged in, users are redirected to Okta's login page, regardless of their current page. All backend APIs are protected: only those with valid access tokens can interact with the API endpoints.
 
 ### Infinite Scrolling and Lazy loading
 
@@ -111,7 +110,10 @@ Through React's useMemo hook and memo components, we minimized unnecessary re-re
 
 ### Dark Mode
 
-To enhance the user experience throughout the day, our app automatically switches between light and dark modes based on the time detected from the user's device, ensuring an optimal experience at all times.
+To enhance the user experience throughout the day, our app automatically switches between light and dark modes based on the mode detected from the user's device, ensuring an optimal experience at all times.
+
+### Optimized user experience
+We utilized tooltips and snackbars to guide users to play with our websites. We also provide a "copy to clipboard" button for users to share a video roomId more conveniently.
 
 ## Next Steps
 
