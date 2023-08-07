@@ -81,13 +81,12 @@ const Chat = () => {
     });
 
     const date = new Date();
+    date.getDate();
     dispatch(
       send({
         userId: userInfo.userId,
         text: textValue,
-        time: `${String(date.getMonth() + 1).padStart(2, '0')}-${String(
-          date.getDate(),
-        ).padStart(2, '0')} ${date
+        time: `${date
           .toLocaleString('en-US', {timeZone: "America/Los_Angeles"}, {
             hour: '2-digit',
             minute: '2-digit',
