@@ -10,16 +10,4 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model('Message', messageSchema);
 
-Message.deleteMany({})
-  .then(() => console.log('All messages deleted.'))
-  .then(() => {
-    return Message.create(data.messages);
-  })
-  .then(() => {
-    console.log('Data preloaded successfully');
-  })
-  .catch((err) => {
-    console.error('Error: ', err);
-  });
-
 module.exports = Message;
