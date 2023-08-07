@@ -32,43 +32,37 @@ We utilize Okta's services for authentication and user identification in our app
 ## Technology:
 
 ### Unit 1 - HTML, CSS, JS
-We utilized JSX, an HTML-like syntax, to incorporate React components seamlessly alongside traditional HTML tags. 
-Instead of creating separate CSS files for styling, we adopted MaterialUI, a robust React.js library, 
-to furnish our site with easily customizable UI components. With MaterialUI, 
-styling adjustments can be made directly through JSX tags, or using Tailwind CSS, aligning with best practices for more accessible style modification.
-JavaScript, being one of today's most prevalent languages, powers both our frontend and backend application logic. 
-
-This popularity enables us to tap into a wealth of packages via Node.js and npm.
+HTML is used by leveraging the JSX. For the CSS, instead of creating separate CSS files for styling, we adopted MaterialUI, 
+in this way, styling adjustments can be made directly through JSX tags, or using Tailwind CSS.
+For JS, JavaScript is used throughout our frontend and backend to fulfill our application needs.
 
 ### Unit 2 - React & Redux
 
-Throughout our frontend, we heavily employed the React.js framework to develop highly modular UI components.
+Throughout our frontend, we heavily employed the React.js framework to develop highly modular UI components. 
 These components are designed to capture and manage user inputs using React hooks,
-and we adhere to best practices like abstraction to minimize code redundancy and complexity.
-For managing our frontend data architecture, we integrated Redux.
-This allows us to streamline the data structure, ensuring a centralized data source.
-Consequently, React components can seamlessly update and fetch data without being entangled in the intricacies of their hierarchy.
+and we adhere to best practices like abstraction to minimize code redundancy and complexity. 
+For managing our frontend data architecture, we integrated Redux. Also, we utilize useContext react hook,
+which allows us to access global data without using redux and actions, ensuring a centralized data source.
 
 ### Unit 3 - Node & Express
 
-We leveraged the Express.js framework for our backend operations,
-channeling API requests to our backend services powered by Node.js.
-This setup processes data from the frontend, saving it to our MongoDB server when required.
+We leveraged the Express.js framework for our backend operations, 
+channeling API requests to our backend services powered by Node.js, arranging API with different identifiers, 
+achieving clear responsibility for each task.
+This setup processes data from the frontend, saving it to our MongoDB server when required. 
 Also, we use S3 bucket to store user-uploaded images and videos.
 
 ### Unit 4 - MongoDB
 
-We employed a NoSQL database via MongoDB to retain application data across sessions,
-executing NoSQL queries on our backend to fetch pertinent data.
-Our database houses five primary collections: 'Post', 'chats', 'comments', 'messages', and 'users'.
+We employed a NoSQL database via MongoDB to retain application data across sessions, 
+executing NoSQL queries on our backend to fetch pertinent data. 
+Our database houses five primary collections: 'Post', 'chats', 'comments', 'messages', and 'users'. 
 Each document within these collections adheres to a schema defined in our backend using mongoose.
 
 ### Unit 5 - Builds and Deployment
-Our web app is hosted on Heroku. By linking the app to our GitHub repository, 
-we've set up Continuous Deployment. 
-This ensures that any commits made to the code-review branch on GitHub are automatically rolled out to our app on Heroku. 
-We opted for this method over crafting a GitHub action because our needs were sufficiently met by Heroku's built-in capabilities. 
-Using a GitHub action would have introduced unnecessary complexity and an added potential point of breakdown.
+
+Our web app is hosted on Heroku. By linking the app to our GitHub repository, while setting up Continuous Deployment. 
+This ensures that any commits made to the code-review branch on GitHub are automatically rolled out to our app on Heroku.
 
 <!-- ### Users are able to register, sign in and sign out:
 
