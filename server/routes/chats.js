@@ -35,16 +35,20 @@ router.get('/:userId1/:userId2', async (req, res) => {
     }
 
     const messages = chat.messages.map((message) => {
-      message.timestamp.getDate()
+      message.timestamp.getDate();
       return {
         userId: message.userId,
         text: message.text,
         time: `${message.timestamp
-          .toLocaleString('en-US', {timeZone: "America/Los_Angeles"}, {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-          })
+          .toLocaleString(
+            'en-US',
+            { timeZone: 'America/Los_Angeles' },
+            {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+            },
+          )
           .toLowerCase()}`,
       };
     });

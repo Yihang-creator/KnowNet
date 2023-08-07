@@ -87,11 +87,15 @@ const Chat = () => {
         userId: userInfo.userId,
         text: textValue,
         time: `${date
-          .toLocaleString('en-US', {timeZone: "America/Los_Angeles"}, {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-          })
+          .toLocaleString(
+            'en-US',
+            { timeZone: 'America/Los_Angeles' },
+            {
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: true,
+            },
+          )
           .toLowerCase()}`,
       }),
     );

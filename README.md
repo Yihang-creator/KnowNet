@@ -32,36 +32,37 @@ We utilize Okta's services for authentication and user identification in our app
 ## Technology:
 
 ### Unit 1 - HTML, CSS, JS
-HTML is used by leveraging the JSX. For the CSS, instead of creating separate CSS files for styling, we adopted MaterialUI, 
+
+HTML is used by leveraging the JSX. For the CSS, instead of creating separate CSS files for styling, we adopted MaterialUI,
 in this way, styling adjustments can be made directly through JSX tags, or using Tailwind CSS.
 For JS, JavaScript is used throughout our frontend and backend to fulfill our application needs.
 
 ### Unit 2 - React & Redux
 
-Throughout our frontend, we heavily employed the React.js framework to develop highly modular UI components. 
+Throughout our frontend, we heavily employed the React.js framework to develop highly modular UI components.
 These components are designed to capture and manage user inputs using React hooks,
-and we adhere to best practices like abstraction to minimize code redundancy and complexity. 
+and we adhere to best practices like abstraction to minimize code redundancy and complexity.
 For managing our frontend data architecture, we integrated Redux. Also, we utilize useContext react hook,
 which allows us to access global data without using redux and actions, ensuring a centralized data source.
 
 ### Unit 3 - Node & Express
 
-We leveraged the Express.js framework for our backend operations, 
-channeling API requests to our backend services powered by Node.js, arranging API with different identifiers, 
+We leveraged the Express.js framework for our backend operations,
+channeling API requests to our backend services powered by Node.js, arranging API with different identifiers,
 achieving clear responsibility for each task.
-This setup processes data from the frontend, saving it to our MongoDB server when required. 
+This setup processes data from the frontend, saving it to our MongoDB server when required.
 Also, we use S3 bucket to store user-uploaded images and videos.
 
 ### Unit 4 - MongoDB
 
-We employed a NoSQL database via MongoDB to retain application data across sessions, 
-executing NoSQL queries on our backend to fetch pertinent data. 
-Our database houses five primary collections: 'Post', 'chats', 'comments', 'messages', and 'users'. 
+We employed a NoSQL database via MongoDB to retain application data across sessions,
+executing NoSQL queries on our backend to fetch pertinent data.
+Our database houses five primary collections: 'Post', 'chats', 'comments', 'messages', and 'users'.
 Each document within these collections adheres to a schema defined in our backend using mongoose.
 
 ### Unit 5 - Builds and Deployment
 
-Our web app is hosted on Heroku. By linking the app to our GitHub repository, while setting up Continuous Deployment. 
+Our web app is hosted on Heroku. By linking the app to our GitHub repository, while setting up Continuous Deployment.
 This ensures that any commits made to the code-review branch on GitHub are automatically rolled out to our app on Heroku.
 
 <!-- ### Users are able to register, sign in and sign out:
@@ -107,6 +108,7 @@ Through React's useMemo hook and memo components, we minimized unnecessary re-re
 To enhance the user experience throughout the day, our app automatically switches between light and dark modes based on the mode detected from the user's device, ensuring an optimal experience at all times.
 
 ### Optimized user experience
+
 We utilized tooltips and snackbars to guide users to play with our websites. We also provide a "copy to clipboard" button for users to share a video roomId more conveniently.
 
 ## Next Steps
