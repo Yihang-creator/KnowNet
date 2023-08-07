@@ -45,7 +45,7 @@ router.get('/:userId1/:userId2', async (req, res) => {
           2,
           '0',
         )} ${message.timestamp
-          .toLocaleString('en-US', {
+          .toLocaleString('en-US', {timeZone: "America/Los_Angeles"}, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: true,

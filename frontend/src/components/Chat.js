@@ -88,7 +88,7 @@ const Chat = () => {
         time: `${String(date.getMonth() + 1).padStart(2, '0')}-${String(
           date.getDate(),
         ).padStart(2, '0')} ${date
-          .toLocaleString('en-US', {
+          .toLocaleString('en-US', {timeZone: "America/Los_Angeles"}, {
             hour: '2-digit',
             minute: '2-digit',
             hour12: true,
