@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const data = require('../data/users');
 
 const userSchema = new mongoose.Schema(
   {

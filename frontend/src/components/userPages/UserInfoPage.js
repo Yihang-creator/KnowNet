@@ -189,15 +189,9 @@ const UserInfoPage = ({ name, email }) => {
 
   const shareUrl = window.location.href;
 
-  // TODO: Delete unneeded commented code
   return (
     <Box sx={{ display: 'flex' }}>
-      {/*<Box sx={{ display: 'flex', overflow: 'auto'}}>*/}
       <ResponsiveDrawer />
-      {/*  <Box sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, maxWidth: '100%', overflowX: 'hidden' }}>*/}
-      {/*    <Toolbar />*/}
-      {/*  </Box>*/}
-      {/*</Box>*/}
       <Box sx={{ flexGrow: 1 }}>
         <div className="flex flex-col gap-4 p-2">
           <SearchBar setSearchTerm={setSearchTerm} />
@@ -207,30 +201,9 @@ const UserInfoPage = ({ name, email }) => {
               borderRadius: '5px',
             }}
           >
-            {/*<div className="float-right mr-2 mt-2">*/}
-            {/*  <Dropdown />*/}
-            {/*</div>*/}
             <Grid className="flex justify-between p-5 pt-7">
               <Grid className="flex">
                 <div className="relative mt-4 h-36 w-36 justify-center rounded-full bg-white">
-                  {/* {isSelf ? (
-                    <div className="absolute bottom-0 right-4 z-10">
-                      <label
-                        htmlFor="profileUpload"
-                        className="flex h-7 w-7 items-center justify-center rounded-full bg-yellow-500 font-bold text-black shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                      >
-                        +
-                      </label>
-                      <input
-                        type="file"
-                        id="profileUpload"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                      />
-                    </div>
-                  ) : (
-                    ""
-                  )} */}
                   <div className="absolute inset-0 overflow-hidden rounded-full">
                     {selectedImage && (
                       <img
@@ -312,8 +285,6 @@ const UserInfoPage = ({ name, email }) => {
                     userInfo={userInfo}
                     selected={selected}
                   />
-
-                  {/*// if isSelf, show blocked tags*/}
 
                   {isSelf ? <BlockedTags /> : ''}
                   {isSelf ? (

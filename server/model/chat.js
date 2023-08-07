@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const data = require('../data/messages');
 
 const chatSchema = new mongoose.Schema({
   users: [String],
