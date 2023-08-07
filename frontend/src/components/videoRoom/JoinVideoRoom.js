@@ -10,9 +10,12 @@ import {
   Stack,
   Grid,
   Avatar,
+  Snackbar
 } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
-import { useTheme, useMediaQuery } from '@mui/material';
+import { useTheme, useMediaQuery} from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 
 const userColors = [
   '#000000', // Black
@@ -218,6 +221,13 @@ const JoinVideoRoom = (props) => {
     );
   }
 
+  const [open, setOpen] = useState(false)
+
+  const copyRoomId = () => {
+    navigator.clipboard.writeText(props.backend.state.roomId)
+    setOpen(true)
+  }
+
   return (
     <Box minHeight="95vh">
       <Stack direction={{ xs: 'column', md: 'row' }} spacing={4}>
@@ -250,7 +260,15 @@ const JoinVideoRoom = (props) => {
               }}
             >
               Room ID: {props.backend.state.roomId}
+              <ContentCopyIcon style= {{cursor: 'pointer'}} onClick={copyRoomId}></ContentCopyIcon>
             </Typography>
+            <Snackbar
+            open={open}
+            onClose={() => setOpen(false)}
+            autoHideDuration={2000}
+            message="Copied to clipboard"
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+          />
             {queue_control}
             <Box
               display="flex"
