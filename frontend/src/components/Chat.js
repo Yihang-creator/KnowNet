@@ -34,8 +34,6 @@ const Chat = () => {
 
   const talkToUser = chatState.people.find((user) => talkTo === user.userId);
 
-  const talkToUser = chatState.people.find((user) => talkTo === user.userId);
-
   const scrollToBottom = () => {
     messageBoxRef.current.scrollIntoView({ behavior: 'smooth' });
   };
