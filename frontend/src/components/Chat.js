@@ -32,6 +32,8 @@ const Chat = () => {
 
   const chatState = useSelector((state) => state.chatReducer);
 
+  const talkToUser = chatState.people.find((user) => talkTo === user.userId);
+
   const scrollToBottom = () => {
     messageBoxRef.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -72,6 +74,32 @@ const Chat = () => {
     };
   }, []);
 
+  const handleSend = () => {
+    socket.current.emit('privateMessage', {
+      recipientUserId: talkTo,
+      message: textValue,
+    });
+
+    const date = new Date();
+    dispatch(
+      send({
+        userId: userInfo.userId,
+        text: textValue,
+        time: `${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+          date.getDate(),
+        ).padStart(2, '0')} ${date
+          .toLocaleString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+          })
+          .toLowerCase()}`,
+      }),
+    );
+
+    setTextValue('');
+  };
+
   return (
     <Layout>
       <div>
@@ -104,6 +132,7 @@ const Chat = () => {
                           src={person.userPhotoUrl}
                         />
                       </ListItemIcon>
+
                       <ListItemText
                         primary={person.username}
                         sx={{ overflow: 'auto' }}
@@ -118,7 +147,36 @@ const Chat = () => {
           </Grid>
 
           <Grid item xs={9}>
-            <Grid item sx={{ height: '70vh', overflowY: 'auto' }}>
+            <List>
+              <Link
+                to={
+                  talkToUser
+                    ? `/profile/${talkToUser.userId}`
+                    : `/profile/${userInfo.userId}`
+                }
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Avatar
+                      alt={talkToUser ? talkToUser.username : userInfo.username}
+                      src={
+                        talkToUser
+                          ? talkToUser.userPhotoUrl
+                          : userInfo.userPhotoUrl
+                      }
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={
+                      talkToUser ? talkToUser.username : 'Personal Space'
+                    }
+                  ></ListItemText>
+                </ListItemButton>
+              </Link>
+            </List>
+
+            <Divider />
+            <Grid item sx={{ height: '65vh', overflowY: 'auto' }}>
               <List>
                 {chatState.messages.map((m) => {
                   return (
@@ -158,42 +216,18 @@ const Chat = () => {
                     onChange={(event) => {
                       setTextValue(event.target.value);
                     }}
+                    onKeyUp={(e) => {
+                      if (e.key == 'Enter') {
+                        handleSend();
+                      }
+                    }}
                     id="outlined-basic-email"
                     label="Type Something"
                     fullWidth
                   />
                 </Grid>
                 <Grid xs={1} align="right">
-                  <Fab
-                    color="primary"
-                    aria-label="add"
-                    onClick={() => {
-                      socket.current.emit('privateMessage', {
-                        recipientUserId: talkTo,
-                        message: textValue,
-                      });
-
-                      const date = new Date();
-                      dispatch(
-                        send({
-                          userId: userInfo.userId,
-                          text: textValue,
-                          time: `${String(date.getMonth() + 1).padStart(
-                            2,
-                            '0',
-                          )}-${String(date.getDate()).padStart(2, '0')} ${date
-                            .toLocaleString('en-US', {
-                              hour: '2-digit',
-                              minute: '2-digit',
-                              hour12: true,
-                            })
-                            .toLowerCase()}`,
-                        }),
-                      );
-
-                      setTextValue('');
-                    }}
-                  >
+                  <Fab color="primary" aria-label="add" onClick={handleSend}>
                     <SendIcon />
                   </Fab>
                 </Grid>
