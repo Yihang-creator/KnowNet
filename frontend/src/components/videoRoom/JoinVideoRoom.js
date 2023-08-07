@@ -90,11 +90,13 @@ const JoinVideoRoom = (props) => {
 
     props.backend.socket.on('url-set', (url) => {
       setUrl(url);
+      setPlaying(false);
     });
 
-    props.backend.socket.on('seek-set', (duration) => {
-      if (Math.abs(duration - duration) > 2) {
-        setDuration(duration);
+    props.backend.socket.on('seek-set', (currentDur) => {
+      if (Math.abs(currentDur - duration) > 2) {
+        setDuration(currentDur);
+        ref.current.seekTo(currentDur, 'seconds');
       }
     });
 
@@ -106,14 +108,8 @@ const JoinVideoRoom = (props) => {
       setQueue(newQueue);
     });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.backend.socket, setQueue]);
-
-  useEffect(() => {
-    if (Math.abs(duration - duration) > 2) {
-      ref.current.seekTo(duration, 'seconds');
-    }
-    scrollToBottom();
-  }, [duration]);
 
   const scrollToBottom = () => {
     if (chatRef.current) {
