@@ -63,8 +63,6 @@ router.get('/:userId1/:userId2', async (req, res) => {
 
 router.post('/:userId1/:userId2', async (req, res) => {
   const { text } = req.body;
-
-  console.log(req.body);
   const { userId1, userId2 } = req.params;
 
   try {
