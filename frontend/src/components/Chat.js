@@ -48,32 +48,31 @@ const Chat = () => {
   }, [talkTo]);
 
   useEffect(() => {
-      socket.current = io('', {
-        path: '/socket/chat',
-        auth: {userId: userInfo.userId},
-      });
+    socket.current = io('', {
+      path: '/socket/chat',
+      auth: { userId: userInfo.userId },
+    });
 
-      socket.current.on('connect', () => {
-        console.log('Connected to the server');
-      });
+    socket.current.on('connect', () => {
+      console.log('Connected to the server');
+    });
 
-      socket.current.on('privateMessage', ({senderUserId, message}) => {
-        console.log(`Received private message from ${senderUserId}: ${message}`);
+    socket.current.on('privateMessage', ({ senderUserId, message }) => {
+      console.log(`Received private message from ${senderUserId}: ${message}`);
 
-        dispatch(
-          fetchChat(
-            userInfo.userId,
-            talkToRef.current,
-            oktaAuth.getAccessToken(),
-          ),
-        );
-      });
+      dispatch(
+        fetchChat(
+          userInfo.userId,
+          talkToRef.current,
+          oktaAuth.getAccessToken(),
+        ),
+      );
+    });
 
-      return () => {
-        socket.current.disconnect();
-      };
-    },
-    []);
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
 
   const handleSend = () => {
     socket.current.emit('privateMessage', {
