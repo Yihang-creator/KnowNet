@@ -8,6 +8,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import IconButton from '@mui/material/IconButton';
 import { useUserContext } from '../../auth/UserContext';
+<<<<<<< HEAD:frontend/src/components/comments/Reply.js
 
 const handleTimeStamp = (time) => {
   let date = new Date(time);
@@ -22,6 +23,10 @@ const handleTimeStamp = (time) => {
   let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
   return formattedDate;
 };
+=======
+import '../../Styles/Comment.css';
+import handleTimeStampWithoutAgo from '../utils/calculateTimeAgo';
+>>>>>>> 62437b90081bc77e9cc8175c232f5b7902b55354:frontend/src/components/comments/Reply.jsx
 
 const Reply = ({
   review,
@@ -76,7 +81,7 @@ const Reply = ({
       <Box marginLeft={2}>
         <Typography variant="subtitle2">{user?.username}</Typography>
         <Typography variant="body2" color="text.secondary">
-          {handleTimeStamp(timestamp)}
+          {handleTimeStampWithoutAgo(timestamp)}
         </Typography>
         <Typography variant="body2" gutterBottom>
           {/* reply to */}

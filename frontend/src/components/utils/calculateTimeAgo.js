@@ -20,11 +20,11 @@ export const calculateTimeAgo = (timestamp) => {
     const hoursAgo = Math.floor(elapsed / hour);
     return `Posted ${hoursAgo} ${hoursAgo === 1 ? 'hour' : 'hours'} ago`;
   } else {
-    return handleTimeStamp(timestamp);
+    return handleTimeStampWithoutAgo(timestamp);
   }
 };
 
-const handleTimeStamp = (time) => {
+const handleTimeStampWithoutAgo = (time) => {
   let date = new Date(time);
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
@@ -37,3 +37,6 @@ const handleTimeStamp = (time) => {
   let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
   return formattedDate;
 };
+
+export default handleTimeStampWithoutAgo;
+
