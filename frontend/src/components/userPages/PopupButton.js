@@ -16,6 +16,10 @@ const PopupButton = ({ type, token, isSelf, userInfo, selected }) => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    setIsOpen(false);
+  }, [userId]);
+
   const openModal = () => {
     if (users.length === 0) {
       setTipMessage(
