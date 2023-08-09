@@ -24,8 +24,6 @@ const postReducer = (state = [], action) => {
   }
 };
 
-// const testId = "3";
-
 const setPost = (state, postContent) => {
   const existingIndex = state.findIndex(
     (post) => post.postId === postContent.postId,
