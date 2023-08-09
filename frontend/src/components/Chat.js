@@ -117,13 +117,15 @@ const Chat = () => {
                       src={userInfo.userPhotoUrl}
                     />
                   </ListItemIcon>
-                  <ListItemText primary={`Personal Space`}></ListItemText>
+                  <ListItemText
+                    primary={`Personal Space`}
+                    sx={{ overflow: 'auto' }}
+                  ></ListItemText>
                 </ListItemButton>
               </Link>
             </List>
             <Divider />
-            <Grid item xs={12} style={{ padding: '10px' }}></Grid>
-            <Divider />
+
             <List>
               {chatState.people.map((person) => {
                 return (
