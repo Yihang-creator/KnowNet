@@ -13,11 +13,12 @@ const s3Client = new S3Client({
 });
 
 router.get('/', async (req, res) => {
-  const key = `${Date.now().toString()}`; // generate unique key for this file
+  const fileType = req.query.fileType;
+  const key = `${Date.now().toString()}` + `.${fileType}`; // generate unique key for this file
   const command = new PutObjectCommand({
     Bucket: process.env.aws_bucket,
     Key: key,
-    ContentType: req.query.fileType,
+    ContentType: fileType,
   });
 
   try {
