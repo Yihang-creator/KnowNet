@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, TextField, Box } from '@mui/material';
-import '../../Styles/Comment.css';
 
 const CommentInput = ({ addComment }) => {
   const [newComment, setNewComment] = useState('');

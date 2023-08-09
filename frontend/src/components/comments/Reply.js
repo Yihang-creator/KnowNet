@@ -8,7 +8,6 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import IconButton from '@mui/material/IconButton';
 import { useUserContext } from '../../auth/UserContext';
-import '../../Styles/Comment.css';
 import handleTimeStampWithoutAgo from '../utils/calculateTimeAgo';
 
 const Reply = ({
