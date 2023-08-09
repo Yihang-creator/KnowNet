@@ -7,7 +7,6 @@ const postReducer = (state = [], action) => {
     case 'SET_ALL_POSTS':
       return action.payload;
     case 'ADD_LIKE':
-      // console.log(state);
       return addLike(state, action.payload.postId, action.payload.userID);
     case 'CANCEL_LIKE':
       return cancelLike(state, action.payload.postId, action.payload.userID);
