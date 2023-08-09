@@ -38,14 +38,14 @@ const Comment = ({
   const [showReplies, setShowReplies] = useState(false);
   const [reply, setReply] = useState('');
   const [isSecLevelComment, setSecLevelComment] = useState(false); // if it is a second level comment
-  const [replyUserInfo, setReplyUserInfo] = useState({}); // should be userId, use username for now
+  const [replyUserInfo, setReplyUserInfo] = useState({});
   const { oktaAuth } = useOktaAuth();
   const { userInfo } = useUserContext();
   const {
     userPhotoUrl: currentUserPhotoUrl,
     username: currentUsername,
     userId: currentUserId,
-  } = userInfo || {}; // current userinfo
+  } = userInfo || {};
   const [currentLikes, setLikes] = useState(likes);
   const [likeStatus, setLikeStatus] = useState(false);
 
