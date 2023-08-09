@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { follow } from '../../redux/actions/userActions';
+import { Link } from 'react-router-dom';
 
 const AccountCard = ({
   name,
@@ -29,9 +30,12 @@ const AccountCard = ({
   return (
     <React.Fragment>
       <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt={name} src={url} />
-        </ListItemAvatar>
+        <Link to={`/profile/${userId}`}>
+          <ListItemAvatar>
+            <Avatar alt={name} src={url} />
+          </ListItemAvatar>
+        </Link>
+
         <ListItemText
           primary={name}
           sx={{
