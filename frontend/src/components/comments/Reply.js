@@ -8,25 +8,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import IconButton from '@mui/material/IconButton';
 import { useUserContext } from '../../auth/UserContext';
-<<<<<<< HEAD:frontend/src/components/comments/Reply.js
-
-const handleTimeStamp = (time) => {
-  let date = new Date(time);
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1; // JavaScript's months are O-indexed.
-  let day = date.getDate();
-  let hour = date.getHours();
-  let minute = date.getMinutes();
-  day = day < 10 ? '0' + day : day;
-  hour = hour < 10 ? '0' + hour : hour;
-  minute = minute < 10 ? '0' + minute : minute;
-  let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
-  return formattedDate;
-};
-=======
-import '../../Styles/Comment.css';
 import handleTimeStampWithoutAgo from '../utils/calculateTimeAgo';
->>>>>>> 62437b90081bc77e9cc8175c232f5b7902b55354:frontend/src/components/comments/Reply.jsx
 
 const Reply = ({
   review,

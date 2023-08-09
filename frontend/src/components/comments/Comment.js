@@ -10,11 +10,8 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import IconButton from '@mui/material/IconButton';
 import Reply from './Reply';
 import { useUserContext } from '../../auth/UserContext';
-<<<<<<< HEAD:frontend/src/components/comments/Comment.js
-=======
-import '../../Styles/Comment.css';
 import handleTimeStampWithoutAgo from '../utils/calculateTimeAgo';
->>>>>>> 62437b90081bc77e9cc8175c232f5b7902b55354:frontend/src/components/comments/Comment.jsx
+
 
 const currentDateTime = () => {
   const now = new Date();
