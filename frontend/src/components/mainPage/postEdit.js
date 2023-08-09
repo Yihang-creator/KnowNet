@@ -311,6 +311,15 @@ const PostEdit = (props) => {
   const [uploading, setUploading] = useState(false); // whether upload is in progress or not
   const dispatch = useDispatch();
 
+  const convertTagsToString = function (tags) {
+    let string = '';
+    if (!tags || tags.length === 0) return string;
+    for (let tag of tags) {
+      string = string + ' ' + tag;
+    }
+    return string;
+  };
+
   const user_image = userInfo == null ? null : userInfo.userPhotoUrl;
   useEffect(() => {
     if (post) {
@@ -320,8 +329,9 @@ const PostEdit = (props) => {
           ? EditorState.createEmpty()
           : createEditorStateFromText(post.text);
       setContent(enrichedText);
-      setMediaUrl(post.mediaUrl);
-      setPreviewUrl(post.mediaUrl);
+      setMediaUrl(post.mediaUrl.trim());
+      setPreviewUrl(post.mediaUrl.trim());
+      setTags(convertTagsToString(post.tags));
       if (post?.interactiveVideos && post.interactiveVideos.length > 0) {
         setSelectedTab(1);
       }
@@ -332,6 +342,7 @@ const PostEdit = (props) => {
       setContent(EditorState.createEmpty());
       setMediaUrl('');
       setPreviewUrl(null);
+      setTags('');
     }
   }, [post, handleClose]);
 
@@ -363,8 +374,8 @@ const PostEdit = (props) => {
 
   // Add this function to handle URL changes
   const handleMediaUrlChange = (event) => {
-    setMediaUrl(event.target.value);
-    setPreviewUrl(event.target.value);
+    setMediaUrl(event.target.value.trim());
+    setPreviewUrl(event.target.value.trim());
     setMedia(null);
   };
 

@@ -1,7 +1,6 @@
 import { useOktaAuth } from '@okta/okta-react';
 import React from 'react';
 import Contents from './Contents';
-// import { useUserContext } from "../auth/UserContext";
 import Layout from './Layout';
 
 const Home = () => {
