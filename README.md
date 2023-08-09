@@ -127,6 +127,22 @@ We're committed to enhancing KnowNet's accessibility, allowing a broader audienc
 
 ## List of Contributions:
 
+### Yihang He (h7y2b)
+Here are the list of features I led: OKTA SDK Integration(frontend authentication and backend authorization), Post creation/viewing, Video Room, Interactive Video. I also participated in optimizing, testing,  debugging and helping my teammates.
+
+### Hanze Wang (o7c8d)
+I implemented all the functionalities in the comment board. A user could add comments, like comments and reply to comments under every post. Also, I enabled that a user could go to other users’ pages, follow or unfollow them, check their information, and send a direct message to them. Additionally, I helped my teammates to improve their UI by using Mui and fixed some bugs like updating all the posts data in MongoDb after the user updated their information.
+
+### Yingquan Wang (d7u2x)
+I implemented and designed the following features: The layout of post preview cards. The "like" and "cancel like" function for posts with corresponding redux components. The mongoose schema of comments, users, and posts. All the features related to "tags" for our application, including adding tags, searching posts based on tags, blocking posts with tags. I also helped my teammates with debugging, optimizing, and improving user experience.
+
+### Kunyi Wang (t5h6p)
+List of my implemented and designed features: The mainpage which utilizes the preview card of posts, search bar and also functionality bars. Other than that, I help my teammates deal with issues when integrating the frontend and the backend, such as deleting posts，synchronizing user information and post contents. At the end of the project, I help with my teammates to test the functionalities and debug.
+
+### Chendong Luo (t5a3b)
+Here is the list of features for which I took the leadership: Real-time socket chat center (including both frontend and backend implementation), user data schema, user APIs (including user creation, user fetching, and user information editing), and following and follower APIs with corresponding Redux. Other than that, I also participated in creating a UI prototype for the user profile page and continuously improving UI, debugging, testing, and helping my teammates fix issues.
+
+
 ## Prototypes
 
 1. Sign-in Page:
