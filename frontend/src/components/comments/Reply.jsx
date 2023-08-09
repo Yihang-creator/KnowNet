@@ -9,20 +9,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import IconButton from '@mui/material/IconButton';
 import { useUserContext } from '../../auth/UserContext';
 import '../../Styles/Comment.css';
-
-const handleTimeStamp = (time) => {
-  let date = new Date(time);
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1; // JavaScript's months are O-indexed.
-  let day = date.getDate();
-  let hour = date.getHours();
-  let minute = date.getMinutes();
-  day = day < 10 ? '0' + day : day;
-  hour = hour < 10 ? '0' + hour : hour;
-  minute = minute < 10 ? '0' + minute : minute;
-  let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
-  return formattedDate;
-};
+import handleTimeStampWithoutAgo from '../utils/calculateTimeAgo';
 
 const Reply = ({
   review,
@@ -77,7 +64,7 @@ const Reply = ({
       <Box marginLeft={2}>
         <Typography variant="subtitle2">{user?.username}</Typography>
         <Typography variant="body2" color="text.secondary">
-          {handleTimeStamp(timestamp)}
+          {handleTimeStampWithoutAgo(timestamp)}
         </Typography>
         <Typography variant="body2" gutterBottom>
           {/* reply to */}

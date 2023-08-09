@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import Reply from './Reply';
 import { useUserContext } from '../../auth/UserContext';
 import '../../Styles/Comment.css';
+import handleTimeStampWithoutAgo from '../utils/calculateTimeAgo';
 
 const currentDateTime = () => {
   const now = new Date();
@@ -20,19 +21,6 @@ const currentDateTime = () => {
   return `${year}-${month}-${day}`;
 };
 
-const handleTimeStamp = (time) => {
-  let date = new Date(time);
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-  let hour = date.getHours();
-  let minute = date.getMinutes();
-  day = day < 10 ? '0' + day : day;
-  hour = hour < 10 ? '0' + hour : hour;
-  minute = minute < 10 ? '0' + minute : minute;
-  let formattedDate = `${year}-${month}-${day} ${hour}:${minute}`;
-  return formattedDate;
-};
 
 const Comment = ({
   user,
@@ -132,7 +120,7 @@ const Comment = ({
       <Box marginLeft={2} flexGrow={1}>
         <Typography variant="subtitle1">{username}</Typography>
         <Typography variant="body2" color="text.secondary">
-          {handleTimeStamp(timestamp)}
+          {handleTimeStampWithoutAgo(timestamp)}
         </Typography>
         <Typography variant="body1" gutterBottom>
           {text}
