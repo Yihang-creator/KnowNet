@@ -9,8 +9,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import IconButton from '@mui/material/IconButton';
 import { useUserContext } from '../../auth/UserContext';
 import '../../Styles/Comment.css';
-
-const handleTimeStampWithoutAgo = require('../utils/calculateTimeAgo');
+import handleTimeStampWithoutAgo from '../utils/calculateTimeAgo';
 
 const Reply = ({
   review,

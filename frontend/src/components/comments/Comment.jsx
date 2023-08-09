@@ -11,6 +11,7 @@ import IconButton from '@mui/material/IconButton';
 import Reply from './Reply';
 import { useUserContext } from '../../auth/UserContext';
 import '../../Styles/Comment.css';
+import handleTimeStampWithoutAgo from '../utils/calculateTimeAgo';
 
 const currentDateTime = () => {
   const now = new Date();
@@ -20,7 +21,6 @@ const currentDateTime = () => {
   return `${year}-${month}-${day}`;
 };
 
-const handleTimeStampWithoutAgo = require('../utils/calculateTimeAgo');
 
 const Comment = ({
   user,
