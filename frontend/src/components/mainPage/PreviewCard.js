@@ -8,7 +8,6 @@ import {
   Avatar,
 } from '@mui/material';
 import Resource from './Resource';
-import '../../Styles/PreviewCard.css';
 
 // overflow auto to enable scrolling if title is too long
 const PreviewCard = (props) => {

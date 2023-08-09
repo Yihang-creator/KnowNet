@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useOktaAuth } from '@okta/okta-react';
 import { Menu, Avatar, Box } from '@mui/material';
 import { useUserContext } from '../../auth/UserContext';
-import '../../Styles/Dropdown.css';
 
 const Dropdown = () => {
   const { authState } = useOktaAuth();
