@@ -99,6 +99,7 @@ const Comment = ({
   const showUserInfo = (userInfo) => {
     navigate(`/profile/${userInfo.userId}`);
   };
+  //
 
   return (
     <Box
